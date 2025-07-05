@@ -172,7 +172,7 @@ const Hero = () => {
 
         {/* Main Content */}
         <motion.div style={{ y: textY }} className="text-center text-white px-4" variants={itemVariants}>
-          <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tighter">
+          <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tighter ">
             <motion.span
               className="font-bold inline-block"
               variants={sentenceLine1Variants}
@@ -184,9 +184,9 @@ const Hero = () => {
               ))}
             </motion.span>
             <br />
-            <span className="h-[1.2em] inline-block w-full md:w-[10em] text-center px-2">
+            <span className="h-[1em] inline-block w-full md:w-[10em] text-center px-2 min-h-[1em]">
               <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">
-                {text}
+                {text || '\u00A0'}
               </span>
             </span>
             <br />
