@@ -102,8 +102,9 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
           min={min}
           max={max}
           value={value}
-          onChange={(e) => onChange(parseInt(e.target.value))}
-          className="w-full h-1.5 rounded-lg outline-none slider-thumb slider-track"
+          step="1"
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="w-full h-1.5 rounded-lg outline-none slider-thumb slider-track cursor-pointer"
           style={{ '--slider-bg': `linear-gradient(to right, #8716EE, #FF0033 ${percentage}%, #333 ${percentage}%)` } as React.CSSProperties}
         />
         <div className="flex justify-between text-sm text-gray-400 mt-2">
