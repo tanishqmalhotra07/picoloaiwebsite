@@ -1,0 +1,46 @@
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+  transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.nav-button-left {
+  left: 4px;
+}
+
+.nav-button-right {
+  right: 4px;
+}
+
+.nav-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (min-width: 640px) {
+  .nav-button {
+    padding: 0.5rem;
+  }
+  
+  .nav-button-left {
+    left: 0;
+  }
+  
+  .nav-button-right {
+    right: 0;
+  }
+  
+  .nav-button svg {
+    width: 24px;
+    height: 24px;
+  }
+}
