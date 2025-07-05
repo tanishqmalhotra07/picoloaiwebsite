@@ -8,17 +8,20 @@ import { useContactForm } from '@/context/ContactFormContext';
 interface ResultCardProps {
   title: string;
   value: string;
-  description: string;
+  description: string | string[];
   isExclusive?: boolean;
+  isRecommended?: boolean;
   onContact?: () => void;
 }
 
-const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isExclusive, onContact }) => {
+const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isExclusive, isRecommended, onContact }) => {
   const cardClasses = `
     relative border rounded-2xl p-6 sm:p-8 text-center 
-    flex flex-col items-center justify-center gap-3 sm:gap-4 transition-all duration-500 overflow-hidden
+    flex flex-col items-center justify-start gap-3 sm:gap-4 transition-all duration-500 overflow-hidden h-full pt-10
     ${isExclusive 
       ? 'border-purple-500 shadow-2xl shadow-purple-500/40 transform scale-105'
+      : isRecommended 
+      ? 'border-purple-500 shadow-lg shadow-purple-500/20' 
       : 'border-gray-700 hover:scale-105 hover:shadow-lg hover:shadow-white/10'}
   `;
 
@@ -33,21 +36,38 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
 
   return (
     <div className={cardClasses} style={cardStyle}>
-      <div className="h-24 flex items-center justify-center mb-2">
-        {isExclusive ? (
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white blur-[10.1px]">{value}</h3>
-        ) : (
-          <ShinyText text={value} className="text-3xl sm:text-4xl md:text-5xl font-bold" />
-        )}
+      {isRecommended && (
+        <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center">
+          <div className="bg-purple-600 text-white text-xs font-bold px-4 py-2 mt-10 rounded-full uppercase tracking-wider">
+            Recommended
+          </div>
+        </div>
+      )}
+      <div>
+        <div className="h-24 flex items-center justify-center mb-2">
+          {isExclusive ? (
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white blur-[10.1px]">{value}</h3>
+          ) : (
+            <ShinyText text={value} className="text-3xl sm:text-4xl md:text-5xl font-bold" />
+          )}
+        </div>
+        <p className={`text-xl sm:text-2xl font-bold ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
       </div>
-      <p className={`text-xl sm:text-2xl font-bold ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
-      <div className="text-gray-400 leading-relaxed mt-4 h-32 flex flex-col justify-center">
-        <p>{description}</p>
+      <div className="text-gray-400 leading-relaxed mt-4 flex-grow w-full">
+        {Array.isArray(description) ? (
+          <ul className="text-left list-disc list-inside space-y-1 text-sm sm:text-base">
+            {description.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm sm:text-base">{description}</p>
+        )}
       </div>
       {isExclusive && (
         <button 
           onClick={onContact} 
-          className="mt-4 px-6 py-2 text-base font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full transition-transform duration-300 hover:scale-105"
+          className="mt-auto px-6 py-2 text-base font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full transition-transform duration-300 hover:scale-105"
         >
           Request a Call Back
         </button>
@@ -229,18 +249,25 @@ const ServicesSection = () => {
                 <ResultCard
                   title="Standard Package"
                   value={results.standard}
-                  description="• 20% Lead Capture\n• 20% Conversion Rate\n• 7% Repurchase Rate\n• 5% Increase in AOV"
+                  description={[
+                    "20% Lead Capture",
+                    "20% Conversion Rate",
+                    "7% Repurchase Rate",
+                    "5% Increase in AOV"
+                  ]}
                 />
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
                   title="Pro Package"
                   value={results.pro}
-                  description={
-                    activeTab === 'retail' ? 
-                    "45% Lead Capture • 35% Conversion Rate • 7% Repurchase Rate • 10% Increase in AOV" : 
-                    "45% Lead Capture • 55% Conversion Rate • 7% Repurchase Rate • 10% Increase in AOV"
-                  }
+                  description={[
+                    "45% Lead Capture",
+                    "35% Conversion Rate",
+                    "7% Repurchase Rate",
+                    "10% Increase in AOV"
+                  ]}
+                  isRecommended
                 />
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
