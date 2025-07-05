@@ -18,30 +18,48 @@ import './embla.css';
 
 const solutionsData = [
   {
-    title: 'AI Consultation & Strategy',
-    description: 'We help you understand and leverage the power of AI to create a strategic roadmap for your business success.',
+    "name": "AI Sales Experience Advisor",
+    "industry": "D2C & Ecommerce",
+    "description": "Handles customer queries, assists in product discovery, and reinforces your brand experience — 24/7",
+    "image": "AI Sales Experience Advisor"
   },
   {
-    title: 'Custom AI Model Development',
-    description: 'Our team of experts builds custom AI models tailored to your specific business needs, from natural language processing to computer vision.',
+    "name": "AI Showroom Specialist",
+    "industry": "Car & Bike Dealerships",
+    "description": "Your digital showroom rep — sharing model details, answering queries, scheduling test drives, and capturing leads",
+    "image": "AI Showroom Specialist"
   },
   {
-    title: 'AI-Powered Automation',
-    description: 'Automate your workflows and processes with intelligent AI solutions, saving time and reducing operational costs.',
+    "name": "AI Frontdesk Facilitator",
+    "industry": "Clinics and Spas",
+    "description": "Manages bookings, follow-ups, and inquiries across WhatsApp, website, and Instagram — 24/7.",
+    "image": "AI Frontdesk Facilitator"
   },
   {
-    title: 'AI Chatbot Development',
-    description: 'Engage your customers with intelligent, 24/7 AI-powered chatbots that provide instant support and drive sales.',
+    "name": "Booking Boost Agent",
+    "industry": "Interior Design Studios",
+    "description": "Qualifies prospects, gathers requirements, and handles back-and-forth — so you close faster",
+    "image": "Booking Boost Agent"
   },
   {
-    title: 'Data Analytics & Insights',
-    description: 'Unlock the power of your data with advanced AI analytics to gain actionable insights and make smarter business decisions.',
+    "name": "Guest Guidance Agent",
+    "industry": "Hotels, Restaurants & Cafes (HoReCa)",
+    "description": "Books tables, rooms, or experiences via WhatsApp — while capturing leads and syncing calendars.",
+    "image": "Guest Guidance Agent"
   },
   {
-    title: 'Predictive Modeling',
-    description: 'Forecast future trends, customer behavior, and market changes with our custom predictive modeling solutions.',
+    "name": "Inquiry Intelligence Agent",
+    "industry": "Wholesalers & Distributors",
+    "description": "Sends pricing, GST, and delivery info instantly — and keeps leads warm with proactive follow-ups.",
+    "image": "Inquiry Intelligence Agent"
   },
-];
+  {
+    "name": "Glamour Growth Partner",
+    "industry": "Clinics and Spas",
+    "description": "Nurtures leads, shares portfolios, retargets missed clients, and fills your calendar 24/7.",
+    "image": "Glamour Growth Partner"
+  }
+]
 
 const content = [
   {
@@ -412,8 +430,10 @@ const OrbSection = () => {
                   {solutionsData.map((solution, i) => (
                     <div className="embla__slide" key={i}>
                       <ProfileCard
-                        title={solution.title}
+                        name={solution.name}
+                        industry={solution.industry}
                         description={solution.description}
+                        image={solution.image}
                       />
                     </div>
                   ))}

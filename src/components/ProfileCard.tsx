@@ -1,16 +1,24 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useContactForm } from '@/context/ContactFormContext';
 import './ProfileCard.css';
 
 
 interface ProfileCardProps {
-  title: string;
+  name?: string;
+  title?: string;
+  industry?: string;
   description: string;
+  image?: string;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
+  name,
   title,
+  industry,
   description,
+  image,
 }) => {
+  const { openForm } = useContactForm();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isPointerInside, setIsPointerInside] = useState(false);
 
@@ -72,12 +80,21 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           <div className="pc-glare"></div>
           <div className="pc-content">
             <div className="pc-details">
-              <h3>{title}</h3>
+              <h3>{name || title}</h3>
+              {image && (
+                <div className="pc-image-container ">
+                  <img 
+                    src={`/${image}.png`} 
+                    alt={name || title} 
+                    className="pc-image mx-auto h-16 w-auto object-contain"
+                  />
+                </div>
+              )}
+              {industry && <p className="pc-industry text-purple-400 text-sm font-medium mb-2">{industry}</p>}
               <p className="pc-description">{description}</p>
-
             </div>
             <div className="pc-footer">
-                <button className="pc-learn-more-btn">Get Started</button>
+                <button onClick={openForm} className="pc-learn-more-btn">Get Started</button>
             </div>
           </div>
         </div>
