@@ -10,18 +10,27 @@ const SmoothScrolling = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Create Lenis instance with optimized settings
     const lenisInstance = new Lenis({
-      duration: 1.5,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Improved easing function
+      duration: 1.2, // Reduced duration for better performance
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.8,
+      wheelMultiplier: 0.6, // Reduced multiplier
       infinite: false,
     });
 
-    // Use requestAnimationFrame for smoother animation
+    // Optimize requestAnimationFrame with throttling
+    let lastFrameTime = 0;
+    const frameInterval = 1000 / 60; // Target 60fps
+    
     function raf(time: number) {
-      lenisInstance.raf(time);
+      const deltaTime = time - lastFrameTime;
+      
+      if (deltaTime > frameInterval) {
+        lastFrameTime = time - (deltaTime % frameInterval);
+        lenisInstance.raf(time);
+      }
+      
       requestAnimationFrame(raf);
     }
 

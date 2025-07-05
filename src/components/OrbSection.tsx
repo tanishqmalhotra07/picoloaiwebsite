@@ -238,17 +238,17 @@ const OrbSection = () => {
   const aboutSectionStart = 0.8; // After Develop section
 
   
-  // Orb expansion and disappearance
+  // Keep orb visible without expansion or disappearance
   const orbFinalScale = useTransform(
     scrollYProgress,
-    [aboutSectionStart, aboutSectionStart + 0.02],
-    [1, 2.5]
+    [0, 1],
+    [1, 1]
   );
   
   const orbFinalOpacity = useTransform(
     scrollYProgress,
-    [aboutSectionStart, aboutSectionStart + 0.1],
-    [1, 0]
+    [0, 1],
+    [1, 1]
   );
 
   // Orb Squeeze and Stretch animation
@@ -341,9 +341,9 @@ const OrbSection = () => {
       id="about"
       ref={targetRef}
       className="relative h-[700vh] w-full"
-      style={{ background: '#02010C' }}
+      style={{ background: '#02010C', contain: 'paint layout' }}
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className="sticky top-0 h-screen w-full overflow-hidden gpu-accelerated" style={{ willChange: 'transform', contain: 'paint layout' }}>
 
 
         {/* Initial Text */}
@@ -366,7 +366,7 @@ const OrbSection = () => {
             y,
             opacity: orbFinalOpacity
           }}
-          className="absolute inset-0 z-20 grid place-items-center scale-90 sm:scale-95 md:scale-100 bg-[#02010C]"
+          className="absolute inset-0 z-10 grid place-items-center scale-90 sm:scale-95 md:scale-100 bg-[#02010C]"
         >
           {currentSection === 'identify' && <Orb interactive={isOrbInteractive} />}
           {currentSection === 'educate' && <SquareOrb interactive={isOrbInteractive} />}

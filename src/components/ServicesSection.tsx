@@ -223,14 +223,16 @@ const ServicesSection = () => {
           </button>
         </div>
 
-        <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-3xl mx-auto">
-          <div>
-            <Slider label="Customer Interactions per month" value={customers} min={1000} max={100000} onChange={setCustomers} />
-            <p className="text-sm text-gray-500 mt-2 text-left w-full sm:w-2/3 sm:ml-auto px-1 sm:px-0">
-                Monthly leads/interactions your business gets on all digital platforms (your website, insta, etc.)
-            </p>
+        <div className="w-full max-w-6xl mx-auto -mb- p-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
+          <div className="bg-[#02010C] rounded-2xl p-6 sm:p-8 flex flex-col gap-6">
+            <div>
+              <Slider label="Customer Interactions per month" value={customers} min={1000} max={100000} onChange={setCustomers} />
+              <p className="text-sm text-gray-500 mt-2 text-left w-full sm:w-2/3 sm:ml-auto px-1 sm:px-0">
+                  Monthly leads/interactions your business gets on all digital platforms (your website, insta, etc.)
+              </p>
+            </div>
+            <Slider label="Average Order Value Per Customer" value={orderValue} min={10} max={2000} onChange={setOrderValue} prefix={currency} />
           </div>
-          <Slider label="Average Order Value Per Customer" value={orderValue} min={10} max={2000} onChange={setOrderValue} prefix={currency} />
         </div>
 
         {/* Calculate button removed */}

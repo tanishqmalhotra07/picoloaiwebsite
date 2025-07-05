@@ -163,7 +163,7 @@ const frag = /* glsl */ `
 
 export default function Orb({
   hue = 0,
-  hoverIntensity = 0.5,
+  hoverIntensity = 0.1,
   rotateOnHover = true,
   forceHoverState = false,
   interactive = true,
@@ -252,13 +252,35 @@ export default function Orb({
     }
 
     let rafId: number;
+    // Track if we're scrolling
+    let isScrolling = false;
+    let scrollTimeout: any;
+    let frameCount = 0;
+    
+    const handleScroll = () => {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 150);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
     const update = (t: number) => {
-    rafId = requestAnimationFrame(update);
-    const dt = (t - lastTime) * 0.001;
-    lastTime = t;
-    program.uniforms.iTime.value = t * 0.001;
-    program.uniforms.hue.value = hue;
-    program.uniforms.hoverIntensity.value = hoverIntensity;
+      rafId = requestAnimationFrame(update);
+      
+      // Skip frames during scrolling
+      if (isScrolling) {
+        frameCount = (frameCount + 1) % 3;
+        if (frameCount !== 0) return;
+      }
+      
+      const dt = (t - lastTime) * 0.001;
+      lastTime = t;
+      program.uniforms.iTime.value = t * 0.001;
+      program.uniforms.hue.value = hue;
+      program.uniforms.hoverIntensity.value = hoverIntensity;
 
     const effectiveHover = forceHoverState ? 1 : targetHover;
     program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.05;
@@ -286,5 +308,5 @@ export default function Orb({
   };
 }, [hue, hoverIntensity, forceHoverState, rotateOnHover, interactive]);
 
-return <div ref={ctnDom} className="w-full h-full" />;
+return <div ref={ctnDom} className="w-full h-full gpu-accelerated" style={{ willChange: 'transform' }} />;
 }
