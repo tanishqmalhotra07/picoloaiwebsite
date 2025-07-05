@@ -33,13 +33,17 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
 
   return (
     <div className={cardClasses} style={cardStyle}>
-      {isExclusive ? (
-        <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white blur-[10.1px]">{value}</h3>
-      ) : (
-        <ShinyText text={value} className="text-4xl sm:text-5xl md:text-6xl font-bold" />
-      )}
+      <div className="h-24 flex items-center justify-center mb-2">
+        {isExclusive ? (
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white blur-[10.1px]">{value}</h3>
+        ) : (
+          <ShinyText text={value} className="text-3xl sm:text-4xl md:text-5xl font-bold" />
+        )}
+      </div>
       <p className={`text-xl sm:text-2xl font-bold ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
-      <p className="text-gray-400 leading-relaxed mt-2">{description}</p>
+      <div className="text-gray-400 leading-relaxed mt-4 h-32 flex flex-col justify-center">
+        <p>{description}</p>
+      </div>
       {isExclusive && (
         <button 
           onClick={onContact} 
@@ -92,7 +96,7 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
 };
 
 interface ResultsState {
-  basic: string;
+  standard: string;
   pro: string;
   exclusive: string;
 }
@@ -123,7 +127,33 @@ const ServicesSection = () => {
   const [activeTab, setActiveTab] = useState('retail');
   const [customers, setCustomers] = useState(40000);
   const [orderValue, setOrderValue] = useState(50);
-  const [results, setResults] = useState<ResultsState | null>(null);
+  // Calculate dynamic results based on sliders and active tab
+  const calculateResults = () => {
+    // Standard Package multipliers
+    const standardRetailMultiplier = 0.0126; // 1.26%
+    const standardProfessionalMultiplier = 0.01327; // 1.327%
+    
+    // Pro Package multipliers
+    const proRetailMultiplier = 0.07365; // 7.365%
+    const proProfessionalMultiplier = 0.07576; // 7.576%
+    
+    // Calculate Standard Package revenue
+    const standardMultiplier = activeTab === 'retail' ? standardRetailMultiplier : standardProfessionalMultiplier;
+    const standardRevenue = standardMultiplier * customers * orderValue;
+    
+    // Calculate Pro Package revenue
+    const proMultiplier = activeTab === 'retail' ? proRetailMultiplier : proProfessionalMultiplier;
+    const proRevenue = proMultiplier * customers * orderValue;
+    
+    return {
+      standard: `$${(standardRevenue).toLocaleString(undefined, {maximumFractionDigits: 0})}`,
+      pro: `$${(proRevenue).toLocaleString(undefined, {maximumFractionDigits: 0})}`,
+      exclusive: '$10M+'
+    };
+  };
+  
+  // Recalculate on every render based on current slider values
+  const results = calculateResults();
   const [currency, setCurrency] = useState('$');
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -139,30 +169,15 @@ const ServicesSection = () => {
       setCurrency('$');
     }
   }, []);
-
-
-
+  
+  // Recalculate results when sliders or tab changes
   useEffect(() => {
-    if (results) {
-      // A brief delay ensures the UI has started updating before we scroll.
-      const timer = setTimeout(() => {
-        window.scrollBy({
-          top: 500, // Scroll down by a fixed amount
-          behavior: 'smooth',
-        });
-      }, 300);
+    // Results are calculated directly in the render
+  }, [customers, orderValue, activeTab]);
 
-      return () => clearTimeout(timer);
-    }
-  }, [results]);
 
-  const handleCalculate = () => {
-    setResults({
-      basic: '$1.2M+',
-      pro: '$3.5M+',
-      exclusive: '$10M+',
-    });
-  };
+
+  // Results are now shown by default
 
   return (
     <section style={{ contentVisibility: 'auto', containIntrinsicSize: '100vh', willChange: 'transform, opacity' }} className="w-full min-h-screen flex flex-col justify-center items-center text-white p-4 sm:p-8 pt-20 sm:pt-32 bg-[#02010C]">
@@ -173,7 +188,7 @@ const ServicesSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">We deliver tangible business outcomes.</h2>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 mb-5 px-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 mb-5 px-4 relative z-10">
           <button
             className={`px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border transition-all duration-300 ${activeTab === 'retail' ? 'bg-purple-600 border-purple-600 shadow-lg shadow-purple-600/30' : 'border-gray-600'}`}
             onClick={() => setActiveTab('retail')}
@@ -198,19 +213,11 @@ const ServicesSection = () => {
           <Slider label="Average Order Value Per Customer" value={orderValue} min={10} max={2000} onChange={setOrderValue} prefix={currency} />
         </div>
 
-        <div className="mt-6 sm:mt-5">
-          <button 
-            onClick={handleCalculate} 
-            className="px-8 sm:px-10 py-2.5 sm:py-3 text-base sm:text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full transition-transform duration-300 hover:scale-105 shadow-lg shadow-pink-600/30"
-          >
-            Calculate
-          </button>
-        </div>
+        {/* Calculate button removed */}
       </div>
 
       <div ref={resultsRef} className="w-full max-w-5xl mx-auto mt-10 sm:mt-16">
         <AnimatePresence>
-          {results && (
             <motion.div 
               className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-0"
               variants={containerVariants}
@@ -220,16 +227,20 @@ const ServicesSection = () => {
             >
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
-                  title="Basic Package"
-                  value={results.basic}
-                  description="Analyze ROI with basic customer & order value inputs"
+                  title="Standard Package"
+                  value={results.standard}
+                  description="• 20% Lead Capture\n• 20% Conversion Rate\n• 7% Repurchase Rate\n• 5% Increase in AOV"
                 />
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
                   title="Pro Package"
                   value={results.pro}
-                  description="ROI calculation with advanced metrics and Mid-level AI customizations"
+                  description={
+                    activeTab === 'retail' ? 
+                    "45% Lead Capture • 35% Conversion Rate • 7% Repurchase Rate • 10% Increase in AOV" : 
+                    "45% Lead Capture • 55% Conversion Rate • 7% Repurchase Rate • 10% Increase in AOV"
+                  }
                 />
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
@@ -242,7 +253,6 @@ const ServicesSection = () => {
                 />
               </motion.div>
             </motion.div>
-          )}
         </AnimatePresence>
       </div>
     </section>
