@@ -115,11 +115,6 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
   );
 };
 
-interface ResultsState {
-  standard: string;
-  pro: string;
-  exclusive: string;
-}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -208,7 +203,7 @@ const ServicesSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">We deliver tangible business outcomes.</h2>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 mb-5 px-4 relative z-10">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 mb-5 px-4 relative z-100000 !important">
           <button
             className={`px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border transition-all duration-300 ${activeTab === 'retail' ? 'bg-purple-600 border-purple-600 shadow-lg shadow-purple-600/30' : 'border-gray-600'}`}
             onClick={() => setActiveTab('retail')}

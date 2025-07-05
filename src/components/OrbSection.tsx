@@ -235,7 +235,6 @@ const OrbSection = () => {
   const y = useTransform(scrollYProgress, [0, 0.2], ['-50vh', '0vh']);
   
   // About section animation
-  const aboutSectionStart = 0.8; // After Develop section
 
   
   // Keep orb visible without expansion or disappearance

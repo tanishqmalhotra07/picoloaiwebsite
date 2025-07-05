@@ -83,9 +83,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               <h3>{name || title}</h3>
               {image && (
                 <div className="pc-image-container ">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={`/${image}.png`} 
-                    alt={name || title} 
+                    alt={name || title || ''} 
                     className="pc-image mx-auto h-16 w-auto object-contain"
                   />
                 </div>

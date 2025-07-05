@@ -254,7 +254,7 @@ export default function Orb({
     let rafId: number;
     // Track if we're scrolling
     let isScrolling = false;
-    let scrollTimeout: any;
+    let scrollTimeout: NodeJS.Timeout;
     let frameCount = 0;
     
     const handleScroll = () => {
