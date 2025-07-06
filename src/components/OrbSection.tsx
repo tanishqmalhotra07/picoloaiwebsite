@@ -418,15 +418,12 @@ const OrbSection = () => {
               <h3 className="text-3xl mt-3 sm:text-4xl md:text-5xl font-regular text-white px-4">
               conversations into conversions
               </h3>
-              <button className="mt-6 sm:mt-8 px-4 sm:px-6 py-2 border border-purple-400 text-purple-400 text-sm sm:text-base rounded-full hover:bg-purple-400 hover:text-black transition-colors duration-300">
-                Solutions ✨
-              </button>
             </div>
-            <div className="embla w-full max-w-6xl px-4 sm:px-6 md:px-8 relative">
-              <div className="embla__viewport" ref={emblaRef}>
+            <div className="embla w-full max-w-7xl px-20 sm:px-6 md:px-10 relative carousel-fader">
+              <div className="embla__viewport solutions-carousel-viewport" ref={emblaRef}>
                 <div className="embla__container">
                   {solutionsData.map((solution, i) => (
-                    <div className="embla__slide" key={i}>
+                    <div className="embla__slide " key={i}>
                       <ProfileCard
                         name={solution.name}
                         industry={solution.industry}

@@ -25,6 +25,30 @@
   100% { background-position: -100% 0; }
 }
 
+.carousel-fader {
+  position: relative;
+}
+
+.carousel-fader::before, .carousel-fader::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.carousel-fader::before {
+  left: 0;
+  background: linear-gradient(to right, #02010C 20%, transparent);
+}
+
+.carousel-fader::after {
+  right: 0;
+  background: linear-gradient(to left, #02010C 20%, transparent);
+}
+
 .animate-shine {
   animation: shine 5s linear infinite;
 }
