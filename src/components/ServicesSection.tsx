@@ -15,63 +15,61 @@ interface ResultCardProps {
 }
 
 const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isExclusive, isRecommended, onContact }) => {
-  const cardClasses = `
-    relative border rounded-2xl p-6 sm:p-8 text-center 
-    flex flex-col items-center justify-start gap-3 sm:gap-4 transition-all duration-500 overflow-hidden h-full pt-10
-    ${isExclusive 
-      ? 'border-purple-500 shadow-2xl shadow-purple-500/40 transform scale-105'
-      : isRecommended 
-      ? 'border-purple-500 shadow-lg shadow-purple-500/20' 
-      : 'border-gray-700 hover:scale-105 hover:shadow-lg hover:shadow-white/10'}
+  const wrapperClasses = `
+    relative rounded-2xl p-[1.5px]
+    bg-gradient-to-br from-purple-500/80 via-pink-500/80 to-indigo-500/80
+    transition-all duration-500 h-full
+    ${isExclusive ? 'scale-105' : 'hover:scale-105'}
   `;
 
-  const backgroundGradient = isExclusive
-    ? 'radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15), transparent 70%)'
-    : 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05), transparent 70%)';
-
-  const cardStyle: React.CSSProperties = {
-    background: backgroundGradient,
-    willChange: 'transform, opacity',
-  };
+  const cardClasses = `
+    w-full h-full rounded-[14.5px] p-6 sm:p-8 text-center 
+    flex flex-col items-center justify-start gap-2
+    bg-[#02010C] backdrop-blur-xl
+  `;
 
   return (
-    <div className={cardClasses} style={cardStyle}>
+    <div className={wrapperClasses} style={{ willChange: 'transform' }}>
       {isRecommended && (
-        <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center">
-          <div className="bg-purple-600 text-white text-xs font-bold px-4 py-2 mt-10 rounded-full uppercase tracking-wider">
+        <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center z-10">
+          <div className="bg-purple-600 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
             Recommended
           </div>
         </div>
       )}
-      <div>
-        <div className="h-24 flex items-center justify-center mb-2">
+      <div className={cardClasses}>
+        <p className={`text-xl sm:text-2xl font-bold pt-4 ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
+        
+        <div className="h-20 flex items-center justify-center">
           {isExclusive ? (
             <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white blur-[10.1px]">{value}</h3>
           ) : (
             <ShinyText text={value} className="text-3xl sm:text-4xl md:text-5xl font-bold" />
           )}
         </div>
-        <p className={`text-xl sm:text-2xl font-bold ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
-      </div>
-      <div className="text-gray-400 leading-relaxed mt-4 flex-grow w-full">
-        {Array.isArray(description) ? (
-          <ul className="text-left list-disc list-inside space-y-1 text-sm sm:text-base">
-            {description.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-sm sm:text-base">{description}</p>
+        <p className="text-sm text-gray-400 -mt-6 mb-3">Potential Increase in Annual Revenue</p>
+        
+        <div className="text-gray-300 leading-relaxed flex-grow w-full">
+          {Array.isArray(description) ? (
+            <ul className="text-left list-disc list-inside space-y-1 text-base sm:text-lg">
+              {description.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-base sm:text-lg">{description}</p>
+          )}
+        </div>
+        
+        {isExclusive && (
+          <button 
+            onClick={onContact} 
+            className="mt-auto px-6 py-2 text-base font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full transition-transform duration-300 hover:scale-105"
+          >
+            Request a Call Back
+          </button>
         )}
       </div>
-      {isExclusive && (
-        <button 
-          onClick={onContact} 
-          className="mt-auto px-6 py-2 text-base font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full transition-transform duration-300 hover:scale-105"
-        >
-          Request a Call Back
-        </button>
-      )}
     </div>
   );
 };
@@ -237,7 +235,7 @@ const ServicesSection = () => {
       <div ref={resultsRef} className="w-full max-w-5xl mx-auto mt-10 sm:mt-16">
         <AnimatePresence>
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-0"
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-0"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -245,13 +243,13 @@ const ServicesSection = () => {
             >
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
-                  title="Standard Package"
+                  title="Standard"
                   value={results.standard}
                   description={[
-                    "20% Lead Capture",
-                    "20% Conversion Rate",
-                    "7% Repurchase Rate",
-                    "5% Increase in AOV"
+                    "Up to 25% improvement in lead capture.",
+                    "Significant reduction in missed customer queries.",
+                    "15% higher conversation quality.",
+                    "5% increase in customer repurchase rate."
                   ]}
                 />
               </motion.div>
@@ -260,19 +258,25 @@ const ServicesSection = () => {
                   title="Pro Package"
                   value={results.pro}
                   description={[
-                    "45% Lead Capture",
-                    "35% Conversion Rate",
-                    "7% Repurchase Rate",
-                    "10% Increase in AOV"
+                    "Up to 45% boost in lead capture efficiency.",
+                    "Near-zero lead loss with 24/7 availability.",
+                    "30% increase in successful sales conversations.",
+                    "10% higher customer recapture rate.",
+                    "5% uplift in average order value."
                   ]}
                   isRecommended
                 />
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
-                  title="Exclusive Package"
+                  title="Exclusive"
                   value={results.exclusive}
-                  description="We provide customized and personalized AI solutions tailored for your unique business needs."
+                  description={[
+                    "Fully customized lead funnels for maximum capture.",
+                    "Bespoke conversational flows to match your brand voice.",
+                    "Advanced analytics and reporting suite.",
+                    "Dedicated support and model fine-tuning."
+                  ]}
                   isExclusive
                   onContact={openForm}
                 />
