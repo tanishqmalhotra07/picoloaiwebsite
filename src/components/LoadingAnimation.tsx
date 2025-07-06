@@ -166,16 +166,16 @@ const LoadingAnimation = ({ onAnimationComplete }: { onAnimationComplete: () => 
     gsap.set(patternRef.current, { scale: 0 });
     gsap.set(textRef.current, { y: 10, opacity: 0 });
 
-    tl.to(lineRef.current, { x: '100%', duration: 1, ease: 'power2.inOut' })
-      .to(dotRef.current, { opacity: 1, rotationX: 0, duration: 0.6, ease: 'power2.out' }, '-=0.5')
-      .to(lineRef.current, { x: '200%', duration: 1, ease: 'power2.inOut' })
-      .to(pRef.current, { opacity: 1, rotationX: 0, duration: 0.6, ease: 'power2.out' }, '<')
-      .to(patternRef.current, { opacity: 1, scale: 1, rotation: 360, duration: 1, ease: 'elastic.out(1, 0.75)' }, '-=0.5')
+    tl.to(lineRef.current, { x: '100%', duration: 0.7, ease: 'power2.inOut' })
+      .to(dotRef.current, { opacity: 1, rotationX: 0, duration: 0.4, ease: 'power2.out' }, '-=0.3')
+      .to(lineRef.current, { x: '200%', duration: 0.7, ease: 'power2.inOut' })
+      .to(pRef.current, { opacity: 1, rotationX: 0, duration: 0.4, ease: 'power2.out' }, '<')
+      .to(patternRef.current, { opacity: 1, scale: 1, rotation: 360, duration: 0.7, ease: 'elastic.out(1, 0.75)' }, '-=0.3')
       .to(textRef.current, { opacity: 1, duration: 0.1 })
-            .to(textRef.current.children, {
+      .to(textRef.current.children, {
         opacity: 1,
-        duration: 1,
-        stagger: 0.2,
+        duration: 0.5,
+        stagger: 0.1,
         ease: 'power1.inOut',
       })
       .to(logoWrapperRef.current, {
@@ -185,10 +185,10 @@ const LoadingAnimation = ({ onAnimationComplete }: { onAnimationComplete: () => 
         xPercent: 0,
         yPercent: 0,
         transformOrigin: '0 0',
-        duration: 2,
+        duration: 1.5,
         ease: 'power3.inOut',
         force3D: true,
-      }, '+=0.5')
+      }, '+=0.3')
       .set(logoWrapperRef.current, { 
         flexDirection: 'row',
         gap: '1rem',
