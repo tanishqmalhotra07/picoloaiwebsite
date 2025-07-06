@@ -174,7 +174,7 @@ const LoadingAnimation = ({ onAnimationComplete }: { onAnimationComplete: () => 
       .to(textRef.current, { opacity: 1, duration: 0.1 })
       .to(textRef.current.children, {
         opacity: 1,
-        duration: 0.5,
+        duration: 0.6,
         stagger: 0.1,
         ease: 'power1.inOut',
       })

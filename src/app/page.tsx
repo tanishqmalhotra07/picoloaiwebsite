@@ -40,7 +40,7 @@ export default function Home() {
           <About />
           <OrbSection />
       <ServicesSection />
-                    <Testimonials />
+          <Testimonials />
           <Contact />
           <div className="bg-[#02010C] py-4">
             <CtaSection />
