@@ -25,15 +25,15 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
   const cardClasses = `
     w-full h-full rounded-[14.5px] p-6 sm:p-8 text-center 
     flex flex-col items-center justify-start gap-2
-    bg-[#02010C] backdrop-blur-xl
+    bg-[#02010C]/90 backdrop-blur-xl
   `;
 
   return (
     <div className={wrapperClasses} style={{ willChange: 'transform' }}>
-      {isRecommended && (
+      {(isRecommended || isExclusive) && (
         <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center z-10">
-          <div className="bg-purple-600 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
-            Recommended
+          <div className={`text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider ${isRecommended ? 'bg-purple-600' : 'bg-pink-600'}`}>
+            {isRecommended ? 'Recommended' : 'Exclusive'}
           </div>
         </div>
       )}
