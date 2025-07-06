@@ -15,6 +15,7 @@ import SmoothScrolling from '@/components/SmoothScrolling';
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [imagePreloaded, setImagePreloaded] = useState(false);
+  const [animationFinished, setAnimationFinished] = useState(false);
 
   // Preload the hero background image
   useEffect(() => {
@@ -24,20 +25,15 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Only start the timer when the image is preloaded
-    if (imagePreloaded) {
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 5000);
-
-      return () => clearTimeout(timer);
+    if (imagePreloaded && animationFinished) {
+      setIsLoading(false);
     }
-  }, [imagePreloaded]);
+  }, [imagePreloaded, animationFinished]);
 
   return (
     <SmoothScrolling>
       <main className="relative no-scrollbar w-full bg-black" style={{ backgroundColor: '#000' }}>
-      <LoadingAnimation />
+      <LoadingAnimation onAnimationComplete={() => setAnimationFinished(true)} />
       {!isLoading && (
         <>
           <Hero />

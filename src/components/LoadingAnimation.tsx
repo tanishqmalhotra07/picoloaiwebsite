@@ -25,6 +25,7 @@ const LogoWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  will-change: transform;
 `;
 
 const ImageContainer = styled.div`
@@ -117,7 +118,7 @@ const Text = styled.span`
   }
 `;
 
-const LoadingAnimation = () => {
+const LoadingAnimation = ({ onAnimationComplete }: { onAnimationComplete: () => void }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
@@ -127,7 +128,7 @@ const LoadingAnimation = () => {
   const logoWrapperRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+    useLayoutEffect(() => {
     if (!containerRef.current || !lineRef.current || !dotRef.current || !pRef.current || !patternRef.current || !textRef.current || !logoWrapperRef.current) return;
 
     if (!logoWrapperRef.current) return;
@@ -142,6 +143,9 @@ const LoadingAnimation = () => {
 
     const tl = gsap.timeline({
       onComplete: () => {
+        if (onAnimationComplete) {
+          onAnimationComplete();
+        }
         if (containerRef.current) {
           // Only make the background transparent but keep the logo visible
           gsap.to(containerRef.current, {
@@ -168,7 +172,12 @@ const LoadingAnimation = () => {
       .to(pRef.current, { opacity: 1, rotationX: 0, duration: 0.6, ease: 'power2.out' }, '<')
       .to(patternRef.current, { opacity: 1, scale: 1, rotation: 360, duration: 1, ease: 'elastic.out(1, 0.75)' }, '-=0.5')
       .to(textRef.current, { opacity: 1, duration: 0.1 })
-      .to(textRef.current, { text: 'Picolo AI', duration: 0.7, ease: 'none' })
+            .to(textRef.current.children, {
+        opacity: 1,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power1.inOut',
+      })
       .to(logoWrapperRef.current, {
         scale: finalScale,
         x: finalX,
@@ -176,8 +185,9 @@ const LoadingAnimation = () => {
         xPercent: 0,
         yPercent: 0,
         transformOrigin: '0 0',
-        duration: 1.5,
-        ease: 'power2.inOut',
+        duration: 2,
+        ease: 'power3.inOut',
+        force3D: true,
       }, '+=0.5')
       .set(logoWrapperRef.current, { 
         flexDirection: 'row',
@@ -202,7 +212,13 @@ const LoadingAnimation = () => {
             <Image src="/pattern.png" alt="pattern" fill style={{ objectFit: 'contain' }} />
           </PatternImageContainer>
         </ImageContainer>
-        <Text ref={textRef}></Text>
+        <Text ref={textRef}>
+          {'Picolo AI'.split('').map((char, index) => (
+            <span key={index} style={{ opacity: 0, display: 'inline-block' }}>
+              {char === ' ' ? '\u00A0' : char}
+            </span>
+          ))}
+        </Text>
       </LogoWrapper>
     </LoadingContainer>
   );
