@@ -150,8 +150,8 @@ const ServicesSection = () => {
     const standardProfessionalMultiplier = 0.01327; // 1.327%
     
     // Pro Package multipliers
-    const proRetailMultiplier = 0.07365; // 7.365%
-    const proProfessionalMultiplier = 0.07576; // 7.576%
+    const proRetailMultiplier = 0.25; // 25%
+    const proProfessionalMultiplier = 0.25; // 25%
     
     // Calculate Standard Package revenue
     const standardMultiplier = activeTab === 'retail' ? standardRetailMultiplier : standardProfessionalMultiplier;

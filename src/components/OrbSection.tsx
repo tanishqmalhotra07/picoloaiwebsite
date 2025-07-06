@@ -350,9 +350,8 @@ const OrbSection = () => {
           style={{ opacity: text1Opacity, y: text1Y }}
           className="absolute inset-0 z-50 flex flex-col items-center justify-center text-center text-white pointer-events-none"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-regular text-center px-4">
-            From idea to impact, Your <span className="text-purple-400 font-regular">AI journey</span>
-            <br />
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold text-center px-4">
+            From idea to impact, Your <span className="text-purple-400 font-semibold">AI<br/>journey </span>
             starts here
           </h2>
         </motion.div>

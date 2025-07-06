@@ -54,7 +54,7 @@ const About = () => {
         viewport={{ once: true, amount: 0.5 }}
       >
         <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl md:text-7xl font-semibold text-white px-4">
-        We build a team of <span className="text-purple-400">AI Agents</span> for your business
+        We build a team of <span className="text-purple-400">AI Agents</span><br /> for your business
           <br />
         </motion.h1>
         <motion.p variants={itemVariants} className="mt-4 text-xl sm:text-2xl md:text-3xl font-semibold text-white px-6">

@@ -172,9 +172,9 @@ const Hero = () => {
 
         {/* Main Content */}
         <motion.div style={{ y: textY }} className="text-center text-white px-4" variants={itemVariants}>
-          <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tighter ">
+                    <h1 className="text-6xl sm:text-7xl md:text-9xl font-medium tracking-tighter ">
             <motion.span
-              className="font-bold inline-block"
+              className="font-semibold inline-block"
               variants={sentenceLine1Variants}
             >
               {"We are an AI".split("").map((char, index) => (
@@ -185,13 +185,13 @@ const Hero = () => {
             </motion.span>
             <br />
             <span className="h-[1em] inline-block w-full md:w-[10em] text-center px-2 min-h-[1em]">
-              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">
+                            <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">
                 {text || '\u00A0'}
               </span>
             </span>
             <br />
             <motion.span
-              className="font-bold inline-block"
+              className="font-semibold inline-block"
               variants={sentenceLine1Variants}
             >
               {"Company".split("").map((char, index) => (
@@ -201,7 +201,7 @@ const Hero = () => {
               ))}
             </motion.span>
           </h1>
-          <p className="mt-4 text-lg md:text-xl font-medium">
+                    <p className="mt-4 text-xl md:text-2xl font-normal">
           Simplifying AI so you can scale, save, and succeed
           </p>
         </motion.div>
