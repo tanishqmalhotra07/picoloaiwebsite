@@ -238,8 +238,7 @@ const OrbSection = () => {
     return unsubscribe;
   }, [scrollYProgress]);
 
-  // Orb scaling and positioning - not used directly anymore
-  const y = useTransform(scrollYProgress, [0, 0.2], ['0vh', '0vh']);
+  // Orb scaling and positioning - removed unused variable
   
   // About section animation
 
