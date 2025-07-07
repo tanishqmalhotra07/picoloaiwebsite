@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 const itemVariants = {
   hidden: { y: -20, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: 'easeInOut' } },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.3, ease: 'easeInOut' } },
 };
 
 const Header = () => {

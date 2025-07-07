@@ -143,14 +143,11 @@ const LoadingAnimation = ({ onAnimationComplete }: { onAnimationComplete: () => 
 
     const tl = gsap.timeline({
       onComplete: () => {
-        if (onAnimationComplete) {
-          onAnimationComplete();
-        }
         if (containerRef.current) {
           // Only make the background transparent but keep the logo visible
           gsap.to(containerRef.current, {
             backgroundColor: 'transparent',
-            duration: 0.5,
+            duration: 0.3,
             onComplete: () => {
               if (containerRef.current) {
                 containerRef.current.style.pointerEvents = 'none';
@@ -193,7 +190,13 @@ const LoadingAnimation = ({ onAnimationComplete }: { onAnimationComplete: () => 
         flexDirection: 'row',
         gap: '1rem',
       })
-      .to(textRef.current, { y: 0 }, '<');
+      .to(textRef.current, { y: 0 }, '<')
+      // Call onAnimationComplete immediately after the animation finishes
+      .call(() => {
+        if (onAnimationComplete) {
+          onAnimationComplete();
+        }
+      });
 
   }, []);
 

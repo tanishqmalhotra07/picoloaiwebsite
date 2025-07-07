@@ -26,6 +26,8 @@ export default function Home() {
 
   useEffect(() => {
     if (imagePreloaded && animationFinished) {
+      // Immediately show the hero section when animation is finished
+      // No delay to ensure the hero appears immediately
       setIsLoading(false);
     }
   }, [imagePreloaded, animationFinished]);
