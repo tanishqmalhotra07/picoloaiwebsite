@@ -232,8 +232,8 @@ const OrbSection = () => {
   
   const orbFinalOpacity = useTransform(
     scrollYProgress,
-    [0, 0.35, 0.4, 0.6, 0.65, 1],
-    [1, 1, 0, 0, 1, 1]
+    [0, 0.35, 0.4, 0.6, 0.65, 0.8, 1],
+    [1, 1, 0, 0, 0, 0, 0]
   );
 
   // Orb Squeeze and Stretch animation
@@ -310,23 +310,55 @@ const OrbSection = () => {
     [0, 1, 1, 0]
   );
   
-  // Simplified animation for the two orbs in educate section
+  // Sideways animation for the two orbs in educate section
   const leftOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [-100, -60]
+    [-250, -60]
   );
   
   const rightOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [100, 60]
+    [250, 60]
   );
   
   const orbsY = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [50, -20]
+    [0, 0]
+  );
+  
+  // Develop section opacity and animations
+  const developSectionOpacity = useTransform(
+    scrollYProgress,
+    [0.6, 0.65, 0.75, 0.8],
+    [0, 1, 1, 0]
+  );
+  
+  // Animation for the three orbs in develop section - horizontal line with increased spacing
+  const developLeftOrbX = useTransform(
+    scrollYProgress,
+    [0.6, 0.65],
+    [-260, -175]
+  );
+  
+  const developMiddleOrbX = useTransform(
+    scrollYProgress,
+    [0.6, 0.65],
+    [0, 0]
+  );
+  
+  const developRightOrbX = useTransform(
+    scrollYProgress,
+    [0.6, 0.65],
+    [240, 200]
+  );
+  
+  const developOrbsY = useTransform(
+    scrollYProgress,
+    [0.6, 0.65],
+    [-30, -30]
   );
 
   const finalElementsOpacity = useTransform(
@@ -499,6 +531,113 @@ const OrbSection = () => {
                 onHover="speedUp"
                 className="transition-all duration-300"
               />
+            </div>
+          </div>
+        </motion.div>
+        
+        {/* Develop Section with three conjoined orbs in a horizontal line */}
+        <motion.div
+          style={{ 
+            opacity: developSectionOpacity,
+            pointerEvents: 'none' // Prevent this from blocking hover events when transparent
+          }}
+          className="absolute inset-0 z-25 flex flex-col items-center justify-center"
+          initial={false}
+          layoutId="develop-section"
+        >
+          <div className="relative w-full h-64 flex items-center justify-center">
+            {/* Left Orb */}
+            <motion.div 
+              className="absolute w-80 h-80"
+              style={{ 
+                x: developLeftOrbX,
+                y: developOrbsY,
+                scale: 1.5,
+                willChange: 'transform',
+                contain: 'strict',
+                backfaceVisibility: 'hidden'
+              }}
+              initial={false}
+              layoutId="develop-left-orb"
+            >
+              <Orb 
+                interactive={false} 
+                hoverIntensity={0.5} 
+                rotateOnHover={false}
+                forceHoverState={false}
+                hue={20} // Purple hue
+              />
+            </motion.div>
+            
+            {/* Middle Orb */}
+            <motion.div 
+              className="absolute w-80 h-80"
+              style={{ 
+                x: developMiddleOrbX,
+                y: developOrbsY,
+                scale: 1.5,
+                willChange: 'transform',
+                contain: 'strict',
+                backfaceVisibility: 'hidden'
+              }}
+              initial={false}
+              layoutId="develop-middle-orb"
+            >
+              <Orb 
+                interactive={false} 
+                hoverIntensity={0.5} 
+                rotateOnHover={false}
+                forceHoverState={false}
+                hue={10} // Teal hue
+              />
+            </motion.div>
+            
+            {/* Right Orb */}
+            <motion.div 
+              className="absolute w-80 h-80"
+              style={{ 
+                x: developRightOrbX,
+                y: developOrbsY,
+                scale: 1.5,
+                willChange: 'transform',
+                contain: 'strict',
+                backfaceVisibility: 'hidden'
+              }}
+              initial={false}
+              layoutId="develop-right-orb"
+            >
+              <Orb 
+                interactive={false} 
+                hoverIntensity={0.5} 
+                rotateOnHover={false}
+                forceHoverState={false}
+                hue={10} // Yellow hue
+              />
+            </motion.div>
+            
+            {/* Develop heading below the orbs */}
+            <div className="absolute z-50 bottom-35">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
+                DEVELOP
+              </h2>
+            </div>
+            
+            {/* Circular text on the left */}
+            <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto" style={{ zIndex: 50 }}>
+              <CircularText
+                text="*DESIGN*BUILD*SCALE*"
+                imageUrl="/arrow.png"
+                spinDuration={15}
+                onHover="speedUp"
+                className="transition-all duration-300"
+              />
+            </div>
+            
+            {/* Description on the right */}
+            <div className="absolute right-16 top-1/2 -translate-y-1/2 w-64 text-right z-50">
+              <p className="text-white text-base pointer-events-none">
+                We design, build, and scale custom AI solutions that solve your most pressing business needs and create a lasting competitive advantage.
+              </p>
             </div>
           </div>
         </motion.div>
