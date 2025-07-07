@@ -23,8 +23,8 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
   `;
 
   const cardClasses = `
-    w-full h-full rounded-[14.5px] p-6 sm:p-8 text-center 
-    flex flex-col items-center justify-start gap-2
+    w-full h-full rounded-[14.5px] p-4 sm:p-6 text-center 
+    flex flex-col items-center justify-start gap-1
     bg-[#02010C]/90 backdrop-blur-xl
   `;
 
@@ -38,33 +38,33 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
         </div>
       )}
       <div className={cardClasses}>
-        <p className={`text-xl sm:text-2xl font-bold pt-4 ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
+        <p className={`text-lg sm:text-xl font-bold pt-2 ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
         
-        <div className="h-20 flex items-center justify-center">
+        <div className="h-16 flex items-center justify-center">
           {isExclusive ? (
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white blur-[10.1px]">{value}</h3>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white blur-[10.1px]">{value}</h3>
           ) : (
-            <ShinyText text={value} className="text-3xl sm:text-4xl md:text-5xl font-bold" />
+            <ShinyText text={value} className="text-2xl sm:text-3xl md:text-4xl font-bold" />
           )}
         </div>
-        <p className="text-sm text-gray-400 -mt-6 mb-3">Potential Increase in Annual Revenue</p>
+        <p className="text-xs text-gray-400 -mt-4 mb-2">Potential Increase in Annual Revenue</p>
         
-        <div className="text-gray-300 leading-relaxed flex-grow w-full">
+        <div className="text-gray-300 leading-tight flex-grow w-full">
           {Array.isArray(description) ? (
-            <ul className="text-left list-disc list-inside space-y-1 text-base sm:text-lg">
+            <ul className="text-left list-disc list-inside space-y-0.5 text-sm sm:text-base">
               {description.map((item, index) => (
                 <li key={index}>{item}</li>
               ))}
             </ul>
           ) : (
-            <p className="text-base sm:text-lg">{description}</p>
+            <p className="text-sm sm:text-base">{description}</p>
           )}
         </div>
         
         {isExclusive && (
           <button 
             onClick={onContact} 
-            className="mt-auto px-6 py-2 text-base font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full transition-transform duration-300 hover:scale-105"
+            className="mt-auto px-5 py-1.5 text-sm font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full transition-transform duration-300 hover:scale-105"
           >
             Request a Call Back
           </button>
@@ -265,7 +265,7 @@ const ServicesSection = () => {
         {/* Calculate button removed */}
       </div>
 
-      <div ref={resultsRef} className="w-full max-w-5xl mx-auto mt-10 sm:mt-16">
+      <div ref={resultsRef} className="w-full max-w-5xl mx-auto mt-6 sm:mt-10">
         <AnimatePresence>
             <motion.div 
               className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-0"
