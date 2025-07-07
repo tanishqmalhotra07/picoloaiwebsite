@@ -87,7 +87,7 @@ const Testimonials = () => {
           <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold tracking-wider text-purple-300 bg-purple-900/30 border border-purple-700 rounded-full">
             Testimonials
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-3 sm:mt-4">What our clients say?</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium mt-3 sm:mt-4">What our clients say?</h2>
           <p className="text-base sm:text-lg text-gray-400 mt-3 sm:mt-4 max-w-2xl mx-auto px-4">
             Our clients have loved us for a long time. And we love them all!
           </p>

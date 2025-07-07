@@ -197,9 +197,9 @@ const ServicesSection = () => {
     <section id="services" style={{ contentVisibility: 'auto', containIntrinsicSize: '100vh', willChange: 'transform, opacity' }} className="w-full min-h-screen flex flex-col justify-center items-center text-white p-4 sm:p-8 pt-20 sm:pt-32 bg-[#02010C]">
       <div className="w-full max-w-8xl flex flex-col items-center gap-6 text-center">
         
-        <div className="mb-3 sm:mb-4 px-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">We don&apos;t just deliver technology.</h2>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">We deliver tangible business outcomes.</h2>
+        <div className="mb-10 z-10000 sm:mb-4 px-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-4">We don&apos;t just deliver technology.</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-center pb-5 mb-1 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">We deliver tangible business outcomes.</h2>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 mb-5 px-4 relative z-100000 !important">

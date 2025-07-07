@@ -41,7 +41,7 @@ const EndSection = () => {
           {/* Right Column */}
           <div className="flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8">
             <div>
-              <h3 className="text-xl sm:text-2xl font-semibold">Quick Links</h3>
+              <h3 className="text-xl sm:text-2xl text-center font-semibold">Quick Links</h3>
               <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-around text-base sm:text-lg mt-4 sm:mt-6 gap-y-3">
                 <a href="#" className="hover:text-purple-400 transition-colors">Home</a>
                 <a href="#about" className="hover:text-purple-400 transition-colors">AI Transformation</a>
