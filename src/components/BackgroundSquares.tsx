@@ -20,7 +20,7 @@ const BackgroundSquares = () => {
           height: 'clamp(120px, 25vw, 200px)',
           top: '30%',
           borderRadius: '10%',
-          right: 'clamp(10%, 20vw, 30%)',
+          right: 'clamp(20%, 20vw, 30%)',
         }}
       />
       <div

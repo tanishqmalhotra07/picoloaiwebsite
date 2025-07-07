@@ -9,6 +9,17 @@
   transition: background-color 0.3s;
 }
 
+/* Smooth transitions for testimonial cards */
+.embla__slide {
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Add easing to the carousel */
+.embla__container {
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
 .nav-button:hover {
   background-color: rgba(0, 0, 0, 0.5);
 }

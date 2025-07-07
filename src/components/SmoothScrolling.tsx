@@ -8,15 +8,16 @@ const SmoothScrolling = ({ children }: { children: ReactNode }) => {
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
-    // Create Lenis instance with optimized settings
+    // Create Lenis instance with optimized settings for smoother scrolling
     const lenisInstance = new Lenis({
-      duration: 1.2, // Reduced duration for better performance
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.3, // Slightly longer duration for smoother feel
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential ease-out
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1, // Increased multiplier
+      wheelMultiplier: 1, // Reduced multiplier for smoother scrolling
       infinite: false,
+  
     });
 
     // Optimize requestAnimationFrame with throttling

@@ -66,8 +66,17 @@ const testimonials = [
 
 
 const Testimonials = () => {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ playOnInit: true, delay: 1800, stopOnInteraction: false, stopOnMouseEnter: true })
+  const [emblaRef] = useEmblaCarousel({ 
+    loop: true,
+    dragFree: true // Allows free-flowing drag for smoother feel
+  }, [
+    Autoplay({ 
+      playOnInit: true, 
+      delay: 1700, // Longer delay between slides
+      stopOnInteraction: false, 
+      stopOnMouseEnter: true,
+      rootNode: (emblaRoot) => emblaRoot // Ensures proper context
+    })
   ]);
 
   return (
