@@ -15,7 +15,7 @@ const SmoothScrolling = ({ children }: { children: ReactNode }) => {
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.6, // Reduced multiplier
+      wheelMultiplier: 1, // Increased multiplier
       infinite: false,
     });
 

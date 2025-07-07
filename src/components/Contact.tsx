@@ -47,11 +47,11 @@ const Contact = () => {
             <div className="flex justify-around items-center my-6 max-w-md">
               <a href="#" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
                 <span className="font-semibold text-sm sm:text-base">Instagram:</span>
-                <Image src="/Instagram.png" alt="Instagram" width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" />
+                <Image src="/Instagram.png" alt="Instagram" width={40} height={45} className="w-8 h-12 sm:w-10 sm:h-10" />
               </a>
               <a href="#" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
                 <span className="font-semibold text-sm sm:text-base">LinkedIn:</span>
-                <Image src="/LinkedIn.png" alt="LinkedIn" width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" />
+                <Image src="/LinkedIn.png" alt="LinkedIn" width={40} height={45} className="w-8 h-12 sm:w-10 sm:h-10" />
               </a>
             </div>
             <hr className="border-gray-600 my-6" />

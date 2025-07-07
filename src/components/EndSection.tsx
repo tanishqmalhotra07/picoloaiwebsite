@@ -6,8 +6,8 @@ import Aurora from './Aurora';
 
 const EndSection = () => {
   return (
-    <footer style={{ contentVisibility: 'auto', containIntrinsicSize: '50vh', willChange: 'transform, opacity' }} className="relative bg-[#02010C] text-white pt-16 pb-10 overflow-hidden">
-      <div className="absolute inset-0 z-0">
+    <footer style={{ contentVisibility: 'auto', containIntrinsicSize: '50vh', willChange: 'transform, opacity' }} className="relative bg-[#02010C] text-white pt-16 pb-20 sm:pb-10 overflow-hidden">
+      <div className="absolute inset-0 z-0 h-full w-full">
         <Aurora colorStops={["#8716EE", "#FF0033", "#F633EF"]} blend={0.3} amplitude={1.0} speed={0.5} />
       </div>
       <div className="relative z-10 container mx-auto px-4">
@@ -23,14 +23,14 @@ const EndSection = () => {
             </div>
             <hr className="border-gray-700" />
             <div>
-              <div className="flex w-full justify-around items-center text-base sm:text-lg">
+              <div className="flex flex-row w-full justify-around items-center text-base sm:text-lg">
                 <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 hover:text-purple-400 transition-colors">
                   <span className="font-semibold">Instagram:</span>
-                  <Image src="/Instagram.png" alt="Instagram" width={48} height={48} className="w-10 h-10 sm:w-12 sm:h-12" style={{ aspectRatio: '1/1', objectFit: 'contain' }} />
+                  <Image src="/Instagram.png" alt="Instagram" width={48} height={48} className="w-8 h-8 sm:w-10 sm:h-10" style={{ aspectRatio: '1/1', objectFit: 'contain' }} />
                 </a>
                 <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 hover:text-purple-400 transition-colors">
                   <span className="font-semibold">LinkedIn:</span>
-                  <Image src="/LinkedIn.png" alt="LinkedIn" width={48} height={48} className="w-10 h-10 sm:w-12 sm:h-12" style={{ aspectRatio: '1/1', objectFit: 'contain' }} />
+                  <Image src="/LinkedIn.png" alt="LinkedIn" width={48} height={48} className="w-8 h-8 sm:w-10 sm:h-10" style={{ aspectRatio: '1/1', objectFit: 'contain' }} />
                 </a>
               </div>
             </div>
@@ -42,7 +42,7 @@ const EndSection = () => {
           <div className="flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8">
             <div>
               <h3 className="text-xl sm:text-2xl font-semibold">Quick Links</h3>
-              <div className="flex flex-wrap justify-around text-base sm:text-lg mt-4 sm:mt-6">
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-around text-base sm:text-lg mt-4 sm:mt-6 gap-y-3">
                 <a href="#" className="hover:text-purple-400 transition-colors">Home</a>
                 <a href="#about" className="hover:text-purple-400 transition-colors">AI Transformation</a>
                 <a href="#solutions" className="hover:text-purple-400 transition-colors">AI Agents</a>
@@ -50,8 +50,8 @@ const EndSection = () => {
                 <a href="#contact" className="hover:text-purple-400 transition-colors">Contact</a>
               </div>
             </div>
-            <hr className="border-gray-700 -mt-5" />
-            <div className="flex justify-around mt-2">
+            <hr className="border-gray-700" />
+            <div className="flex flex-col sm:flex-col justify-around items-center mt-2 space-y-4 sm:space-y-0">
               <h3 className="text-xl sm:text-2xl font-semibold">Contact Us</h3>
               <div className="flex items-center space-x-2">
                 <Image src="/Circled Envelope.png" alt="Email" width={40} height={40} className="w-6 h-6 sm:w-8 sm:h-8" style={{ aspectRatio: '1/1', objectFit: 'contain' }} />
@@ -59,7 +59,7 @@ const EndSection = () => {
               </div>
             </div>
             <hr className="border-gray-700 " />
-            <div className="flex flex-col sm:flex-row flex-wrap justify-around text-xs sm:text-sm text-gray-400 gap-2 sm:gap-0">
+            <div className="flex flex-col sm:flex-row flex-wrap sm:text-center justify-around text-xs sm:text-sm text-gray-400 gap-2 sm:gap-0">
               <a href="#" className="hover:text-white transition-colors">Powered By Picolo AI</a>
             </div>
           </div>

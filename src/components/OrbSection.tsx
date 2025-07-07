@@ -185,6 +185,23 @@ const ContentAnimation: React.FC<ContentAnimationProps> = ({ scrollYProgress, in
 
 
 
+// Custom hook to detect mobile devices
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
+};
+
 const OrbSection = () => {
   const targetRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -192,6 +209,9 @@ const OrbSection = () => {
     offset: ['start start', 'end end'],
   });
 
+  // Check if on mobile device
+  const isMobile = useIsMobile();
+  
   // State for orb interactivity
   const [, setIsOrbInteractive] = useState(true);
   
@@ -218,8 +238,8 @@ const OrbSection = () => {
     return unsubscribe;
   }, [scrollYProgress]);
 
-  // Orb scaling and positioning
-  const y = useTransform(scrollYProgress, [0, 0.2], ['-50vh', '0vh']);
+  // Orb scaling and positioning - not used directly anymore
+  const y = useTransform(scrollYProgress, [0, 0.2], ['0vh', '0vh']);
   
   // About section animation
 
@@ -233,8 +253,8 @@ const OrbSection = () => {
   
   const orbFinalOpacity = useTransform(
     scrollYProgress,
-    [0, 0.35, 0.4, 0.6, 0.65, 0.8, 1],
-    [1, 1, 0, 0, 0, 0, 0]
+    [0, 0.2, 0.35, 0.4, 0.6, 0.65, 0.8, 1],
+    [1, 1, 1, 0, 0, 0, 0, 0]
   );
 
   // Orb Squeeze and Stretch animation
@@ -262,20 +282,20 @@ const OrbSection = () => {
       transitionPoint3 + pulseDuration,
     ],
     [
-      3,    // initial scale
-      0.93, // scale at 0.2 (start of Identify)
+      isMobile ? 1 : 3,    // initial scale - smaller on mobile
+      isMobile ? 0.93 : 0.93, // scale at 0.2 (start of Identify) - same on mobile
       // First portal effect
-      0.93, // normal during Identify
-      0.5,  // close portal
-      0.93, // open portal back to normal (start of Educate)
+      isMobile ? 0.93 : 0.93, // normal during Identify - same on mobile
+      isMobile ? 0.5 : 0.5,  // close portal - same on mobile
+      isMobile ? 0.93 : 0.93, // open portal back to normal (start of Educate) - same on mobile
       // Second portal effect
-      0.93, // normal during Educate
-      0.5,  // close portal
-      0.93, // open portal back to normal (start of Develop)
+      isMobile ? 0.93 : 0.93, // normal during Educate - same on mobile
+      isMobile ? 0.5 : 0.5,  // close portal - same on mobile
+      isMobile ? 0.93 : 0.93, // open portal back to normal (start of Develop) - same on mobile
       // Third portal effect
-      0.93, // normal during Develop
-      0.5,  // close portal
-      1,    // open portal back to final size
+      isMobile ? 0.93 : 0.93, // normal during Develop - same on mobile
+      isMobile ? 0.5 : 0.5,  // close portal - same on mobile
+      isMobile ? 1 : 1,    // open portal back to final size - same on mobile
     ]
   );
 
@@ -316,13 +336,13 @@ const OrbSection = () => {
   const leftOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [-250, -120]
+    [-250, isMobile ? -50 : -120]
   );
   
   const rightOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [250, 120]
+    [250, isMobile ? 50 : 120]
   );
   
   const orbsY = useTransform(
@@ -343,7 +363,7 @@ const OrbSection = () => {
   const developLeftOrbX = useTransform(
     scrollYProgress,
     [0.6, 0.65, 0.75, 0.8],
-    [-400, -250, -250, -400]
+    [-400, isMobile ? -100 : -250, isMobile ? -80 : -250, -400]
   );
   const developMiddleOrbX = useTransform(
     scrollYProgress,
@@ -353,7 +373,7 @@ const OrbSection = () => {
   const developRightOrbX = useTransform(
     scrollYProgress,
     [0.6, 0.65, 0.75, 0.8],
-    [400, 250, 250, 400]
+    [400, isMobile ? 100 : 250, isMobile ? 80 : 250, 400]
   );
 
   const developLeftOrbY = useTransform(
@@ -419,18 +439,18 @@ const OrbSection = () => {
           </h2>
         </motion.div>
 
-        {/* Orb - optimized for hover */}
+        {/* Orb - optimized for hover and mobile */}
                 <motion.div
           style={{
             scaleX: orbScaleX,
             scaleY: orbScaleY,
-            y,
+            y: 0, // Fixed position to ensure visibility
             opacity: orbFinalOpacity,
             willChange: 'transform, opacity',
             contain: 'layout paint size',
             zIndex: 10 // Ensure consistent z-index
           }}
-          className="absolute inset-0 grid place-items-center scale-90 sm:scale-95 md:scale-100 bg-[#02010C] pointer-events-auto"
+          className="absolute inset-0 grid place-items-center scale-100 bg-[#02010C] pointer-events-auto"
           initial={false}
         >
           <div className="w-full h-full pointer-events-auto">
@@ -451,7 +471,7 @@ const OrbSection = () => {
           }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
-          <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto" style={{ zIndex: 50 }}>
+          <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto hidden sm:block" style={{ zIndex: 50 }}>
             <CircularText
               text="*EMPOWER*INTEGRATE*SCALE"
               imageUrl="/arrow.png"
@@ -481,7 +501,7 @@ const OrbSection = () => {
               style={{ 
                 x: leftOrbX,
                 y: orbsY,
-                scale: 1.3,
+                scale: isMobile ? 0.6 : 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -505,7 +525,7 @@ const OrbSection = () => {
               style={{ 
                 x: rightOrbX,
                 y: orbsY,
-                scale: 1.3,
+                scale: isMobile ? 0.6 : 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -524,21 +544,28 @@ const OrbSection = () => {
             </motion.div>
             
             {/* Educate heading in the intersection of orbs */}
-            <div className="absolute z-50 transform translate-y-50">
+            <div className="absolute z-50 transform translate-y-50 sm:translate-y-50 top-1/2 sm:top-auto">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
                 EDUCATE
               </h2>
             </div>
             
             {/* Description on the left - styled like Identify section */}
-            <div className="absolute left-16 top-1/2 -translate-y-1/2 w-64 text-left z-50">
+            <div className="absolute left-16 top-1/2 -translate-y-1/2 w-64 text-left z-50 hidden sm:block">
               <p className="text-white text-base pointer-events-none">
                 We train and support your team with the right tools and know-how to embed AI across your entire organization.
               </p>
             </div>
             
+            {/* Mobile description - centered below heading */}
+            <div className="absolute bottom-8 sm:bottom-16 left-1/2 -translate-x-1/2 w-[85%] text-center z-50 block sm:hidden">
+              <p className="text-white text-sm pointer-events-none">
+                We train and support your team with the right tools and know-how to embed AI across your entire organization.
+              </p>
+            </div>
+            
             {/* Circular text on the right - styled like Identify section */}
-            <div className="absolute right-15 top-1/2 -translate-y-1/2 translate-x-1/2 " style={{ zIndex: 50 }}>
+            <div className="absolute right-15 top-1/2 -translate-y-1/2 translate-x-1/2 hidden sm:block" style={{ zIndex: 50 }}>
               <CircularText
                 text="*TRAIN*SUPPORT*EMBED*"
                 imageUrl="/arrow.png"
@@ -567,7 +594,7 @@ const OrbSection = () => {
               style={{
                 x: developLeftOrbX,
                 y: developLeftOrbY,
-                scale: 1.3,
+                scale: isMobile ? 0.6 : 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -591,7 +618,7 @@ const OrbSection = () => {
               style={{
                 x: developMiddleOrbX,
                 y: developMiddleOrbY,
-                scale: 1.3,
+                scale: isMobile ? 0.6 : 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -615,7 +642,7 @@ const OrbSection = () => {
               style={{
                 x: developRightOrbX,
                 y: developRightOrbY,
-                scale: 1.3,
+                scale: isMobile ? 0.6 : 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -634,14 +661,14 @@ const OrbSection = () => {
             </motion.div>
             
             {/* Develop heading below the orbs */}
-            <div className="absolute z-50  transform translate-y-50">
+            <div className="absolute z-50 transform translate-y-50 sm:translate-y-50 top-1/2 sm:top-auto">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
                 DEVELOP
               </h2>
             </div>
             
-            {/* Circular text on the left */}
-            <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 " style={{ zIndex: 50 }}>
+            {/* Circular text on the left - hidden on mobile */}
+            <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 hidden sm:block" style={{ zIndex: 50 }}>
               <CircularText
                 text="*DESIGN*BUILD*SCALE*"
                 imageUrl="/arrow.png"
@@ -651,9 +678,16 @@ const OrbSection = () => {
               />
             </div>
             
-            {/* Description on the right */}
-            <div className="absolute right-16 top-1/2 -translate-y-1/2 w-64 text-right z-50">
+            {/* Description on the right - hidden on mobile */}
+            <div className="absolute right-16 top-1/2 -translate-y-1/2 w-64 text-right z-50 hidden sm:block">
               <p className="text-white text-base pointer-events-none">
+                We design, build, and scale custom AI solutions that solve your most pressing business needs and create a lasting competitive advantage.
+              </p>
+            </div>
+            
+            {/* Mobile description - centered below heading */}
+            <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[85%] text-center z-50 block sm:hidden">
+              <p className="text-white text-sm pointer-events-none">
                 We design, build, and scale custom AI solutions that solve your most pressing business needs and create a lasting competitive advantage.
               </p>
             </div>
