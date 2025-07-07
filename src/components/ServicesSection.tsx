@@ -75,7 +75,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
 };
 
 interface SliderProps {
-  label: string;
+  label: React.ReactNode;
   value: number;
   min: number;
   max: number;
@@ -93,7 +93,7 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
           className="absolute -top-10 transform -translate-x-1/2 bg-purple-600 text-white px-3 py-1 rounded text-sm"
           style={{ left: `${percentage}%` }}
         >
-          {prefix}{value}
+          {prefix}{value.toLocaleString()}
         </div>
         <input
           type="range"
@@ -204,15 +204,21 @@ const ServicesSection = () => {
 
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 mb-5 px-4 relative z-100000 !important">
           <button
-            className={`px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border transition-all duration-300 ${activeTab === 'retail' ? 'bg-purple-600 border-purple-600 shadow-lg shadow-purple-600/30' : 'border-gray-600'}`}
+            className={`px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border transition-all duration-300 flex items-center gap-2 ${activeTab === 'retail' ? 'bg-purple-600 border-purple-600 shadow-lg shadow-purple-600/30' : 'border-gray-600'}`}
             onClick={() => setActiveTab('retail')}
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
             Retail or E-commerce
           </button>
           <button
-            className={`px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border transition-all duration-300 ${activeTab === 'professional' ? 'bg-purple-600 border-purple-600 shadow-lg shadow-purple-600/30' : 'border-gray-600'}`}
+            className={`px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border transition-all duration-300 flex items-center gap-2 ${activeTab === 'professional' ? 'bg-purple-600 border-purple-600 shadow-lg shadow-purple-600/30' : 'border-gray-600'}`}
             onClick={() => setActiveTab('professional')}
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
             Professional Services and Specialized Products
           </button>
         </div>
@@ -220,12 +226,39 @@ const ServicesSection = () => {
         <div className="w-full max-w-6xl mx-auto -mb- p-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
           <div className="bg-[#02010C] rounded-2xl p-6 sm:p-8 flex flex-col gap-6">
             <div>
-              <Slider label="Customer Interactions per month" value={customers} min={1000} max={100000} onChange={setCustomers} />
+              <Slider 
+                label={
+                  <div className="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    Customer Interactions per month
+                  </div>
+                } 
+                value={customers} 
+                min={1000} 
+                max={100000} 
+                onChange={setCustomers} 
+              />
               <p className="text-sm text-gray-500 mt-2 text-left w-full sm:w-2/3 sm:ml-auto px-1 sm:px-0">
                   Monthly leads/interactions your business gets on all digital platforms (your website, insta, etc.)
               </p>
             </div>
-            <Slider label="Average Order Value Per Customer" value={orderValue} min={10} max={2000} onChange={setOrderValue} prefix={currency} />
+            <Slider 
+              label={
+                <div className="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Average Order Value Per Customer
+                </div>
+              } 
+              value={orderValue} 
+              min={10} 
+              max={2000} 
+              onChange={setOrderValue} 
+              prefix={currency} 
+            />
           </div>
         </div>
 
