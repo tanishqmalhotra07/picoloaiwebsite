@@ -309,6 +309,7 @@ const OrbSection = () => {
     [0.4, 0.45, 0.55, 0.6],
     [0, 1, 1, 0]
   );
+  const educatePointerEvents = useTransform(educateSectionOpacity, (v) => (v > 0 ? 'auto' : 'none'));
   
   // Sideways animation for the two orbs in educate section
   const leftOrbX = useTransform(
@@ -335,6 +336,7 @@ const OrbSection = () => {
     [0.6, 0.65, 0.75, 0.8],
     [0, 1, 1, 0]
   );
+  const developPointerEvents = useTransform(developSectionOpacity, (v) => (v > 0 ? 'auto' : 'none'));
   
   // Animation for the three orbs in develop section - horizontal line with increased spacing
   const developLeftOrbX = useTransform(
@@ -381,7 +383,7 @@ const OrbSection = () => {
 
   const solutionsPointerEvents = useTransform(
     scrollYProgress,
-    [0.8, 0.801],
+    [0.799, 0.8],
     ['none', 'auto']
   );
   
@@ -430,7 +432,7 @@ const OrbSection = () => {
           <div className="w-full h-full pointer-events-auto">
             <Orb 
               interactive={true} 
-              hoverIntensity={1.0} 
+              hoverIntensity={0.4} 
               rotateOnHover={true} 
               forceHoverState={false}
             />
@@ -443,7 +445,7 @@ const OrbSection = () => {
             opacity: identifySectionOpacity,
             zIndex: 20 // Ensure consistent z-index
           }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-auto"
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
           <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto" style={{ zIndex: 50 }}>
             <CircularText
@@ -460,9 +462,9 @@ const OrbSection = () => {
         
         {/* Educate Section with two conjoined orbs - performance optimized */}
         <motion.div
-          style={{ 
+          style={{
             opacity: educateSectionOpacity,
-            pointerEvents: 'none' // Prevent this from blocking hover events when transparent
+            pointerEvents: educatePointerEvents
           }}
           className="absolute inset-0 z-25 flex flex-col items-center justify-center"
           initial={false}
@@ -478,7 +480,8 @@ const OrbSection = () => {
                 scale: 1.8,
                 willChange: 'transform',
                 contain: 'strict',
-                backfaceVisibility: 'hidden'
+                backfaceVisibility: 'hidden',
+                pointerEvents: educatePointerEvents
               }}
               initial={false}
               layoutId="left-orb"
@@ -501,7 +504,8 @@ const OrbSection = () => {
                 scale: 1.8,
                 willChange: 'transform',
                 contain: 'strict',
-                backfaceVisibility: 'hidden'
+                backfaceVisibility: 'hidden',
+                pointerEvents: educatePointerEvents
               }}
               initial={false}
               layoutId="right-orb"
@@ -530,7 +534,7 @@ const OrbSection = () => {
             </div>
             
             {/* Circular text on the right - styled like Identify section */}
-            <div className="absolute right-15 top-1/2 -translate-y-1/2 translate-x-1/2 pointer-events-auto" style={{ zIndex: 50 }}>
+            <div className="absolute right-15 top-1/2 -translate-y-1/2 translate-x-1/2 " style={{ zIndex: 50 }}>
               <CircularText
                 text="*TRAIN*SUPPORT*EMBED*"
                 imageUrl="/arrow.png"
@@ -544,9 +548,9 @@ const OrbSection = () => {
         
         {/* Develop Section with three conjoined orbs in a horizontal line */}
         <motion.div
-          style={{ 
+          style={{
             opacity: developSectionOpacity,
-            pointerEvents: 'none' // Prevent this from blocking hover events when transparent
+            pointerEvents: developPointerEvents
           }}
           className="absolute inset-0 z-25 flex flex-col items-center justify-center"
           initial={false}
@@ -556,13 +560,14 @@ const OrbSection = () => {
             {/* Left Orb */}
             <motion.div 
               className="absolute w-80 h-80"
-              style={{ 
+              style={{
                 x: developLeftOrbX,
                 y: developOrbsY,
                 scale: 1.5,
                 willChange: 'transform',
                 contain: 'strict',
-                backfaceVisibility: 'hidden'
+                backfaceVisibility: 'hidden',
+                pointerEvents: developPointerEvents
               }}
               initial={false}
               layoutId="develop-left-orb"
@@ -579,13 +584,14 @@ const OrbSection = () => {
             {/* Middle Orb */}
             <motion.div 
               className="absolute w-80 h-80"
-              style={{ 
+              style={{
                 x: developMiddleOrbX,
                 y: developOrbsY,
                 scale: 1.5,
                 willChange: 'transform',
                 contain: 'strict',
-                backfaceVisibility: 'hidden'
+                backfaceVisibility: 'hidden',
+                pointerEvents: developPointerEvents
               }}
               initial={false}
               layoutId="develop-middle-orb"
@@ -602,13 +608,14 @@ const OrbSection = () => {
             {/* Right Orb */}
             <motion.div 
               className="absolute w-80 h-80"
-              style={{ 
+              style={{
                 x: developRightOrbX,
                 y: developOrbsY,
                 scale: 1.5,
                 willChange: 'transform',
                 contain: 'strict',
-                backfaceVisibility: 'hidden'
+                backfaceVisibility: 'hidden',
+                pointerEvents: developPointerEvents
               }}
               initial={false}
               layoutId="develop-right-orb"
@@ -630,7 +637,7 @@ const OrbSection = () => {
             </div>
             
             {/* Circular text on the left */}
-            <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto" style={{ zIndex: 50 }}>
+            <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 " style={{ zIndex: 50 }}>
               <CircularText
                 text="*DESIGN*BUILD*SCALE*"
                 imageUrl="/arrow.png"
