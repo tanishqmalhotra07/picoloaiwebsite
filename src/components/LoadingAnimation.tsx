@@ -188,7 +188,7 @@ const LoadingAnimation = ({ onAnimationComplete }: { onAnimationComplete: () => 
         duration: 1.5,
         ease: 'power3.inOut',
         force3D: true,
-      }, '+=0.3')
+      }, '+=0')
       .set(logoWrapperRef.current, { 
         flexDirection: 'row',
         gap: '1rem',

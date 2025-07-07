@@ -8,7 +8,7 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.3, delayChildren: 0.5 },
+    transition: { staggerChildren: 0.5, delayChildren: 0.5 },
   },
 };
 
@@ -41,7 +41,7 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        delayChildren: 0.8,
+        delayChildren: 0.2,
         staggerChildren: 0.08,
       },
     },
@@ -147,7 +147,7 @@ const Hero = () => {
           }}
           initial={{ y: '100%', opacity: 0 }}
           animate={{ y: '0%', opacity: 1 }}
-          transition={{ duration: 1.8, ease: 'easeInOut' }}
+          transition={{ duration: 1.5, ease: 'easeInOut' }}
         >
           <Image
             src="/bacpico.jpg"
@@ -172,7 +172,7 @@ const Hero = () => {
 
         {/* Main Content */}
         <motion.div style={{ y: textY }} className="text-center text-white px-4" variants={itemVariants}>
-                    <h1 className="text-6xl sm:text-7xl md:text-9xl font-medium tracking-tighter ">
+                    <h1 className="text-6xl sm:text-7xl md:text-8xl font-normal tracking-tighter ">
             <motion.span
               className="font-semibold inline-block"
               variants={sentenceLine1Variants}
@@ -201,7 +201,7 @@ const Hero = () => {
               ))}
             </motion.span>
           </h1>
-                    <p className="mt-4 text-xl md:text-2xl font-normal">
+                    <p className="mt-4 text-xl md:text-2xl font-light">
           Simplifying AI so you can scale, save, and succeed
           </p>
         </motion.div>

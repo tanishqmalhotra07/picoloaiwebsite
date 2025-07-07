@@ -194,7 +194,7 @@ const ServicesSection = () => {
   // Results are now shown by default
 
   return (
-    <section style={{ contentVisibility: 'auto', containIntrinsicSize: '100vh', willChange: 'transform, opacity' }} className="w-full min-h-screen flex flex-col justify-center items-center text-white p-4 sm:p-8 pt-20 sm:pt-32 bg-[#02010C]">
+    <section id="services" style={{ contentVisibility: 'auto', containIntrinsicSize: '100vh', willChange: 'transform, opacity' }} className="w-full min-h-screen flex flex-col justify-center items-center text-white p-4 sm:p-8 pt-20 sm:pt-32 bg-[#02010C]">
       <div className="w-full max-w-8xl flex flex-col items-center gap-6 text-center">
         
         <div className="mb-3 sm:mb-4 px-4">

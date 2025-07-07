@@ -67,7 +67,7 @@ const testimonials = [
 
 const Testimonials = () => {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ playOnInit: true, delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
+    Autoplay({ playOnInit: true, delay: 1800, stopOnInteraction: false, stopOnMouseEnter: true })
   ]);
 
   return (

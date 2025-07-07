@@ -367,15 +367,15 @@ const OrbSection = () => {
     [0, 1]
   );
 
-  // Solutions animation
+  // Solutions animation - reduced scrolling
   const solutionsOpacity = useTransform(
     scrollYProgress,
-    [0.8, 0.85],
+    [0.8, 0.81],
     [0, 1]
   );
   const solutionsScale = useTransform(
     scrollYProgress,
-    [0.8, 0.85],
+    [0.8, 0.81],
     [0.8, 1]
   );
 
@@ -384,12 +384,19 @@ const OrbSection = () => {
     [0.8, 0.801],
     ['none', 'auto']
   );
+  
+  // Make solutions section appear immediately after Develop section
+  const developToSolutionsTransition = useTransform(
+    scrollYProgress,
+    [0.8, 0.801],
+    [0, 1]
+  );
 
     return (
     <section
       id="about"
       ref={targetRef}
-      className="relative h-[700vh] w-full"
+      className="relative h-[600vh] w-full"
       style={{ background: '#02010C', contain: 'paint layout' }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden gpu-accelerated" style={{ willChange: 'transform', contain: 'paint layout' }}>
@@ -678,6 +685,7 @@ const OrbSection = () => {
 
         {/* Solutions Section */}
         <motion.div
+          id="solutions"
           style={{
             opacity: solutionsOpacity,
             scale: solutionsScale,

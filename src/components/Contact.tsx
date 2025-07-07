@@ -42,18 +42,17 @@ const Contact = () => {
                 <Image src="/Circled Envelope.png" alt="Email" width={40} height={32} className="mr-3" />
                 <span className="text-sm sm:text-base">picolo.ai.team@gmail.com</span>
               </a>
-              <div className="flex items-center">
-                <Image src="/Add Phone.png" alt="Phone" width={32} height={20} className="mr-3" />
-                <span className="text-sm sm:text-base">+91-9999999999</span>
-              </div>
             </div>
             <hr className="border-gray-600 my-6" />
-            <div className="flex justify-between items-center my-6 max-w-md">
-              <a href="#"><Image src="/Instagram.png" alt="Instagram" width={36} height={42} className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" /></a>
-              <a href="#"><Image src="/WhatsApp.png" alt="WhatsApp" width={36} height={42} className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" /></a>
-              <a href="#"><Image src="/LinkedIn.png" alt="LinkedIn" width={36} height={42} className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" /></a>
-              <a href="#"><Image src="/Facebook.png" alt="Facebook" width={36} height={42} className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" /></a>
-              <a href="#"><Image src="/X.png" alt="X" width={36} height={42} className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" /></a>
+            <div className="flex justify-around items-center my-6 max-w-md">
+              <a href="#" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
+                <span className="font-semibold text-sm sm:text-base">Instagram:</span>
+                <Image src="/Instagram.png" alt="Instagram" width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" />
+              </a>
+              <a href="#" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
+                <span className="font-semibold text-sm sm:text-base">LinkedIn:</span>
+                <Image src="/LinkedIn.png" alt="LinkedIn" width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" />
+              </a>
             </div>
             <hr className="border-gray-600 my-6" />
             <p className="text-sm sm:text-base md:text-lg">Fill out the form to chat with a <a href="#" className="text-blue-400">Picolo team</a> member about business needs and get your questions answered.</p>
