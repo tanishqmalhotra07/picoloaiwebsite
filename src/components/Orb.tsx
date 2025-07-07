@@ -235,7 +235,9 @@ export default function Orb({
       const uvX = ((x - centerX) / size) * 2.0;
       const uvY = ((y - centerY) / size) * 2.0;
 
-      if (Math.sqrt(uvX * uvX + uvY * uvY) < 0.8) {
+      // Only set targetHover to 1 when mouse is directly over the orb (within radius)
+      const distanceFromCenter = Math.sqrt(uvX * uvX + uvY * uvY);
+      if (distanceFromCenter < 0.8) {
         targetHover = 1;
       } else {
         targetHover = 0;
@@ -283,7 +285,7 @@ export default function Orb({
       program.uniforms.hoverIntensity.value = hoverIntensity;
 
     const effectiveHover = forceHoverState ? 1 : targetHover;
-    program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.05;
+    program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.1; // Faster response to hover
 
     if (rotateOnHover && effectiveHover > 0.5) {
       currentRot += dt * rotationSpeed;
@@ -308,5 +310,5 @@ export default function Orb({
   };
 }, [hue, hoverIntensity, forceHoverState, rotateOnHover, interactive]);
 
-return <div ref={ctnDom} className="w-full h-full gpu-accelerated" style={{ willChange: 'transform' }} />;
+return <div ref={ctnDom} className="w-full h-full gpu-accelerated cursor-pointer" style={{ willChange: 'transform' }} />;
 }

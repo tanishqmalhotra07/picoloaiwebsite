@@ -9,42 +9,61 @@ import './testimonials.css';
 
 const testimonials = [
   {
-    quote: "Picolo AI's strategic insights were a game-changer. They didn't just deliver a model; they delivered a roadmap to AI-driven growth. Our ROI has exceeded all expectations.",
-    name: 'CEO',
-    title: 'Leading Tech Startup',
+    quote: "It's like hiring a 24/7 sales rep who never forgets to follow up — WhatsApp conversion is up by 60%.",
+    name: "Co-founder",
+    title: "D2C Beauty Brand",
     stars: 5,
   },
   {
-    quote: 'The custom AI model they developed for our logistics network has been phenomenal. We\'ve cut operational costs by 22% and improved delivery times significantly. Truly a top-tier team.',
-    name: 'COO',
-    title: 'Global Logistics Firm',
+    quote: "From missed leads to closed orders — the AI handles our online inquiries before my team even opens their laptops.",
+    name: "CEO",
+    title: "Industrial Equipment Distributor",
     stars: 5,
   },
   {
-    quote: 'Automating our customer support with Picolo AI\'s solution was the best decision we\'ve made. Our response times are instant, and customer satisfaction has soared. Essential for any e-commerce business.',
-    name: 'CMO',
-    title: 'Major E-commerce Brand',
+    quote: "Customers message at 11pm and get everything from pricing to appointment links. We've automated our entire client journey.",
+    name: "Owner",
+    title: "Luxury Salon Chain",
     stars: 5,
   },
   {
-    quote: 'As a non-technical founder, I was apprehensive about AI. The Picolo team educated us and built a solution that seamlessly integrated into our workflow. They made complex AI feel simple and powerful.',
-    name: 'Founder',
-    title: 'Direct-to-Consumer Business',
+    quote: "This isn’t just automation — it’s business growth. We recovered 40+ lost leads in 2 weeks via retargeting.",
+    name: "Growth Lead",
+    title: "Online Furniture Store",
     stars: 5,
   },
   {
-    quote: 'The predictive analytics model for our inventory management has been incredibly accurate. We\'ve reduced waste and ensured our top products are always in stock. Their expertise is unmatched.',
-    name: 'Supply Chain Director',
-    title: 'National Retail Chain',
+    quote: "Earlier we used to lose our WhatsApp leads after hours. Now the AI captures, qualifies, and syncs to our CRM on autopilot.",
+    name: "Head of Sales",
+    title: "Auto Dealership Group",
     stars: 5,
   },
   {
-    quote: 'We approached Picolo AI with a unique challenge in fraud detection. The bespoke solution they built is not only effective but also learns and adapts. It\'s like having a dedicated AI security expert on our team.',
-    name: 'CTO',
-    title: 'Fintech Security Company',
+    quote: "The AI agent talks like a real team member — it’s booking trials, collecting payments, and even promoting our loyalty program.",
+    name: "Founder",
+    title: "Premium Makeup Studio",
     stars: 5,
   },
+  {
+    quote: "We now close leads directly from WhatsApp with instant product catalogs, auto-replies, and payment links — frictionless.",
+    name: "Director",
+    title: "B2B Fashion Wholesaler",
+    stars: 5,
+  },
+  {
+    quote: "Our AI agent responds faster than my entire front desk ever could — bookings doubled in just 3 weeks.",
+    name: "Founder",
+    title: "Interior Design Studio",
+    stars: 5,
+  },
+  {
+    quote: "Our AI assistant handles everything — from guest queries to table bookings to feedback collection. Hospitality just got an upgrade.",
+    name: "Operations Head",
+    title: "Multi-location Restaurant Group",
+    stars: 5,
+  }
 ];
+
 
 const Testimonials = () => {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [

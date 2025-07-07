@@ -10,7 +10,6 @@ import {
 import useEmblaCarousel from 'embla-carousel-react';
 import Orb from './Orb';
 import CircularText from './CircularText';
-import Lanyard from './Lanyard';
 
 
 import ProfileCard from './ProfileCard';
@@ -167,7 +166,7 @@ const ContentAnimation: React.FC<ContentAnimationProps> = ({ scrollYProgress, in
       {/* Desktop layout */}
 
       <h3 className="hidden md:block text-5xl md:text-6xl font-bold text-white pointer-events-none">{item.title}</h3>
-      <p className="hidden md:block absolute top-3/4 -translate-y-1/2 right-16 w-64 text-right text-white text-base pointer-events-none">
+      <p className="hidden md:block absolute top-1/2 -translate-y-1/2 right-16 w-64 text-right text-white text-base pointer-events-none">
         {item.description}
       </p>
       
@@ -193,7 +192,7 @@ const OrbSection = () => {
     offset: ['start start', 'end end'],
   });
 
-  const [isOrbInteractive, setIsOrbInteractive] = useState(false);
+  const [isOrbInteractive, setIsOrbInteractive] = useState(true);
   
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
@@ -212,7 +211,8 @@ const OrbSection = () => {
 
     useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', (latest) => {
-      setIsOrbInteractive(latest >= 0.2 && latest < 0.8);
+      // Always keep the orb interactive regardless of scroll position
+      setIsOrbInteractive(true);
     });
     return unsubscribe;
   }, [scrollYProgress]);
@@ -356,9 +356,16 @@ const OrbSection = () => {
             y,
             opacity: orbFinalOpacity
           }}
-          className="absolute inset-0 z-10 grid place-items-center scale-90 sm:scale-95 md:scale-100 bg-[#02010C]"
+          className="absolute inset-0 z-10 grid place-items-center scale-90 sm:scale-95 md:scale-100 bg-[#02010C] pointer-events-auto"
         >
-          <Orb interactive={isOrbInteractive} />
+          <div className="w-full h-full pointer-events-auto" style={{ zIndex: 40 }}>
+            <Orb 
+              interactive={true} 
+              hoverIntensity={0.5} 
+              rotateOnHover={true} 
+              forceHoverState={false}
+            />
+          </div>
         </motion.div>
 
         {/* Identify Section Content */}
@@ -366,16 +373,15 @@ const OrbSection = () => {
           style={{ opacity: identifySectionOpacity }}
           className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
         >
-
-                    <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none">
+          <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto" style={{ zIndex: 10 }}>
             <CircularText
               text="*EMPOWER*INTEGRATE*SCALE"
               imageUrl="/arrow.png"
+              spinDuration={15}
+              onHover="speedUp"
             />
           </div>
-          <div className="absolute right-0 md:right-24 top-1/2 -translate-y-1/2 w-full md:w-1/3 h-full pointer-events-auto">
-            <Lanyard />
-          </div>
+
         </motion.div>
 
         {/* Final Content */}

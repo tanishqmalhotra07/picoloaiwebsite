@@ -90,7 +90,7 @@ interface BandProps {
 
 function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   // Using "any" for refs since the exact types depend on Rapier's internals
-  const SEGMENTS = 4;
+  const SEGMENTS = 3; // Reduced from 4 to make thread shorter
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -115,6 +115,8 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   const texture = useTexture("/logo.png");
   texture.repeat.set(1, 1);
   const cardTexture = useTexture("/logo.png");
+  cardTexture.offset.set(0, 0);
+  cardTexture.repeat.set(1, 1);
   const [curve] = useState(
     () =>
       new THREE.CatmullRomCurve3([
@@ -210,7 +212,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           type={"fixed" as RigidBodyProps["type"]}
         />
         <RigidBody
-          position={[0.5, 0, 0]}
+          position={[0.3, 0, 0]}
           ref={j1}
           {...segmentProps}
           type={"dynamic" as RigidBodyProps["type"]}
@@ -218,7 +220,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
-          position={[1, 0, 0]}
+          position={[0.6, 0, 0]}
           ref={j2}
           {...segmentProps}
           type={"dynamic" as RigidBodyProps["type"]}
@@ -226,7 +228,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
-          position={[1.5, 0, 0]}
+          position={[0.9, 0, 0]}
           ref={j3}
           {...segmentProps}
           type={"dynamic" as RigidBodyProps["type"]}
@@ -234,7 +236,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
-          position={[2, 0, 0]}
+          position={[1.2, 0, 0]}
           ref={card}
           {...segmentProps}
           type={
@@ -245,8 +247,8 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
                     <group
-            scale={3.5} // Increased scale to make the card bigger
-            position={[0, -1.2, -0.05]}
+            scale={3.8} // Increased scale to make the card bigger
+            position={[0, -1.2, 0]} // Adjusted z position for better visibility
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
             onPointerUp={(e: any) => {
@@ -266,10 +268,11 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
                             <meshPhysicalMaterial
                 map={cardTexture} // Use the logo texture for the card
                 map-anisotropy={16}
-                clearcoat={1}
-                clearcoatRoughness={0.15}
-                roughness={0.9}
-                metalness={0.8}
+                clearcoat={0.5}
+                clearcoatRoughness={0.1}
+                roughness={0.2}
+                metalness={0.3}
+                color="white" // Set background color to white
               />
             </mesh>
             <mesh
