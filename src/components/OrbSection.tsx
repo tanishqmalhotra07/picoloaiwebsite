@@ -315,19 +315,19 @@ const OrbSection = () => {
   const leftOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [-250, -60]
+    [-250, -120]
   );
   
   const rightOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [250, 60]
+    [250, 120]
   );
   
   const orbsY = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [0, 0]
+    [0, -80]
   );
   
   // Develop section opacity and animations
@@ -338,29 +338,37 @@ const OrbSection = () => {
   );
   const developPointerEvents = useTransform(developSectionOpacity, (v) => (v > 0 ? 'auto' : 'none'));
   
-  // Animation for the three orbs in develop section - horizontal line with increased spacing
+  // Amazing incoming and outgoing animation for the three orbs in develop section
   const developLeftOrbX = useTransform(
     scrollYProgress,
-    [0.6, 0.65],
-    [-260, -175]
+    [0.6, 0.65, 0.75, 0.8],
+    [-400, -250, -250, -400]
   );
-  
   const developMiddleOrbX = useTransform(
     scrollYProgress,
-    [0.6, 0.65],
-    [0, 0]
+    [0.6, 0.65, 0.75, 0.8],
+    [0, 0, 0, 0]
   );
-  
   const developRightOrbX = useTransform(
     scrollYProgress,
-    [0.6, 0.65],
-    [240, 200]
+    [0.6, 0.65, 0.75, 0.8],
+    [400, 250, 250, 400]
   );
-  
-  const developOrbsY = useTransform(
+
+  const developLeftOrbY = useTransform(
     scrollYProgress,
-    [0.6, 0.65],
-    [-30, -30]
+    [0.6, 0.65, 0.75, 0.8],
+    [-200, -80, -80, 200]
+  );
+  const developMiddleOrbY = useTransform(
+    scrollYProgress,
+    [0.6, 0.65, 0.75, 0.8],
+    [200, -80, -80, 200]
+  );
+  const developRightOrbY = useTransform(
+    scrollYProgress,
+    [0.6, 0.65, 0.75, 0.8],
+    [-200, -80, -80, 200]
   );
 
   const finalElementsOpacity = useTransform(
@@ -477,7 +485,7 @@ const OrbSection = () => {
               style={{ 
                 x: leftOrbX,
                 y: orbsY,
-                scale: 1.8,
+                scale: 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -501,7 +509,7 @@ const OrbSection = () => {
               style={{ 
                 x: rightOrbX,
                 y: orbsY,
-                scale: 1.8,
+                scale: 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -520,7 +528,7 @@ const OrbSection = () => {
             </motion.div>
             
             {/* Educate heading in the intersection of orbs */}
-            <div className="absolute z-50">
+            <div className="absolute z-50 transform translate-y-50">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
                 EDUCATE
               </h2>
@@ -562,8 +570,8 @@ const OrbSection = () => {
               className="absolute w-80 h-80"
               style={{
                 x: developLeftOrbX,
-                y: developOrbsY,
-                scale: 1.5,
+                y: developLeftOrbY,
+                scale: 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -586,8 +594,8 @@ const OrbSection = () => {
               className="absolute w-80 h-80"
               style={{
                 x: developMiddleOrbX,
-                y: developOrbsY,
-                scale: 1.5,
+                y: developMiddleOrbY,
+                scale: 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -610,8 +618,8 @@ const OrbSection = () => {
               className="absolute w-80 h-80"
               style={{
                 x: developRightOrbX,
-                y: developOrbsY,
-                scale: 1.5,
+                y: developRightOrbY,
+                scale: 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -630,7 +638,7 @@ const OrbSection = () => {
             </motion.div>
             
             {/* Develop heading below the orbs */}
-            <div className="absolute z-50 bottom-35">
+            <div className="absolute z-50  transform translate-y-50">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
                 DEVELOP
               </h2>

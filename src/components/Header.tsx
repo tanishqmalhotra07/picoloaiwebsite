@@ -83,7 +83,7 @@ const Header = () => {
           <li>
             <button 
               onClick={() => scrollToSection('services')} 
-              className="text-white/80l hover:text-white text-md font-light transition-colors"
+              className="text-white/80 hover:text-white text-md font-light transition-colors"
             >
               ROI Estimator
             </button>
