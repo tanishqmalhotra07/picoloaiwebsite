@@ -114,21 +114,7 @@ const CircularText: React.FC<CircularTextProps> = ({
       onMouseEnter={handleHoverStart}
       onMouseLeave={handleHoverEnd}
     >
-      {/* Gradient overlay - only visible on hover */}
-      {isHovered && (
-        <div 
-          className="absolute inset-0 rounded-full pointer-events-none z-10 gradient-overlay" 
-          style={{ 
-            background: 'linear-gradient(135deg, #7413CD, #FF0033)',
-            mixBlendMode: 'color-burn',
-            filter: 'blur(8px)',
-            width: '120%',
-            height: '120%',
-            left: '-10%',
-            top: '-10%'
-          }} 
-        />
-      )}
+      {/* No gradient overlay */}
       {imageUrl && (
         <img
           src={imageUrl}

@@ -232,8 +232,8 @@ const OrbSection = () => {
   
   const orbFinalOpacity = useTransform(
     scrollYProgress,
-    [0, 1],
-    [1, 1]
+    [0, 0.35, 0.4, 0.6, 0.65, 1],
+    [1, 1, 0, 0, 1, 1]
   );
 
   // Orb Squeeze and Stretch animation
@@ -302,6 +302,32 @@ const OrbSection = () => {
     [0.2, 0.25, 0.35, 0.4],
     [0, 1, 1, 0]
   );
+  
+  // Educate section opacity and animations
+  const educateSectionOpacity = useTransform(
+    scrollYProgress,
+    [0.4, 0.45, 0.55, 0.6],
+    [0, 1, 1, 0]
+  );
+  
+  // Simplified animation for the two orbs in educate section
+  const leftOrbX = useTransform(
+    scrollYProgress,
+    [0.4, 0.45],
+    [-100, -60]
+  );
+  
+  const rightOrbX = useTransform(
+    scrollYProgress,
+    [0.4, 0.45],
+    [100, 60]
+  );
+  
+  const orbsY = useTransform(
+    scrollYProgress,
+    [0.4, 0.45],
+    [50, -20]
+  );
 
   const finalElementsOpacity = useTransform(
     scrollYProgress,
@@ -348,20 +374,24 @@ const OrbSection = () => {
           </h2>
         </motion.div>
 
-        {/* Orb */}
+        {/* Orb - optimized for hover */}
                 <motion.div
           style={{
             scaleX: orbScaleX,
             scaleY: orbScaleY,
             y,
-            opacity: orbFinalOpacity
+            opacity: orbFinalOpacity,
+            willChange: 'transform, opacity',
+            contain: 'layout paint size',
+            zIndex: 10 // Ensure consistent z-index
           }}
-          className="absolute inset-0 z-10 grid place-items-center scale-90 sm:scale-95 md:scale-100 bg-[#02010C] pointer-events-auto"
+          className="absolute inset-0 grid place-items-center scale-90 sm:scale-95 md:scale-100 bg-[#02010C] pointer-events-auto"
+          initial={false}
         >
-          <div className="w-full h-full pointer-events-auto" style={{ zIndex: 40 }}>
+          <div className="w-full h-full pointer-events-auto">
             <Orb 
               interactive={true} 
-              hoverIntensity={0.5} 
+              hoverIntensity={1.0} 
               rotateOnHover={true} 
               forceHoverState={false}
             />
@@ -370,25 +400,117 @@ const OrbSection = () => {
 
         {/* Identify Section Content */}
         <motion.div 
-          style={{ opacity: identifySectionOpacity }}
-          className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
+          style={{ 
+            opacity: identifySectionOpacity,
+            zIndex: 20 // Ensure consistent z-index
+          }}
+          className="absolute inset-0 flex items-center justify-center pointer-events-auto"
         >
-          <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto" style={{ zIndex: 10 }}>
+          <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto" style={{ zIndex: 50 }}>
             <CircularText
               text="*EMPOWER*INTEGRATE*SCALE"
               imageUrl="/arrow.png"
               spinDuration={15}
               onHover="speedUp"
-              className="hover:scale-110 transition-all duration-300"
+              className="transition-all duration-300"
             />
           </div>
+        </motion.div>
+        
 
+        
+        {/* Educate Section with two conjoined orbs - performance optimized */}
+        <motion.div
+          style={{ 
+            opacity: educateSectionOpacity,
+            pointerEvents: 'none' // Prevent this from blocking hover events when transparent
+          }}
+          className="absolute inset-0 z-25 flex flex-col items-center justify-center"
+          initial={false}
+          layoutId="educate-section"
+        >
+          <div className="relative w-full h-64 flex items-center justify-center">
+            {/* Left Orb - simplified for performance */}
+            <motion.div 
+              className="absolute w-80 h-80"
+              style={{ 
+                x: leftOrbX,
+                y: orbsY,
+                scale: 1.8,
+                willChange: 'transform',
+                contain: 'strict',
+                backfaceVisibility: 'hidden'
+              }}
+              initial={false}
+              layoutId="left-orb"
+            >
+              <Orb 
+                interactive={false} 
+                hoverIntensity={0.5} 
+                rotateOnHover={false}
+                forceHoverState={false}
+                hue={20} // Blue-purple hue
+              />
+            </motion.div>
+            
+            {/* Right Orb - simplified for performance */}
+            <motion.div 
+              className="absolute w-80 h-80"
+              style={{ 
+                x: rightOrbX,
+                y: orbsY,
+                scale: 1.8,
+                willChange: 'transform',
+                contain: 'strict',
+                backfaceVisibility: 'hidden'
+              }}
+              initial={false}
+              layoutId="right-orb"
+            >
+              <Orb 
+                interactive={false} 
+                hoverIntensity={0.5} 
+                rotateOnHover={false}
+                forceHoverState={false}
+                hue={0} // Purple-pink hue
+              />
+            </motion.div>
+            
+            {/* Educate heading in the intersection of orbs */}
+            <div className="absolute z-50">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
+                EDUCATE
+              </h2>
+            </div>
+            
+            {/* Description on the left - styled like Identify section */}
+            <div className="absolute left-16 top-1/2 -translate-y-1/2 w-64 text-left z-50">
+              <p className="text-white text-base pointer-events-none">
+                We train and support your team with the right tools and know-how to embed AI across your entire organization.
+              </p>
+            </div>
+            
+            {/* Circular text on the right - styled like Identify section */}
+            <div className="absolute right-15 top-1/2 -translate-y-1/2 translate-x-1/2 pointer-events-auto" style={{ zIndex: 50 }}>
+              <CircularText
+                text="*TRAIN*SUPPORT*EMBED*"
+                imageUrl="/arrow.png"
+                spinDuration={15}
+                onHover="speedUp"
+                className="transition-all duration-300"
+              />
+            </div>
+          </div>
         </motion.div>
 
         {/* Final Content */}
+        {/* Only show the Identify section content, not Educate */}
         <motion.div
-          style={{ opacity: finalElementsOpacity }}
-          className="absolute inset-0 z-30 pointer-events-none"
+          style={{ 
+            opacity: finalElementsOpacity,
+            pointerEvents: 'none'
+          }}
+          className="absolute inset-0 z-30"
         >
           {/* Top navigation-like text */}
           <motion.div style={{ opacity: navOpacity }} className="absolute top-16 left-0 right-0 mx-auto flex w-fit space-x-4 md:space-x-8 text-sm md:text-base text-white">
@@ -402,13 +524,13 @@ const OrbSection = () => {
             ))}
           </motion.div>
 
-          {/* Centered text and bottom-right text container */}
+          {/* Centered text and bottom-right text container - only for Identify */}
           <div className="absolute inset-0 pointer-events-none">
-            {content.map((item, index) => (
+            {content.filter(item => item.title === 'Identify').map((item, index) => (
               <ContentAnimation
                 key={item.title}
                 scrollYProgress={scrollYProgress}
-                index={index}
+                index={0} // Force index to 0 for Identify
                 item={item}
               />
             ))}
