@@ -192,7 +192,8 @@ const OrbSection = () => {
     offset: ['start start', 'end end'],
   });
 
-  const [isOrbInteractive, setIsOrbInteractive] = useState(true);
+  // State for orb interactivity
+  const [, setIsOrbInteractive] = useState(true);
   
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
@@ -210,7 +211,7 @@ const OrbSection = () => {
   }, [emblaApi]);
 
     useEffect(() => {
-    const unsubscribe = scrollYProgress.on('change', (latest) => {
+    const unsubscribe = scrollYProgress.on('change', () => {
       // Always keep the orb interactive regardless of scroll position
       setIsOrbInteractive(true);
     });
@@ -395,12 +396,7 @@ const OrbSection = () => {
     ['none', 'auto']
   );
   
-  // Make solutions section appear immediately after Develop section
-  const developToSolutionsTransition = useTransform(
-    scrollYProgress,
-    [0.8, 0.801],
-    [0, 1]
-  );
+  // Solutions transition is handled by opacity and scale
 
     return (
     <section
@@ -687,7 +683,7 @@ const OrbSection = () => {
 
           {/* Centered text and bottom-right text container - only for Identify */}
           <div className="absolute inset-0 pointer-events-none">
-            {content.filter(item => item.title === 'Identify').map((item, index) => (
+            {content.filter(item => item.title === 'Identify').map((item) => (
               <ContentAnimation
                 key={item.title}
                 scrollYProgress={scrollYProgress}

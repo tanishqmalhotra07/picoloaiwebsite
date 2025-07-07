@@ -7,6 +7,8 @@ import {
   Transition,
 } from "framer-motion";
 import "./CircularText.css";
+import Image from "next/image";
+
 interface CircularTextProps {
   text: string;
   spinDuration?: number;
@@ -47,7 +49,7 @@ const CircularText: React.FC<CircularTextProps> = ({
   const letters = Array.from(text);
   const controls = useAnimation();
   const rotation: MotionValue<number> = useMotionValue(0);
-  const [isHovered, setIsHovered] = React.useState(false);
+  const setIsHovered = React.useState(false)[1];
 
   useEffect(() => {
     const start = rotation.get();
@@ -116,9 +118,11 @@ const CircularText: React.FC<CircularTextProps> = ({
     >
       {/* No gradient overlay */}
       {imageUrl && (
-        <img
+        <Image
           src={imageUrl}
           alt="center"
+          width={80}
+          height={80}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 object-contain"
         />
       )}

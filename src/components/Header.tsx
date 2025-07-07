@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useContactForm } from '@/context/ContactFormContext';
-import { motion, useScroll } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const itemVariants = {
   hidden: { y: -20, opacity: 0 },
