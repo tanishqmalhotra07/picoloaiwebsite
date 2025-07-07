@@ -6,6 +6,7 @@ import {
   MotionValue,
   Transition,
 } from "framer-motion";
+import "./CircularText.css";
 interface CircularTextProps {
   text: string;
   spinDuration?: number;
@@ -46,6 +47,7 @@ const CircularText: React.FC<CircularTextProps> = ({
   const letters = Array.from(text);
   const controls = useAnimation();
   const rotation: MotionValue<number> = useMotionValue(0);
+  const [isHovered, setIsHovered] = React.useState(false);
 
   useEffect(() => {
     const start = rotation.get();
@@ -57,12 +59,13 @@ const CircularText: React.FC<CircularTextProps> = ({
   }, [spinDuration, text, onHover, controls, rotation]);
 
   const handleHoverStart = () => {
+    setIsHovered(true);
     const start = rotation.get();
 
     if (!onHover) return;
 
     let transitionConfig: ReturnType<typeof getTransition> | Transition;
-    let scaleVal = 1;
+    let scaleVal = 1.1;
 
     switch (onHover) {
       case "slowDown":
@@ -93,6 +96,7 @@ const CircularText: React.FC<CircularTextProps> = ({
   };
 
   const handleHoverEnd = () => {
+    setIsHovered(false);
     const start = rotation.get();
     controls.start({
       rotate: start + 360,
@@ -103,13 +107,28 @@ const CircularText: React.FC<CircularTextProps> = ({
 
   return (
     <motion.div
-      className={`m-0 mx-auto rounded-full w-100 h-100 relative text-2xl font-bold text-white text-center cursor-pointer origin-center ${className}`}
+      className={`m-0 mx-auto rounded-full w-100 h-100 relative text-2xl font-bold text-white text-center cursor-pointer origin-center overflow-visible ${className}`}
       style={{ rotate: rotation }}
       initial={{ rotate: 0 }}
       animate={controls}
       onMouseEnter={handleHoverStart}
       onMouseLeave={handleHoverEnd}
     >
+      {/* Gradient overlay - only visible on hover */}
+      {isHovered && (
+        <div 
+          className="absolute inset-0 rounded-full pointer-events-none z-10 gradient-overlay" 
+          style={{ 
+            background: 'linear-gradient(135deg, #7413CD, #FF0033)',
+            mixBlendMode: 'color-burn',
+            filter: 'blur(8px)',
+            width: '120%',
+            height: '120%',
+            left: '-10%',
+            top: '-10%'
+          }} 
+        />
+      )}
       {imageUrl && (
         <img
           src={imageUrl}

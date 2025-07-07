@@ -379,6 +379,7 @@ const OrbSection = () => {
               imageUrl="/arrow.png"
               spinDuration={15}
               onHover="speedUp"
+              className="hover:scale-110 transition-all duration-300"
             />
           </div>
 
