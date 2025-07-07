@@ -9,6 +9,8 @@ import {
 } from 'framer-motion';
 import useEmblaCarousel from 'embla-carousel-react';
 import Orb from './Orb';
+import CircularText from './CircularText';
+import Lanyard from './Lanyard';
 
 
 import ProfileCard from './ProfileCard';
@@ -63,19 +65,16 @@ const solutionsData = [
 const content = [
   {
     title: 'Identify',
-    leftText: 'We help you to identify high impact AI opportunities and build a step by step AI transformation strategy to bring them to life.',
     description:
       'We help you to identify high impact AI opportunities and build a step by step AI transformation strategy to bring them to life.',
   },
   {
     title: 'Educate',
-    leftText: 'We train and support your team with the right tools and know-how to embed AI across your entire organization.',
     description:
       'We train and support your team with the right tools and know-how to embed AI across your entire organization.',
   },
   {
     title: 'Develop',
-    leftText: 'We design, build, and scale custom AI solutions that solve your most pressing business needs and create a lasting competitive advantage.',
     description:
       'We design, build, and scale custom AI solutions that solve your most pressing business needs and create a lasting competitive advantage.',
   },
@@ -111,7 +110,6 @@ const NavItem: React.FC<NavItemProps> = ({ scrollYProgress, index, title }) => {
 
 interface ContentItem {
   title: string;
-  leftText: string;
   description: string;
 }
 
@@ -167,11 +165,9 @@ const ContentAnimation: React.FC<ContentAnimationProps> = ({ scrollYProgress, in
 
 
       {/* Desktop layout */}
-      <p className="hidden md:block absolute top-1/2 -translate-y-1/2 left-16 w-64 text-left text-white text-base pointer-events-none">
-        {item.leftText}
-      </p>
+
       <h3 className="hidden md:block text-5xl md:text-6xl font-bold text-white pointer-events-none">{item.title}</h3>
-      <p className="hidden md:block absolute top-1/2 -translate-y-1/2 right-16 w-64 text-right text-white text-base pointer-events-none">
+      <p className="hidden md:block absolute top-3/4 -translate-y-1/2 right-16 w-64 text-right text-white text-base pointer-events-none">
         {item.description}
       </p>
       
@@ -301,6 +297,12 @@ const OrbSection = () => {
   // Final elements container opacity
   const navOpacity = useTransform(scrollYProgress, [0.15, 0.2, 0.8, 0.85], [0, 1, 1, 0]);
 
+  const identifySectionOpacity = useTransform(
+    scrollYProgress,
+    [0.2, 0.25, 0.35, 0.4],
+    [0, 1, 1, 0]
+  );
+
   const finalElementsOpacity = useTransform(
     scrollYProgress,
     [0.15, 0.2],
@@ -347,16 +349,33 @@ const OrbSection = () => {
         </motion.div>
 
         {/* Orb */}
-        <motion.div
-          style={{ 
-            scaleX: orbScaleX, 
-            scaleY: orbScaleY, 
+                <motion.div
+          style={{
+            scaleX: orbScaleX,
+            scaleY: orbScaleY,
             y,
             opacity: orbFinalOpacity
           }}
           className="absolute inset-0 z-10 grid place-items-center scale-90 sm:scale-95 md:scale-100 bg-[#02010C]"
         >
           <Orb interactive={isOrbInteractive} />
+        </motion.div>
+
+        {/* Identify Section Content */}
+        <motion.div 
+          style={{ opacity: identifySectionOpacity }}
+          className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
+        >
+
+                    <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none">
+            <CircularText
+              text="*EMPOWER*INTEGRATE*SCALE"
+              imageUrl="/arrow.png"
+            />
+          </div>
+          <div className="absolute right-0 md:right-24 top-1/2 -translate-y-1/2 w-full md:w-1/3 h-full pointer-events-auto">
+            <Lanyard />
+          </div>
         </motion.div>
 
         {/* Final Content */}

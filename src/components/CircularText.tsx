@@ -11,6 +11,7 @@ interface CircularTextProps {
   spinDuration?: number;
   onHover?: "slowDown" | "speedUp" | "pause" | "goBonkers";
   className?: string;
+  imageUrl?: string;
 }
 
 const getRotationTransition = (
@@ -40,6 +41,7 @@ const CircularText: React.FC<CircularTextProps> = ({
   spinDuration = 20,
   onHover = "speedUp",
   className = "",
+  imageUrl,
 }) => {
   const letters = Array.from(text);
   const controls = useAnimation();
@@ -101,13 +103,20 @@ const CircularText: React.FC<CircularTextProps> = ({
 
   return (
     <motion.div
-    className={`m-0 mx-auto rounded-full w-[200px] h-[200px] relative font-black text-white text-center cursor-pointer origin-center ${className}`}
-    style={{ rotate: rotation }}
+      className={`m-0 mx-auto rounded-full w-100 h-100 relative text-2xl font-bold text-white text-center cursor-pointer origin-center ${className}`}
+      style={{ rotate: rotation }}
       initial={{ rotate: 0 }}
       animate={controls}
       onMouseEnter={handleHoverStart}
       onMouseLeave={handleHoverEnd}
     >
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt="center"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 object-contain"
+        />
+      )}
       {letters.map((letter, i) => {
         const rotationDeg = (360 / letters.length) * i;
         const factor = Math.PI / letters.length;
@@ -118,7 +127,7 @@ const CircularText: React.FC<CircularTextProps> = ({
         return (
           <span
             key={i}
-            className="absolute inline-block inset-0 text-2xl transition-all duration-500 ease-[cubic-bezier(0,0,0,1)]"
+            className="absolute inline-block inset-0 text-5xl font-bold transition-all duration-500 ease-[cubic-bezier(0,0,0,1)]"
             style={{ transform, WebkitTransform: transform }}
           >
             {letter}
