@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 import BackgroundSquares from './BackgroundSquares';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import './testimonials.css';
@@ -46,29 +47,9 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
-  const scrollTo = useCallback((index: number) => {
-    if (emblaApi) emblaApi.scrollTo(index);
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    const onSelect = () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-    };
-    emblaApi.on('select', onSelect);
-    return () => { emblaApi.off('select', onSelect) };
-  }, [emblaApi]);
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ playOnInit: true, delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
+  ]);
 
   return (
     <section style={{ contentVisibility: 'auto', containIntrinsicSize: '100vh', willChange: 'transform, opacity' }} className="relative bg-[#02010C] text-white py-20 sm:py-32 overflow-hidden">
@@ -114,24 +95,6 @@ const Testimonials = () => {
             </div>
           </div>
 
-          {/* Navigation Buttons */}
-          <button onClick={scrollPrev} className="nav-button nav-button-left">
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button onClick={scrollNext} className="nav-button nav-button-right">
-            <ChevronRight className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Dots */}
-        <div className="flex justify-center items-center mt-8">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollTo(index)}
-              className={`w-2.5 h-2.5 mx-1.5 rounded-full transition-colors duration-300 ${selectedIndex === index ? 'bg-white' : 'bg-gray-600'}`}
-            />
-          ))}
         </div>
       </div>
     </section>

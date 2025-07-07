@@ -9,8 +9,7 @@ import {
 } from 'framer-motion';
 import useEmblaCarousel from 'embla-carousel-react';
 import Orb from './Orb';
-import SquareOrb from './SquareOrb';
-import OctagonOrb from './OctagonOrb';
+
 
 import ProfileCard from './ProfileCard';
 import './ProfileCard.css';
@@ -199,7 +198,7 @@ const OrbSection = () => {
   });
 
   const [isOrbInteractive, setIsOrbInteractive] = useState(false);
-  const [currentSection, setCurrentSection] = useState<'identify' | 'educate' | 'develop'>('identify');
+  
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: false,
@@ -215,18 +214,9 @@ const OrbSection = () => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  useEffect(() => {
+    useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', (latest) => {
       setIsOrbInteractive(latest >= 0.2 && latest < 0.8);
-      
-      // Update current section based on scroll position
-      if (latest >= 0.2 && latest < 0.4) {
-        setCurrentSection('identify');
-      } else if (latest >= 0.4 && latest < 0.6) {
-        setCurrentSection('educate');
-      } else if (latest >= 0.6 && latest < 0.8) {
-        setCurrentSection('develop');
-      }
     });
     return unsubscribe;
   }, [scrollYProgress]);
@@ -366,9 +356,7 @@ const OrbSection = () => {
           }}
           className="absolute inset-0 z-10 grid place-items-center scale-90 sm:scale-95 md:scale-100 bg-[#02010C]"
         >
-          {currentSection === 'identify' && <Orb interactive={isOrbInteractive} />}
-          {currentSection === 'educate' && <SquareOrb interactive={isOrbInteractive} />}
-          {currentSection === 'develop' && <OctagonOrb interactive={isOrbInteractive} />}
+          <Orb interactive={isOrbInteractive} />
         </motion.div>
 
         {/* Final Content */}
