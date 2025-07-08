@@ -42,24 +42,4 @@
   }
 }
 
-/* Add fade effect on edges */
-.testimonial-container::before,
-.testimonial-container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100px;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.testimonial-container::before {
-  left: 0;
-  background: linear-gradient(to right, #02010C, transparent);
-}
-
-.testimonial-container::after {
-  right: 0;
-  background: linear-gradient(to left, #02010C, transparent);
-}
+/* Remove fade effect on edges */
