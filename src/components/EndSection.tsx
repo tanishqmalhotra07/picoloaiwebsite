@@ -17,7 +17,9 @@ const EndSection = () => {
           <div className="flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8">
             <div className="flex items-center space-x-3 sm:space-x-4">
               <div className="flex items-center">
-                <Image src="/logo.png" alt="Picolo AI Logo" width={80} height={80} className="w-12 h-12 sm:w-16 sm:h-16" style={{ aspectRatio: '1/1', objectFit: 'contain' }} />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 relative">
+                  <Image src="/logo.png" alt="Picolo AI Logo" fill sizes="(max-width: 640px) 48px, 64px" className="object-contain" />
+                </div>
                 <span className="text-2xl sm:text-3xl md:text-4xl font-bold ml-3">Picolo AI</span>
               </div>
             </div>
@@ -26,11 +28,15 @@ const EndSection = () => {
               <div className="flex flex-row w-full justify-around items-center text-base sm:text-lg">
                 <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 hover:text-purple-400 transition-colors">
                   <span className="font-semibold">Instagram:</span>
-                  <Image src="/Instagram.png" alt="Instagram" width={48} height={48} className="w-8 h-8 sm:w-10 sm:h-10" style={{ aspectRatio: '1/1', objectFit: 'contain' }} />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 relative">
+                    <Image src="/Instagram.png" alt="Instagram" fill sizes="(max-width: 640px) 32px, 40px" className="object-contain" />
+                  </div>
                 </a>
                 <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 hover:text-purple-400 transition-colors">
                   <span className="font-semibold">LinkedIn:</span>
-                  <Image src="/LinkedIn.png" alt="LinkedIn" width={48} height={48} className="w-8 h-8 sm:w-10 sm:h-10" style={{ aspectRatio: '1/1', objectFit: 'contain' }} />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 relative">
+                    <Image src="/LinkedIn.png" alt="LinkedIn" fill sizes="(max-width: 640px) 32px, 40px" className="object-contain" />
+                  </div>
                 </a>
               </div>
             </div>
@@ -54,7 +60,9 @@ const EndSection = () => {
             <div className="flex flex-col sm:flex-col justify-around items-center mt-2 space-y-4 sm:space-y-0">
               <h3 className="text-xl sm:text-2xl font-semibold">Contact Us</h3>
               <div className="flex items-center space-x-2">
-                <Image src="/Circled Envelope.png" alt="Email" width={40} height={40} className="w-6 h-6 sm:w-8 sm:h-8" style={{ aspectRatio: '1/1', objectFit: 'contain' }} />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 relative">
+                  <Image src="/Circled Envelope.png" alt="Email" fill sizes="(max-width: 640px) 24px, 32px" className="object-contain" />
+                </div>
                 <a href="mailto:picolo.ai.team@gmail.com" className="hover:text-purple-400 transition-colors text-xs sm:text-sm md:text-base">picolo.ai.team@gmail.com</a>
               </div>
             </div>
