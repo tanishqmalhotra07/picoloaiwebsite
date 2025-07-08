@@ -389,7 +389,7 @@ const OrbSection = () => {
   const developLeftOrbX = useTransform(
     scrollYProgress,
     [0.6, 0.65, 0.75, 0.8],
-    [-400, isMobile ? -100 : -350, isMobile ? -80 : -250, -400]
+    [-400, isMobile ? -100 : -350, isMobile ? -80 : -280, -400]
   );
   const developMiddleOrbX = useTransform(
     scrollYProgress,
@@ -399,7 +399,7 @@ const OrbSection = () => {
   const developRightOrbX = useTransform(
     scrollYProgress,
     [0.6, 0.65, 0.75, 0.8],
-    [400, isMobile ? 100 : 350, isMobile ? 80 : 250, 400]
+    [400, isMobile ? 100 : 350, isMobile ? 80 : 280, 400]
   );
 
   const developLeftOrbY = useTransform(

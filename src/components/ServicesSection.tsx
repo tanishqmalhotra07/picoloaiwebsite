@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ShinyText from './ShinyText';
 import { useContactForm } from '@/context/ContactFormContext';
+import './testimonials.css';
 
 interface ResultCardProps {
   title: string;
@@ -38,7 +39,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
     relative rounded-2xl p-[1.5px]
     bg-gradient-to-br from-purple-500/80 via-pink-500/80 to-indigo-500/80
     transition-all duration-500 h-full
-    hover:scale-105
+    hover:scale-105 ${isRecommended ? 'gradient-shadow' : ''}
   `;
 
   const cardClasses = `
@@ -96,9 +97,10 @@ interface SliderProps {
   max: number;
   onChange: (value: number) => void;
   prefix?: string;
+  isCustomer?: boolean;
 }
 
-const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefix = '' }) => {
+const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefix, isCustomer }) => {
   const [inputValue, setInputValue] = React.useState<string>(String(value));
 
   React.useEffect(() => {
@@ -150,10 +152,12 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
       <div className="w-full sm:w-1/2 flex items-center gap-4">
         <div className="w-3/4 relative">
           <div 
-            className="absolute -top-8 transform -translate-x-1/2 bg-purple-600 text-white px-3 py-1 rounded text-sm pointer-events-none"
+            className="absolute bg-purple-600 text-white text-xs rounded-md px-2 py-1 -translate-x-1/2 -top-8 pointer-events-none flex items-center gap-1"
             style={{ left: `${percentage}%` }}
           >
-            {prefix}{value.toLocaleString()}
+            {isCustomer && <img src="/customer.png" alt="customer icon" className="h-3 w-3" />}
+            {prefix}
+            {value.toLocaleString()}
           </div>
           <div className="flex items-center">
             <input
@@ -168,13 +172,22 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
             />
           </div>
           <div className="flex justify-between text-xs text-gray-400 mt-1">
-            <span>{prefix}{min.toLocaleString()}</span>
-            <span>{prefix}{max.toLocaleString()}</span>
+            <span className="flex items-center gap-1">
+              {isCustomer && <img src="/customer.png" alt="customer icon" className="h-3 w-3" />}
+              {prefix}{min.toLocaleString()}
+            </span>
+            <span className="flex items-center gap-1">
+              {isCustomer && <img src="/customer.png" alt="customer icon" className="h-3 w-3" />}
+              {prefix}{max.toLocaleString()}
+            </span>
           </div>
         </div>
         <div className="w-1/4 relative flex mb-5  items-center">
           <div className="relative w-full">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{prefix}</span>
+            {isCustomer ? 
+              <img src="/customer.png" alt="icon" className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3" /> :
+              (prefix && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{prefix}</span>)
+            }
             <input 
               type="number"
               min={min}
@@ -308,19 +321,17 @@ const ServicesSection = () => {
           </button>
         </div>
 
-        <div className="w-full max-w-6xl mx-auto -mb- p-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
+        <div className="w-full max-w-6xl mx-auto ">
           <div className="bg-[#02010C] rounded-2xl p-6 sm:p-8 flex flex-col gap-6">
             <Slider 
               label={
                 <div className="flex flex-col items-start">
                   <div className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
+                    <img src="/customer.png" alt="customer icon" className="h-4 w-4" />
                     <span>Customer Interactions per month</span>
                   </div>
                   <p className="text-xs text-gray-400 mt-1 pl-7">
-                    Monthly leads/interactions your business gets on all digital platforms (your website, insta, etc.)
+                    Monthly leads/interactions your business gets on all digital platforms<br />(your website, insta, etc.)
                   </p>
                 </div>
               } 
@@ -328,6 +339,7 @@ const ServicesSection = () => {
               min={1000} 
               max={100000} 
               onChange={setCustomers} 
+              isCustomer
             />
             <Slider 
               label={
