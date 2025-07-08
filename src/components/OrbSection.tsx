@@ -9,7 +9,7 @@ import {
 } from 'framer-motion';
 import useEmblaCarousel from 'embla-carousel-react';
 import Orb from './Orb';
-import CircularText from './CircularText';
+
 
 
 import ProfileCard from './ProfileCard';
@@ -470,15 +470,6 @@ const OrbSection = () => {
           }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
-          <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto hidden sm:block" style={{ zIndex: 50 }}>
-            <CircularText
-              text="*EMPOWER*INTEGRATE*SCALE"
-              imageUrl="/arrow.png"
-              spinDuration={15}
-              onHover="speedUp"
-              className="transition-all duration-300"
-            />
-          </div>
         </motion.div>
         
 
@@ -561,17 +552,6 @@ const OrbSection = () => {
               <p className="text-white text-sm pointer-events-none">
                 We train and support your team with the right tools and know-how to embed AI across your entire organization.
               </p>
-            </div>
-            
-            {/* Circular text on the right - styled like Identify section */}
-            <div className="absolute right-15 top-1/2 -translate-y-1/2 translate-x-1/2 hidden sm:block" style={{ zIndex: 50 }}>
-              <CircularText
-                text="*TRAIN*SUPPORT*EMBED*"
-                imageUrl="/arrow.png"
-                spinDuration={15}
-                onHover="speedUp"
-                className="transition-all duration-300"
-              />
             </div>
           </div>
         </motion.div>
@@ -664,17 +644,6 @@ const OrbSection = () => {
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
                 DEVELOP
               </h2>
-            </div>
-            
-            {/* Circular text on the left - hidden on mobile */}
-            <div className="absolute left-15 top-1/2 -translate-y-1/2 -translate-x-1/2 hidden sm:block" style={{ zIndex: 50 }}>
-              <CircularText
-                text="*DESIGN*BUILD*SCALE*"
-                imageUrl="/arrow.png"
-                spinDuration={15}
-                onHover="speedUp"
-                className="transition-all duration-300"
-              />
             </div>
             
             {/* Description on the right - hidden on mobile */}
