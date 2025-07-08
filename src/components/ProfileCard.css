@@ -38,10 +38,11 @@
 .pc-card-wrapper::before {
   content: '';
   position: absolute;
-  inset: -5px;
+  inset: -2px;
+  left: -35px;
   border-radius: inherit;
   transition: all 0.5s ease;
-  transform: scale(0.9) translate3d(0, 0, 0.1px);
+  transform: scale(0.9) translate3d(0, 0, 0);
   background: conic-gradient(from 180deg at 50% 50%, #07c6ffff 0%, #c137ffff 50%, #07c6ffff 100%);
   filter: blur(25px);
   opacity: 0;

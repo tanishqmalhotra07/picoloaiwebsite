@@ -58,6 +58,12 @@ const solutionsData = [
     "industry": "Clinics and Spas",
     "description": "Nurtures leads, shares portfolios, retargets missed clients, and fills your calendar 24/7.",
     "image": "Glamour Growth Partner"
+  },
+  {
+    "name": "More solutions coming soon...",
+    "industry": "Stay Tuned",
+    "description": "We are constantly developing new AI agents. Check back for more!",
+    "image": "updates"
   }
 ]
 
