@@ -16,32 +16,10 @@ const EndSection = () => {
           {/* Left Column */}
           <div className="flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8">
             <div className="flex items-center space-x-3 sm:space-x-4">
-              <div className="flex items-center">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 relative">
-                  <Image src="/logo.png" alt="Picolo AI Logo" fill sizes="(max-width: 640px) 48px, 64px" className="object-contain" />
-                </div>
-                <span className="text-2xl sm:text-3xl md:text-4xl font-bold ml-3">Picolo AI</span>
+              <div className="flex">
+                <img src="/footer.png" alt="Footer" className="h-90" />
               </div>
             </div>
-            <hr className="border-gray-700" />
-            <div>
-              <div className="flex flex-row w-full justify-around items-center text-base sm:text-lg">
-                <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 hover:text-purple-400 transition-colors">
-                  <span className="font-semibold">Instagram:</span>
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 relative">
-                    <Image src="/Instagram.png" alt="Instagram" fill sizes="(max-width: 640px) 32px, 40px" className="object-contain" />
-                  </div>
-                </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 hover:text-purple-400 transition-colors">
-                  <span className="font-semibold">LinkedIn:</span>
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 relative">
-                    <Image src="/LinkedIn.png" alt="LinkedIn" fill sizes="(max-width: 640px) 32px, 40px" className="object-contain" />
-                  </div>
-                </a>
-              </div>
-            </div>
-            <hr className="border-gray-700" />
-            <p className="text-sm text-center text-gray-400">&copy; Copyright 2025. All Rights Reserved</p>
           </div>
 
           {/* Right Column */}
@@ -68,6 +46,7 @@ const EndSection = () => {
             </div>
             <hr className="border-gray-700 " />
             <div className="flex flex-col sm:flex-row flex-wrap sm:text-center justify-around text-xs sm:text-sm text-gray-400 gap-2 sm:gap-0">
+              <p className="text-sm text-center text-gray-400">&copy; Copyright 2025. All Rights Reserved</p>
               <a href="#" className="hover:text-white transition-colors">Powered By Picolo AI</a>
             </div>
           </div>
