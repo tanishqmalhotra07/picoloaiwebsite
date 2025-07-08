@@ -11,10 +11,10 @@ const EndSection = () => {
         <Aurora colorStops={["#8716EE", "#FF0033", "#F633EF"]} blend={0.3} amplitude={1.0} speed={0.5} />
       </div>
       <div className="relative z-10 container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-16">
 
-          {/* Left Column */}
-          <div className="flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8">
+          {/* Left Column - Hidden on mobile */}
+          <div className="hidden sm:flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8">
             <div className="flex items-center space-x-3 sm:space-x-4">
               <div className="flex">
                 <img src="/footer.png" alt="Footer" className="h-90" />
@@ -22,8 +22,8 @@ const EndSection = () => {
             </div>
           </div>
 
-          {/* Right Column */}
-          <div className="flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8">
+          {/* Right Column - Full width on mobile */}
+          <div className="flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8 col-span-1 sm:col-span-1">
             <div>
               <h3 className="text-xl sm:text-2xl text-center font-semibold">Quick Links</h3>
               <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-around text-base sm:text-lg mt-4 sm:mt-6 gap-y-3">
