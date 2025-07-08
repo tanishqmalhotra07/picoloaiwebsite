@@ -733,9 +733,9 @@ const OrbSection = () => {
           <div className="w-full flex flex-col items-center">
             <div className="text-center mb-12 mt-16 sm:mt-8 md:mt-0">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-regular text-white px-4">
-              <span className="text-purple-400">AI Agents</span> that talk, type, and turn 
+              <span className="text-purple-400 text-center">AI Agents</span> that talk, type, and turn 
               </h2>
-              <h3 className="text-3xl mt-3 sm:text-4xl md:text-5xl font-regular text-white px-4">
+              <h3 className="text-3xl mt-3 sm:text-4xl md:text-5xl font-regular text-center text-white px-4">
               conversations into conversions
               </h3>
             </div>
