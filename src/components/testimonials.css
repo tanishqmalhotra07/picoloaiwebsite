@@ -13,7 +13,7 @@
   width: fit-content;
   transform: translateZ(0);
   will-change: transform;
-  transition: transform 0.1s linear;
+  transition: transform 0.8s linear;
   user-select: none;
   -webkit-user-select: none;
   touch-action: pan-y;

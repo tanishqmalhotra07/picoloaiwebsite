@@ -535,10 +535,10 @@ const OrbSection = () => {
               >
                 <Orb 
                   interactive={false} 
-                  hoverIntensity={0.4} 
+                  hoverIntensity={0.15} 
                   rotateOnHover={true}
                   syncId="educate"
-                  hue={20} // Blue-purple hue
+                  hue={-100} // Blue-purple hue
                 />
               </motion.div>
               
@@ -559,10 +559,10 @@ const OrbSection = () => {
               >
                 <Orb 
                   interactive={false} 
-                  hoverIntensity={0.4} 
+                  hoverIntensity={0.15} 
                   rotateOnHover={true}
                   syncId="educate"
-                  hue={0} // Purple-pink hue
+                  hue={-100} // Purple-pink hue
                 />
               </motion.div>
               
@@ -604,7 +604,7 @@ const OrbSection = () => {
               style={{
                 x: developLeftOrbX,
                 y: developLeftOrbY,
-                scale: isMobile ? 0.6 : 1.4,
+                scale: isMobile ? 0.6 : 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -628,7 +628,7 @@ const OrbSection = () => {
               style={{
                 x: developMiddleOrbX,
                 y: developMiddleOrbY,
-                scale: isMobile ? 0.6 : 1.4,
+                scale: isMobile ? 0.6 : 1.6,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -652,7 +652,7 @@ const OrbSection = () => {
               style={{
                 x: developRightOrbX,
                 y: developRightOrbY,
-                scale: isMobile ? 0.6 : 1.4,
+                scale: isMobile ? 0.6 : 1.3,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',

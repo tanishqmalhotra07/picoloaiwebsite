@@ -308,7 +308,7 @@ const ServicesSection = () => {
           </button>
         </div>
 
-        <div className="w-full max-w-6xl mx-auto -mb- p-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
+        <div className="w-full max-w-6xl mx-auto -mb- p-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
           <div className="bg-[#02010C] rounded-2xl p-6 sm:p-8 flex flex-col gap-6">
             <Slider 
               label={
@@ -365,7 +365,11 @@ const ServicesSection = () => {
                     "25% Improvement in Lead Capture",
                     "0% Leads Lost",
                     "15% Higher Conversation Rate",
-                    "5% Increase in Repurchase Rate"
+                    "5% Increase in Repurchase Rate",
+                    "",
+                    "",
+                    "",
+                    ""
                   ]}
                 />
               </motion.div>
