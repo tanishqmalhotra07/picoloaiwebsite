@@ -335,19 +335,19 @@ const OrbSection = () => {
   const leftOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [-250, isMobile ? -50 : -120]
+    [-250, isMobile ? -50 : -120] // Closer to center on desktop, original on mobile
   );
   
   const rightOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [250, isMobile ? 50 : 120]
+    [250, isMobile ? 50 : 120] // Closer to center on desktop, original on mobile
   );
   
   const orbsY = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [0, -80]
+    [0, isMobile ? -80 : 0] // Move orbs down on desktop, original on mobile
   );
   
   // Develop section opacity and animations
@@ -378,17 +378,17 @@ const OrbSection = () => {
   const developLeftOrbY = useTransform(
     scrollYProgress,
     [0.6, 0.65, 0.75, 0.8],
-    [-200, -80, -80, 200]
+    isMobile ? [200, -80, -80, 200] : [0, 0, 0, 0] // Original on mobile, centered on desktop
   );
   const developMiddleOrbY = useTransform(
     scrollYProgress,
     [0.6, 0.65, 0.75, 0.8],
-    [200, -80, -80, 200]
+    isMobile ? [200, -80, -80, 200] : [0, 0, 0, 0] // Original on mobile, centered on desktop
   );
   const developRightOrbY = useTransform(
     scrollYProgress,
     [0.6, 0.65, 0.75, 0.8],
-    [-200, -80, -80, 200]
+    isMobile ? [200, -80, -80, 200] : [0, 0, 0, 0] // Original on mobile, centered on desktop
   );
 
   const finalElementsOpacity = useTransform(
@@ -455,7 +455,7 @@ const OrbSection = () => {
           <div className="w-full h-full pointer-events-auto">
             <Orb 
               interactive={true} 
-              hoverIntensity={0.4} 
+              hoverIntensity={0.6} 
               rotateOnHover={true} 
               forceHoverState={false}
             />
@@ -491,7 +491,7 @@ const OrbSection = () => {
               style={{ 
                 x: leftOrbX,
                 y: orbsY,
-                scale: isMobile ? 0.6 : 1.3,
+                scale: isMobile ? 0.6 : 1.8,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -502,8 +502,8 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.5} 
-                rotateOnHover={false}
+                hoverIntensity={0.4} 
+                rotateOnHover={true}
                 forceHoverState={false}
                 hue={20} // Blue-purple hue
               />
@@ -515,7 +515,7 @@ const OrbSection = () => {
               style={{ 
                 x: rightOrbX,
                 y: orbsY,
-                scale: isMobile ? 0.6 : 1.3,
+                scale: isMobile ? 0.6 : 1.8,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -526,30 +526,23 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.5} 
-                rotateOnHover={false}
+                hoverIntensity={0.4} 
+                rotateOnHover={true}
                 forceHoverState={false}
                 hue={0} // Purple-pink hue
               />
             </motion.div>
             
             {/* Educate heading in the intersection of orbs */}
-            <div className="absolute z-50 transform translate-y-50 sm:translate-y-50 top-1/2 sm:top-auto">
+            <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-12' : '-translate-y-0'}`}>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
-                EDUCATE
+                Educate
               </h2>
             </div>
             
-            {/* Description on the left - styled like Identify section */}
-            <div className="absolute left-16 top-1/2 -translate-y-1/2 w-64 text-left z-50 hidden sm:block">
+            {/* Description for Educate section */}
+            <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-24 left-1/2 -translate-x-1/2 w-[85%] text-center' : 'left-16 top-1/2 -translate-y-1/2 w-64 text-left'}`}>
               <p className="text-white text-base pointer-events-none">
-                We train and support your team with the right tools and know-how to embed AI across your entire organization.
-              </p>
-            </div>
-            
-            {/* Mobile description - centered below heading */}
-            <div className="absolute bottom-8 sm:bottom-16 left-1/2 -translate-x-1/2 w-[85%] text-center z-50 block sm:hidden">
-              <p className="text-white text-sm pointer-events-none">
                 We train and support your team with the right tools and know-how to embed AI across your entire organization.
               </p>
             </div>
@@ -573,7 +566,7 @@ const OrbSection = () => {
               style={{
                 x: developLeftOrbX,
                 y: developLeftOrbY,
-                scale: isMobile ? 0.6 : 1.3,
+                scale: isMobile ? 0.6 : 1.4,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -584,8 +577,8 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.5} 
-                rotateOnHover={false}
+                hoverIntensity={0.4} 
+                rotateOnHover={true}
                 forceHoverState={false}
                 hue={20} // Purple hue
               />
@@ -597,7 +590,7 @@ const OrbSection = () => {
               style={{
                 x: developMiddleOrbX,
                 y: developMiddleOrbY,
-                scale: isMobile ? 0.6 : 1.3,
+                scale: isMobile ? 0.6 : 1.4,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -608,8 +601,8 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.5} 
-                rotateOnHover={false}
+                hoverIntensity={0.4} 
+                rotateOnHover={true}
                 forceHoverState={false}
                 hue={10} // Teal hue
               />
@@ -621,7 +614,7 @@ const OrbSection = () => {
               style={{
                 x: developRightOrbX,
                 y: developRightOrbY,
-                scale: isMobile ? 0.6 : 1.3,
+                scale: isMobile ? 0.6 : 1.4,
                 willChange: 'transform',
                 contain: 'strict',
                 backfaceVisibility: 'hidden',
@@ -632,30 +625,23 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.5} 
-                rotateOnHover={false}
+                hoverIntensity={0.4} 
+                rotateOnHover={true}
                 forceHoverState={false}
                 hue={10} // Yellow hue
               />
             </motion.div>
             
             {/* Develop heading below the orbs */}
-            <div className="absolute z-50 transform translate-y-50 sm:translate-y-50 top-1/2 sm:top-auto">
+            <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-12' : 'top-1/2 -translate-y-1/2'}`}>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
-                DEVELOP
+                Develop
               </h2>
             </div>
             
-            {/* Description on the right - hidden on mobile */}
-            <div className="absolute right-16 top-1/2 -translate-y-1/2 w-64 text-right z-50 hidden sm:block">
+            {/* Description below the orbs */}
+            <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-24 left-1/2 -translate-x-1/2 w-[85%] text-center' : 'top-1/2 translate-y-55 left-1/2 -translate-x-1/2 w-96 text-center'}`}>
               <p className="text-white text-base pointer-events-none">
-                We design, build, and scale custom AI solutions that solve your most pressing business needs and create a lasting competitive advantage.
-              </p>
-            </div>
-            
-            {/* Mobile description - centered below heading */}
-            <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[85%] text-center z-50 block sm:hidden">
-              <p className="text-white text-sm pointer-events-none">
                 We design, build, and scale custom AI solutions that solve your most pressing business needs and create a lasting competitive advantage.
               </p>
             </div>
