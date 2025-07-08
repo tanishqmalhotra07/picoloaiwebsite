@@ -739,7 +739,7 @@ const OrbSection = () => {
               conversations into conversions
               </h3>
             </div>
-            <div className="embla w-full max-w-7xl px-20 sm:px-6 md:px-10 relative carousel-fader">
+            <div className="embla w-full max-w-7xl px-4 sm:px-6 md:px-10 relative carousel-fader">
               <div className="embla__viewport solutions-carousel-viewport" ref={emblaRef}>
                 <div className="embla__container">
                   {solutionsData.map((solution, i) => (

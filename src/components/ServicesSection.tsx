@@ -84,13 +84,72 @@ interface SliderProps {
 }
 
 const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefix = '' }) => {
+  const [inputValue, setInputValue] = React.useState<string>(String(value));
+
+  React.useEffect(() => {
+    // Sync input value when slider is dragged
+    setInputValue(String(value));
+  }, [value]);
+
   const percentage = ((value - min) / (max - min)) * 100;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentVal = e.target.value;
+    setInputValue(currentVal);
+
+    const numValue = Number(currentVal);
+    if (currentVal === '' || isNaN(numValue)) {
+      return; // Allow empty input temporarily, do nothing
+    }
+
+    let clampedValue = numValue;
+    if (numValue > max) clampedValue = max;
+    if (numValue < min) clampedValue = min;
+
+    if (clampedValue !== value) {
+      onChange(clampedValue);
+    }
+  };
+
+  const handleInputBlur = () => {
+    const numValue = Number(inputValue);
+    if (isNaN(numValue) || numValue < min) {
+      setInputValue(String(min));
+      if (value !== min) onChange(min);
+    } else if (numValue > max) {
+      setInputValue(String(max));
+      if (value !== max) onChange(max);
+    } else {
+      // For valid numbers within range, ensure state is synced
+      if (numValue !== value) {
+        onChange(numValue);
+      }
+    }
+  };
+
   return (
-    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
-      <label className="w-full sm:w-1/3 text-left text-base sm:text-lg">{label}</label>
-      <div className="w-full sm:w-2/3 relative mt-6 sm:mt-0">
+    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <div className="w-full sm:w-1/3">
+        <label className="text-left text-base sm:text-lg">{label}</label>
+        <div className="relative mt-2 flex justify-start">
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{prefix}</span>
+            <input 
+              type="number"
+              value={value}
+              min={min}
+              max={max}
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
+              value={inputValue}
+              className="w-28 bg-purple-800/10 border border-gray-700 rounded-lg py-1 pl-7 pr-2 text-white text-sm focus:ring-purple-500 focus:border-purple-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="w-full sm:w-2/3 relative mt-4 sm:mt-0">
         <div 
-          className="absolute -top-10 transform -translate-x-1/2 bg-purple-600 text-white px-3 py-1 rounded text-sm"
+          className="absolute -top-10 transform -translate-x-1/2 bg-purple-600 text-white px-3 py-1 rounded text-sm pointer-events-none"
           style={{ left: `${percentage}%` }}
         >
           {prefix}{value.toLocaleString()}
@@ -102,12 +161,12 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
           value={value}
           step="1"
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full h-1.5 rounded-lg outline-none slider-thumb slider-track cursor-pointer"
+          className="w-full h-3.5 rounded-lg outline-none slider-thumb slider-track cursor-pointer"
           style={{ '--slider-bg': `linear-gradient(to right, #8716EE, #FF0033 ${percentage}%, #333 ${percentage}%)` } as React.CSSProperties}
         />
         <div className="flex justify-between text-sm text-gray-400 mt-2">
-          <span>{min}</span>
-          <span>{max}</span>
+          <span>{prefix}{min.toLocaleString()}</span>
+          <span>{prefix}{max.toLocaleString()}</span>
         </div>
       </div>
     </div>
@@ -195,7 +254,7 @@ const ServicesSection = () => {
 
   return (
     <section id="services" style={{ contentVisibility: 'auto', containIntrinsicSize: '100vh', willChange: 'transform, opacity' }} className="w-full min-h-screen flex flex-col justify-center items-center text-white p-4 sm:p-8 pt-20 sm:pt-32 bg-[#02010C]">
-      <div className="w-full max-w-8xl flex flex-col items-center gap-6 text-center">
+      <div className="w-full max-w-7xl flex flex-col items-center gap-6 text-center">
         
         <div className="mb-10 z-10000 sm:mb-4 px-4">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-4">We don&apos;t just deliver technology.</h2>
@@ -204,8 +263,12 @@ const ServicesSection = () => {
 
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 mb-5 px-4 relative z-100000 !important">
           <button
-            className={`px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border transition-all duration-300 flex items-center gap-2 ${activeTab === 'retail' ? 'bg-purple-600 border-purple-600 shadow-lg shadow-purple-600/30' : 'border-gray-600'}`}
             onClick={() => setActiveTab('retail')}
+            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-medium whitespace-nowrap ${
+              activeTab === 'retail' 
+                ? 'bg-purple-600 text-white border-2 border-purple-600 shadow-lg shadow-purple-500/20'
+                : 'bg-transparent text-gray-400 border-2 border-gray-800 hover:bg-gray-800/50'
+            }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -213,37 +276,41 @@ const ServicesSection = () => {
             Retail or E-commerce
           </button>
           <button
-            className={`px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full border transition-all duration-300 flex items-center gap-2 ${activeTab === 'professional' ? 'bg-purple-600 border-purple-600 shadow-lg shadow-purple-600/30' : 'border-gray-600'}`}
             onClick={() => setActiveTab('professional')}
+            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-medium whitespace-nowrap ${
+              activeTab === 'professional' 
+                ? 'bg-purple-600 text-white border-2 border-purple-600 shadow-lg shadow-purple-500/20'
+                : 'bg-transparent text-gray-400 border-2 border-gray-800 hover:bg-gray-800/50'
+            }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            Professional Services and Specialized Products
+            <span className="text-xs">Professional Services and Specialized Products</span>
           </button>
         </div>
 
-        <div className="w-full max-w-6xl mx-auto -mb- p-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
+        <div className="w-full max-w-6xl mx-auto -mb- p-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
           <div className="bg-[#02010C] rounded-2xl p-6 sm:p-8 flex flex-col gap-6">
-            <div>
-              <Slider 
-                label={
+            <Slider 
+              label={
+                <div className="flex flex-col items-start">
                   <div className="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    Customer Interactions per month
+                    <span>Customer Interactions per month</span>
                   </div>
-                } 
-                value={customers} 
-                min={1000} 
-                max={100000} 
-                onChange={setCustomers} 
-              />
-              <p className="text-sm text-gray-500 mt-2 text-left w-full sm:w-2/3 sm:ml-auto px-1 sm:px-0">
-                  Monthly leads/interactions your business gets on all digital platforms (your website, insta, etc.)
-              </p>
-            </div>
+                  <p className="text-xs text-gray-400 mt-1 pl-7">
+                    Monthly leads/interactions your business gets on all digital platforms (your website, insta, etc.)
+                  </p>
+                </div>
+              } 
+              value={customers} 
+              min={1000} 
+              max={100000} 
+              onChange={setCustomers} 
+            />
             <Slider 
               label={
                 <div className="flex items-center gap-2">
@@ -261,11 +328,9 @@ const ServicesSection = () => {
             />
           </div>
         </div>
-
-        {/* Calculate button removed */}
       </div>
 
-      <div ref={resultsRef} className="w-full max-w-5xl mx-auto mt-6 sm:mt-10">
+      <div ref={resultsRef} className="w-full max-w-6xl mx-auto mt-6 sm:mt-10">
         <AnimatePresence>
             <motion.div 
               className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-0"
