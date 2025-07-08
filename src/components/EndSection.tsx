@@ -45,9 +45,9 @@ const EndSection = () => {
               </div>
             </div>
             <hr className="border-gray-700 " />
-            <div className="flex flex-col sm:flex-row flex-wrap sm:text-center justify-around text-xs sm:text-sm text-gray-400 gap-2 sm:gap-0">
-              <p className="text-sm text-center text-gray-400">&copy; Copyright 2025. All Rights Reserved</p>
-              <a href="#" className="hover:text-white transition-colors">Powered By Picolo AI</a>
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center sm:justify-around text-xs sm:text-sm text-gray-400 gap-4 sm:gap-0">
+              <p className="text-center">&copy; Copyright 2025. All Rights Reserved</p>
+              <a href="#" className="text-center hover:text-white transition-colors">Powered By Picolo AI</a>
             </div>
           </div>
 
