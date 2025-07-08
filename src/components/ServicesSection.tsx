@@ -15,21 +15,21 @@ interface ResultCardProps {
 }
 
 const HighlightedDescription: React.FC<{ text: string[] }> = ({ text }) => {
-  const fullText = text.join(' ');
-  const parts = fullText.split(/(\d+%?|\d+\.\d+%?)/g);
-
   return (
-    <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-      {parts.map((part, index) =>
-        /(\d+%?|\d+\.\d+%?)/.test(part) ? (
-          <span key={index} className="font-bold text-purple-400 text-base sm:text-lg">
-            {part}
-          </span>
-        ) : (
-          part
-        )
-      )}
-    </p>
+    <div className="flex flex-col gap-2 text-left w-full">
+      {text.map((line, i) => {
+        const match = line.match(/^(\d+%?)/);
+        const number = match ? match[1] : '';
+        const rest = match ? line.substring(match[0].length).trim() : line;
+
+        return (
+          <div key={i} className="flex items-center">
+            <span className="font-bold text-purple-400 text-xl w-16 text-right pr-2 flex-shrink-0">{number}</span>
+            <span className="text-sm text-gray-300">{rest}</span>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
@@ -38,7 +38,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
     relative rounded-2xl p-[1.5px]
     bg-gradient-to-br from-purple-500/80 via-pink-500/80 to-indigo-500/80
     transition-all duration-500 h-full
-    ${isExclusive ? 'scale-105' : 'hover:scale-105'}
+    hover:scale-105
   `;
 
   const cardClasses = `
@@ -68,7 +68,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
         </div>
         <p className="text-xs text-gray-400 -mt-4 mb-2">Potential Increase in Annual Revenue</p>
         
-        <div className="text-gray-300 leading-tight flex-grow w-full">
+        <div className="text-gray-300 leading-tight flex-grow w-full flex items-center justify-center">
           {isExclusive ? (
             <p className="text-sm sm:text-base">{Array.isArray(description) ? description.join(' ') : description}</p>
           ) : (
@@ -362,10 +362,10 @@ const ServicesSection = () => {
                   title="Standard"
                   value={results.standard}
                   description={[
-                    "Up to 25% improvement in lead capture.",
-                    "Significant reduction in missed customer queries.",
-                    "15% higher conversation quality.",
-                    "5% increase in customer repurchase rate."
+                    "25% Improvement in Lead Capture",
+                    "0% Leads Lost",
+                    "15% Higher Conversation Rate",
+                    "5% Increase in Repurchase Rate"
                   ]}
                 />
               </motion.div>
@@ -374,11 +374,11 @@ const ServicesSection = () => {
                   title="Pro Package"
                   value={results.pro}
                   description={[
-                    "Up to 45% boost in lead capture efficiency.",
-                    "Near-zero lead loss with 24/7 availability.",
-                    "30% increase in successful sales conversations.",
-                    "10% higher customer recapture rate.",
-                    "5% uplift in average order value."
+                    "45% Improvement in Lead Capture",
+                    "0% Leads Lost",
+                    "30% Higher Conversation Rate",
+                    "10% Increase in Repurchase Rate",
+                    "5% Higher Average Order Value"
                   ]}
                   isRecommended
                 />
