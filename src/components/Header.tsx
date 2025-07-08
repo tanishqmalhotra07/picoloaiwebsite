@@ -54,7 +54,7 @@ const Header = () => {
       animate="visible"
     >
       <div className="flex items-center space-x-2">
-        <h1 className="text-xl hidden lg:block lg:ml-22 lg:text-3xl font-semibold text-white">Picolo AI</h1>
+        <h1 className="text-sm sm:text-lg md:text-xl hidden ml-15 md:block md:ml-20  lg:ml-24 lg:text-2xl font-semibold text-white">Picolo AI</h1>
       </div>
       
       {/* Navigation Links - Middle */}

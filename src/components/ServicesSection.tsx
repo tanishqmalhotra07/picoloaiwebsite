@@ -144,10 +144,36 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
 
   return (
     <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4">
-      <div className="w-full sm:w-1/3">
+      <div className="w-full sm:w-1/2">
         <label className="text-left text-base sm:text-lg">{label}</label>
-        <div className="relative mt-2 flex justify-start">
-          <div className="relative">
+      </div>
+      <div className="w-full sm:w-1/2 flex items-center gap-4">
+        <div className="w-3/4 relative">
+          <div 
+            className="absolute -top-8 transform -translate-x-1/2 bg-purple-600 text-white px-3 py-1 rounded text-sm pointer-events-none"
+            style={{ left: `${percentage}%` }}
+          >
+            {prefix}{value.toLocaleString()}
+          </div>
+          <div className="flex items-center">
+            <input
+              type="range"
+              min={min}
+              max={max}
+              value={value}
+              step="1"
+              onChange={(e) => onChange(Number(e.target.value))}
+              className="w-full h-6 rounded-lg outline-none slider-thumb slider-track cursor-pointer"
+              style={{ '--slider-bg': `linear-gradient(to right, #8716EE, #FF0033 ${percentage}%, #333 ${percentage}%)` } as React.CSSProperties}
+            />
+          </div>
+          <div className="flex justify-between text-xs text-gray-400 mt-1">
+            <span>{prefix}{min.toLocaleString()}</span>
+            <span>{prefix}{max.toLocaleString()}</span>
+          </div>
+        </div>
+        <div className="w-1/4 relative flex mb-5  items-center">
+          <div className="relative w-full">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{prefix}</span>
             <input 
               type="number"
@@ -156,31 +182,9 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
               onChange={handleInputChange}
               onBlur={handleInputBlur}
               value={inputValue}
-              className="w-28 bg-purple-800/10 border border-gray-700 rounded-lg py-1 pl-7 pr-2 text-white text-sm focus:ring-purple-500 focus:border-purple-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full bg-purple-800/10 border border-gray-700 rounded-lg py-1 pl-7 pr-2 text-white text-sm focus:ring-purple-500 focus:border-purple-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
-        </div>
-      </div>
-      <div className="w-full sm:w-2/3 relative mt-4 sm:mt-0">
-        <div 
-          className="absolute -top-10 transform -translate-x-1/2 bg-purple-600 text-white px-3 py-1 rounded text-sm pointer-events-none"
-          style={{ left: `${percentage}%` }}
-        >
-          {prefix}{value.toLocaleString()}
-        </div>
-        <input
-          type="range"
-          min={min}
-          max={max}
-          value={value}
-          step="1"
-          onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full h-3.5 rounded-lg outline-none slider-thumb slider-track cursor-pointer"
-          style={{ '--slider-bg': `linear-gradient(to right, #8716EE, #FF0033 ${percentage}%, #333 ${percentage}%)` } as React.CSSProperties}
-        />
-        <div className="flex justify-between text-sm text-gray-400 mt-2">
-          <span>{prefix}{min.toLocaleString()}</span>
-          <span>{prefix}{max.toLocaleString()}</span>
         </div>
       </div>
     </div>
@@ -287,7 +291,7 @@ const ServicesSection = () => {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
-            Retail or E-commerce
+            <span className="text-xs lg:text-lg">Retail or E-commerce</span>
           </button>
           <button
             onClick={() => setActiveTab('professional')}
@@ -300,7 +304,7 @@ const ServicesSection = () => {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            <span className="text-xs">Professional Services and Specialized Products</span>
+            <span className="text-xs lg:text-lg">Professional Services and Specialized Products</span>
           </button>
         </div>
 

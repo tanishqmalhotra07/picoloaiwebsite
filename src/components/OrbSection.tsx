@@ -60,9 +60,9 @@ const solutionsData = [
     "image": "Glamour Growth Partner"
   },
   {
-    "name": "More solutions coming soon...",
-    "industry": "Stay Tuned",
-    "description": "We are constantly developing new AI agents. Check back for more!",
+    "name": "Custom AI Agent",
+    "industry": "For Your Business",
+    "description": "We can develop custom AI agents tailored to your specific business needs and requirements.",
     "image": "updates"
   }
 ]
@@ -362,13 +362,13 @@ const OrbSection = () => {
   const leftOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [-250, isMobile ? -50 : -120] // Closer to center on desktop, original on mobile
+    [-350, isMobile ? -50 : -200] // Closer to center on desktop, original on mobile
   );
   
   const rightOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [250, isMobile ? 50 : 120] // Closer to center on desktop, original on mobile
+    [350, isMobile ? 50 : 200] // Closer to center on desktop, original on mobile
   );
   
   const orbsY = useTransform(
@@ -389,7 +389,7 @@ const OrbSection = () => {
   const developLeftOrbX = useTransform(
     scrollYProgress,
     [0.6, 0.65, 0.75, 0.8],
-    [-400, isMobile ? -100 : -250, isMobile ? -80 : -250, -400]
+    [-400, isMobile ? -100 : -350, isMobile ? -80 : -250, -400]
   );
   const developMiddleOrbX = useTransform(
     scrollYProgress,
@@ -399,7 +399,7 @@ const OrbSection = () => {
   const developRightOrbX = useTransform(
     scrollYProgress,
     [0.6, 0.65, 0.75, 0.8],
-    [400, isMobile ? 100 : 250, isMobile ? 80 : 250, 400]
+    [400, isMobile ? 100 : 350, isMobile ? 80 : 250, 400]
   );
 
   const developLeftOrbY = useTransform(
@@ -731,11 +731,11 @@ const OrbSection = () => {
           className="absolute inset-0 z-40 flex flex-col items-center justify-center bg-[#02010C]"
         >
           <div className="w-full flex flex-col items-center">
-            <div className="text-center mb-12 mt-16 sm:mt-8 md:mt-0">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-regular text-white px-4">
+            <div className="text-center mt-16 lg:mb-10 sm:mt-8 md:mt-10">
+              <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-regular text-white px-4">
               <span className="text-purple-400 text-center">AI Agents</span> that talk, type, and turn 
               </h2>
-              <h3 className="text-3xl mt-3 sm:text-4xl md:text-5xl font-regular text-center text-white px-4">
+              <h3 className="text-3xl mt-3 sm:text-3xl md:text-4xl lg:text-5xl font-regular text-center text-white px-4">
               conversations into conversions
               </h3>
             </div>
