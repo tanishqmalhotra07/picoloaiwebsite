@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef,useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   motion,
   useScroll,
@@ -500,74 +500,79 @@ const OrbSection = () => {
         <motion.div
           style={{
             opacity: educateSectionOpacity,
-            pointerEvents: educatePointerEvents
+            pointerEvents: educatePointerEvents,
+            zIndex: 20 // Ensure consistent z-index
           }}
-          className="absolute inset-0 z-25 flex flex-col items-center justify-center"
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center"
           initial={false}
           layoutId="educate-section"
         >
-          <div className="relative w-full h-64 flex items-center justify-center">
-            {/* Left Orb - simplified for performance */}
-            <motion.div 
-              className="absolute w-80 h-80"
-              style={{ 
-                x: leftOrbX,
-                y: orbsY,
-                scale: isMobile ? 0.6 : 1.8,
-                willChange: 'transform',
-                contain: 'strict',
-                backfaceVisibility: 'hidden',
-                pointerEvents: educatePointerEvents
-              }}
-              initial={false}
-              layoutId="left-orb"
-            >
-              <Orb 
-                interactive={false} 
-                hoverIntensity={0.4} 
-                rotateOnHover={true}
-                forceHoverState={false}
-                hue={20} // Blue-purple hue
-              />
-            </motion.div>
-            
-            {/* Right Orb - simplified for performance */}
-            <motion.div 
-              className="absolute w-80 h-80"
-              style={{ 
-                x: rightOrbX,
-                y: orbsY,
-                scale: isMobile ? 0.6 : 1.8,
-                willChange: 'transform',
-                contain: 'strict',
-                backfaceVisibility: 'hidden',
-                pointerEvents: educatePointerEvents
-              }}
-              initial={false}
-              layoutId="right-orb"
-            >
-              <Orb 
-                interactive={false} 
-                hoverIntensity={0.4} 
-                rotateOnHover={true}
-                forceHoverState={false}
-                hue={0} // Purple-pink hue
-              />
-            </motion.div>
-            
-            {/* Educate heading in the intersection of orbs */}
-            <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-12' : '-translate-y-0'}`}>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
-                Educate
-              </h2>
-            </div>
-            
-            {/* Description for Educate section */}
-            <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-24 left-1/2 -translate-x-1/2 w-[85%] text-center' : 'left-16 top-1/2 -translate-y-1/2 w-64 text-left'}`}>
-              <p className="text-white text-base pointer-events-none">
-                We train and support your team with the right tools and know-how to embed AI across your entire organization.
-              </p>
-            </div>
+          <div 
+            className="relative w-full h-64 flex items-center justify-center"
+            onMouseEnter={() => window.dispatchEvent(new CustomEvent('educate-hover-start'))}
+            onMouseLeave={() => window.dispatchEvent(new CustomEvent('educate-hover-end'))}
+          >
+              {/* Left Orb - simplified for performance */}
+              <motion.div 
+                className="absolute w-80 h-80"
+                style={{ 
+                  x: leftOrbX,
+                  y: orbsY,
+                  scale: isMobile ? 0.6 : 1.8,
+                  willChange: 'transform',
+                  contain: 'strict',
+                  backfaceVisibility: 'hidden',
+                  pointerEvents: educatePointerEvents
+                }}
+                initial={false}
+                layoutId="left-orb"
+              >
+                <Orb 
+                  interactive={false} 
+                  hoverIntensity={0.4} 
+                  rotateOnHover={true}
+                  syncId="educate"
+                  hue={20} // Blue-purple hue
+                />
+              </motion.div>
+              
+              {/* Right Orb - simplified for performance */}
+              <motion.div 
+                className="absolute w-80 h-80"
+                style={{ 
+                  x: rightOrbX,
+                  y: orbsY,
+                  scale: isMobile ? 0.6 : 1.8,
+                  willChange: 'transform',
+                  contain: 'strict',
+                  backfaceVisibility: 'hidden',
+                  pointerEvents: educatePointerEvents
+                }}
+                initial={false}
+                layoutId="right-orb"
+              >
+                <Orb 
+                  interactive={false} 
+                  hoverIntensity={0.4} 
+                  rotateOnHover={true}
+                  syncId="educate"
+                  hue={0} // Purple-pink hue
+                />
+              </motion.div>
+              
+              {/* Educate heading in the intersection of orbs */}
+              <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-12' : '-translate-y-0'}`}>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
+                  Educate
+                </h2>
+              </div>
+              
+              {/* Description for Educate section */}
+              <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-24 left-1/2 -translate-x-1/2 w-[85%] text-center' : 'left-16 top-1/2 -translate-y-1/2 w-64 text-left'}`}>
+                <p className="text-white text-base pointer-events-none">
+                  We train and support your team with the right tools and know-how to embed AI across your entire organization.
+                </p>
+              </div>
           </div>
         </motion.div>
         
@@ -575,13 +580,18 @@ const OrbSection = () => {
         <motion.div
           style={{
             opacity: developSectionOpacity,
-            pointerEvents: developPointerEvents
+            pointerEvents: developPointerEvents,
+            zIndex: 20 // Ensure consistent z-index
           }}
           className="absolute inset-0 z-25 flex flex-col items-center justify-center"
           initial={false}
           layoutId="develop-section"
         >
-          <div className="relative w-full h-64 flex items-center justify-center">
+          <div 
+            className="relative w-full h-64 flex items-center justify-center"
+            onMouseEnter={() => window.dispatchEvent(new CustomEvent('develop-hover-start'))}
+            onMouseLeave={() => window.dispatchEvent(new CustomEvent('develop-hover-end'))}
+          >
             {/* Left Orb */}
             <motion.div 
               className="absolute w-80 h-80"
@@ -601,8 +611,8 @@ const OrbSection = () => {
                 interactive={false} 
                 hoverIntensity={0.4} 
                 rotateOnHover={true}
-                forceHoverState={false}
-                hue={20} // Purple hue
+                syncId="develop"
+                hue={-20} // Green-yellow hue
               />
             </motion.div>
             
@@ -625,8 +635,8 @@ const OrbSection = () => {
                 interactive={false} 
                 hoverIntensity={0.4} 
                 rotateOnHover={true}
-                forceHoverState={false}
-                hue={10} // Teal hue
+                syncId="develop"
+                hue={-40} // Yellow-orange hue
               />
             </motion.div>
             
@@ -649,8 +659,8 @@ const OrbSection = () => {
                 interactive={false} 
                 hoverIntensity={0.4} 
                 rotateOnHover={true}
-                forceHoverState={false}
-                hue={10} // Yellow hue
+                syncId="develop"
+                hue={-60} // Orange-red hue
               />
             </motion.div>
             

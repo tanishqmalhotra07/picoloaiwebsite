@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import { Renderer, Program, Mesh, Triangle, Vec3 } from 'ogl';
 
 const vert = /* glsl */ `
@@ -161,13 +161,23 @@ const frag = /* glsl */ `
     }
   `;
 
-export default function Orb({
+interface OrbProps {
+  hue?: number;
+  hoverIntensity?: number;
+  rotateOnHover?: boolean;
+  forceHoverState?: boolean;
+  interactive?: boolean;
+  syncId?: string;
+}
+
+const OrbComponent: React.FC<OrbProps> = ({
   hue = 0,
   hoverIntensity = 0.1,
   rotateOnHover = true,
   forceHoverState = false,
   interactive = true,
-}) {
+  syncId,
+}) => {
   const ctnDom = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -235,7 +245,6 @@ export default function Orb({
       const uvX = ((x - centerX) / size) * 2.0;
       const uvY = ((y - centerY) / size) * 2.0;
 
-      // Only set targetHover to 1 when mouse is directly over the orb (within radius)
       const distanceFromCenter = Math.sqrt(uvX * uvX + uvY * uvY);
       if (distanceFromCenter < 0.8) {
         targetHover = 1;
@@ -253,8 +262,15 @@ export default function Orb({
       container.addEventListener('mouseleave', handleMouseLeave);
     }
 
+    const handleHoverStart = () => { targetHover = 1; };
+    const handleHoverEnd = () => { targetHover = 0; };
+
+    if (syncId) {
+      window.addEventListener(`${syncId}-hover-start`, handleHoverStart);
+      window.addEventListener(`${syncId}-hover-end`, handleHoverEnd);
+    }
+
     let rafId: number;
-    // Track if we're scrolling
     let isScrolling = false;
     let scrollTimeout: NodeJS.Timeout;
     let frameCount = 0;
@@ -272,7 +288,6 @@ export default function Orb({
     const update = (t: number) => {
       rafId = requestAnimationFrame(update);
       
-      // Skip frames during scrolling
       if (isScrolling) {
         frameCount = (frameCount + 1) % 3;
         if (frameCount !== 0) return;
@@ -284,31 +299,39 @@ export default function Orb({
       program.uniforms.hue.value = hue;
       program.uniforms.hoverIntensity.value = hoverIntensity;
 
-    const effectiveHover = forceHoverState ? 1 : targetHover;
-    program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.1; // Faster response to hover
+      const effectiveHover = forceHoverState ? 1 : targetHover;
+      program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.1;
 
-    if (rotateOnHover && effectiveHover > 0.5) {
-      currentRot += dt * rotationSpeed;
-    }
-    program.uniforms.rot.value = currentRot;
+      if (rotateOnHover && program.uniforms.hover.value > 0.5) {
+        currentRot += dt * rotationSpeed;
+      }
+      program.uniforms.rot.value = currentRot;
 
-    renderer.render({ scene: mesh });
-  };
-  rafId = requestAnimationFrame(update);
+      renderer.render({ scene: mesh });
+    };
+    rafId = requestAnimationFrame(update);
 
-  return () => {
-    window.removeEventListener('resize', resize);
-    if (interactive) {
-      container.removeEventListener('mousemove', handleMouseMove);
-      container.removeEventListener('mouseleave', handleMouseLeave);
-    }
-    cancelAnimationFrame(rafId);
-    if (gl.canvas.parentNode === container) {
-      container.removeChild(gl.canvas);
-    }
-    gl.getExtension('WEBGL_lose_context')?.loseContext();
-  };
-}, [hue, hoverIntensity, forceHoverState, rotateOnHover, interactive]);
+    return () => {
+      window.removeEventListener('resize', resize);
+      if (interactive) {
+        container.removeEventListener('mousemove', handleMouseMove);
+        container.removeEventListener('mouseleave', handleMouseLeave);
+      }
+      if (syncId) {
+        window.removeEventListener(`${syncId}-hover-start`, handleHoverStart);
+        window.removeEventListener(`${syncId}-hover-end`, handleHoverEnd);
+      }
+      cancelAnimationFrame(rafId);
+      if (gl.canvas.parentNode === container) {
+        container.removeChild(gl.canvas);
+      }
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
+    };
+  }, [hue, hoverIntensity, forceHoverState, rotateOnHover, interactive, syncId]);
 
-return <div ref={ctnDom} className="w-full h-full gpu-accelerated cursor-pointer" style={{ willChange: 'transform' }} />;
-}
+  return <div ref={ctnDom} className="w-full h-full gpu-accelerated cursor-pointer" style={{ willChange: 'transform' }} />;
+};
+
+const Orb = memo(OrbComponent);
+
+export default Orb;
