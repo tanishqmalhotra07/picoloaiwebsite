@@ -23,20 +23,20 @@ const EndSection = () => {
           </div>
 
           {/* Right Column - Full width on mobile */}
-          <div className="flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8 col-span-1 sm:col-span-2">
+          <div className="flex flex-col justify-between space-y-3 sm:space-y-4 md:space-y-6 col-span-1 sm:col-span-2">
             <div>
-              <h3 className="text-xl sm:text-2xl text-center font-semibold">Quick Links</h3>
-              <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-around text-base sm:text-lg mt-4 sm:mt-6 gap-y-3">
-                <a href="#" className="hover:text-purple-400 transition-colors">Home</a>
-                <a href="#about" className="hover:text-purple-400 transition-colors">AI Transformation</a>
-                <a href="#solutions" className="hover:text-purple-400 transition-colors">AI Agents</a>
-                <a href="#services" className="hover:text-purple-400 transition-colors">ROI Estimator</a>
-                <a href="#contact" className="hover:text-purple-400 transition-colors">Contact</a>
+              <h3 className="text-lg sm:text-xl md:text-2xl text-center font-semibold mb-2">Quick Links</h3>
+              <div className="flex flex-wrap justify-center sm:justify-around text-sm sm:text-base gap-x-4 gap-y-2">
+                <a href="#" className="hover:text-purple-400 transition-colors px-2">Home</a>
+                <a href="#about" className="hover:text-purple-400 transition-colors px-2">AI Transformation</a>
+                <a href="#solutions" className="hover:text-purple-400 transition-colors px-2">AI Agents</a>
+                <a href="#services" className="hover:text-purple-400 transition-colors px-2">ROI Estimator</a>
+                <a href="#contact" className="hover:text-purple-400 transition-colors px-2">Contact</a>
               </div>
             </div>
             <hr className="border-gray-700" />
             <div className="flex flex-col sm:flex-col justify-around items-center mt-2 space-y-4 sm:space-y-0">
-              <h3 className="text-xl sm:text-2xl font-semibold">Contact Us</h3>
+              <h3 className="text-lg sm:text-xl md:text-2xl text-center font-semibold">Contact Us</h3>
               <div className="flex items-center space-x-2">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 relative">
                   <Image src="/Circled Envelope.png" alt="Email" fill sizes="(max-width: 640px) 24px, 32px" className="object-contain" />
