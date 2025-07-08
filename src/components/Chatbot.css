@@ -169,3 +169,14 @@
     color: #7413CD;
     font-weight: bold;
 }
+
+@media (max-width: 640px) {
+  .chatbot-container {
+    width: calc(100% - 20px);
+    height: 65vh;
+    bottom: 10px;
+    right: 10px;
+    max-width: 400px;
+    max-height: 550px;
+  }
+}
