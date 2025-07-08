@@ -14,6 +14,25 @@ interface ResultCardProps {
   onContact?: () => void;
 }
 
+const HighlightedDescription: React.FC<{ text: string[] }> = ({ text }) => {
+  const fullText = text.join(' ');
+  const parts = fullText.split(/(\d+%?|\d+\.\d+%?)/g);
+
+  return (
+    <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+      {parts.map((part, index) =>
+        /(\d+%?|\d+\.\d+%?)/.test(part) ? (
+          <span key={index} className="font-bold text-purple-400 text-base sm:text-lg">
+            {part}
+          </span>
+        ) : (
+          part
+        )
+      )}
+    </p>
+  );
+};
+
 const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isExclusive, isRecommended, onContact }) => {
   const wrapperClasses = `
     relative rounded-2xl p-[1.5px]
@@ -50,14 +69,10 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
         <p className="text-xs text-gray-400 -mt-4 mb-2">Potential Increase in Annual Revenue</p>
         
         <div className="text-gray-300 leading-tight flex-grow w-full">
-          {Array.isArray(description) ? (
-            <ul className="text-left list-disc list-inside space-y-0.5 text-sm sm:text-base">
-              {description.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
+          {isExclusive ? (
+            <p className="text-sm sm:text-base">{Array.isArray(description) ? description.join(' ') : description}</p>
           ) : (
-            <p className="text-sm sm:text-base">{description}</p>
+            <HighlightedDescription text={Array.isArray(description) ? description : [String(description)]} />
           )}
         </div>
         
@@ -136,7 +151,6 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{prefix}</span>
             <input 
               type="number"
-              value={value}
               min={min}
               max={max}
               onChange={handleInputChange}
@@ -207,8 +221,8 @@ const ServicesSection = () => {
     const standardProfessionalMultiplier = 0.01327; // 1.327%
     
     // Pro Package multipliers
-    const proRetailMultiplier = 0.25; // 25%
-    const proProfessionalMultiplier = 0.25; // 25%
+    const proRetailMultiplier = 0.02235; // 2.235%
+    const proProfessionalMultiplier = 0.02446; // 2.446%
     
     // Calculate Standard Package revenue
     const standardMultiplier = activeTab === 'retail' ? standardRetailMultiplier : standardProfessionalMultiplier;
@@ -369,12 +383,7 @@ const ServicesSection = () => {
                 <ResultCard
                   title="Exclusive"
                   value={results.exclusive}
-                  description={[
-                    "Fully customized lead funnels for maximum capture.",
-                    "Bespoke conversational flows to match your brand voice.",
-                    "Advanced analytics and reporting suite.",
-                    "Dedicated support and model fine-tuning."
-                  ]}
+                  description="For custom requirements and a personalized plan, feel free to get in touch. We'll tailor a solution that fits your exact needs."
                   isExclusive
                   onContact={openForm}
                 />
