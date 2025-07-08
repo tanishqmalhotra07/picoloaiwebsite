@@ -260,7 +260,7 @@ const OrbSection = () => {
   const transitionPoint1 = 0.4; // End of Identify
   const transitionPoint2 = 0.6;  // End of Educate
   const transitionPoint3 = 0.8; // End of Develop
-  const pulseDuration = 0.05; // Duration for the portal effect
+  const pulseDuration = 0.08; // Duration for the portal effect - increased for smoother transition
 
   const portalScale = useTransform(
     scrollYProgress,
@@ -281,19 +281,19 @@ const OrbSection = () => {
       transitionPoint3 + pulseDuration,
     ],
     [
-      isMobile ? 1 : 3,    // initial scale - smaller on mobile
+      isMobile ? 4 : 3,    // initial scale - larger on mobile for reveal effect
       isMobile ? 0.93 : 0.93, // scale at 0.2 (start of Identify) - same on mobile
       // First portal effect
       isMobile ? 0.93 : 0.93, // normal during Identify - same on mobile
-      isMobile ? 0.5 : 0.5,  // close portal - same on mobile
+      isMobile ? 0.4 : 0.4,  // close portal - more dramatic squeeze
       isMobile ? 0.93 : 0.93, // open portal back to normal (start of Educate) - same on mobile
       // Second portal effect
       isMobile ? 0.93 : 0.93, // normal during Educate - same on mobile
-      isMobile ? 0.5 : 0.5,  // close portal - same on mobile
+      isMobile ? 0.4 : 0.4,  // close portal - more dramatic squeeze
       isMobile ? 0.93 : 0.93, // open portal back to normal (start of Develop) - same on mobile
       // Third portal effect
       isMobile ? 0.93 : 0.93, // normal during Develop - same on mobile
-      isMobile ? 0.5 : 0.5,  // close portal - same on mobile
+      isMobile ? 0.4 : 0.4,  // close portal - more dramatic squeeze
       isMobile ? 1 : 1,    // open portal back to final size - same on mobile
     ]
   );
@@ -306,6 +306,27 @@ const OrbSection = () => {
   const orbScaleY = useTransform(
     [portalScale, orbFinalScale],
     (latest: number[]) => latest[0] * latest[1]
+  );
+
+  // Add rotation during transitions
+  const portalRotate = useTransform(
+    scrollYProgress,
+    [
+      transitionPoint1 - pulseDuration,
+      transitionPoint1 + pulseDuration,
+      transitionPoint2 - pulseDuration,
+      transitionPoint2 + pulseDuration,
+      transitionPoint3 - pulseDuration,
+      transitionPoint3 + pulseDuration,
+    ],
+    [0, 45, 45, 90, 90, 135]
+  );
+
+  // Orb initial Y position for mobile reveal animation
+  const orbInitialY = useTransform(
+    scrollYProgress,
+    [0, 0.2],
+    isMobile ? ['50%', '0%'] : ['0%', '0%']
   );
 
   // Initial text animation - fixed to ensure visibility
@@ -443,13 +464,14 @@ const OrbSection = () => {
           style={{
             scaleX: orbScaleX,
             scaleY: orbScaleY,
-            y: 0, // Fixed position to ensure visibility
+            rotate: portalRotate, // Apply rotation
+            y: orbInitialY, // Animate Y position for mobile reveal
             opacity: orbFinalOpacity,
             willChange: 'transform, opacity',
             contain: 'layout paint size',
             zIndex: 10 // Ensure consistent z-index
           }}
-          className="absolute inset-0 grid place-items-center scale-100 bg-[#02010C] pointer-events-auto"
+          className="absolute inset-0 flex items-center justify-center scale-100 bg-[#02010C] pointer-events-auto"
           initial={false}
         >
           <div className="w-full h-full pointer-events-auto">
