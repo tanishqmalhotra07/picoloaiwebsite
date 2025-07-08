@@ -1,8 +1,6 @@
 'use client';
 
-import React from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
+import React, { useRef, useEffect, useState } from 'react';
 import BackgroundSquares from './BackgroundSquares';
 import { Star } from 'lucide-react';
 import './testimonials.css';
@@ -27,7 +25,7 @@ const testimonials = [
     stars: 5,
   },
   {
-    quote: "This isn’t just automation — it’s business growth. We recovered 40+ lost leads in 2 weeks via retargeting.",
+    quote: "This isn't just automation — it's business growth. We recovered 40+ lost leads in 2 weeks via retargeting.",
     name: "Growth Lead",
     title: "Online Furniture Store",
     stars: 5,
@@ -39,7 +37,7 @@ const testimonials = [
     stars: 5,
   },
   {
-    quote: "The AI agent talks like a real team member — it’s booking trials, collecting payments, and even promoting our loyalty program.",
+    quote: "The AI agent talks like a real team member — it's booking trials, collecting payments, and even promoting our loyalty program.",
     name: "Founder",
     title: "Premium Makeup Studio",
     stars: 5,
@@ -64,23 +62,142 @@ const testimonials = [
   }
 ];
 
+const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
+  <div className="testimonial-card">
+    <div className="h-full bg-gradient-to-br from-[#5909A2] to-[#21033C] rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+      <div>
+        <div className="flex items-center mb-4">
+          <Star className="w-5 h-5 text-yellow-400 fill-current" />
+          <Star className="w-5 h-5 text-yellow-400 fill-current" />
+          <Star className="w-5 h-5 text-yellow-400 fill-current" />
+          <Star className="w-5 h-5 text-yellow-400 fill-current" />
+          <Star className="w-5 h-5 text-yellow-400 fill-current" />
+        </div>
+        <p className="text-gray-200 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">{testimonial.quote}</p>
+      </div>
+      <div className="flex items-center">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-900 flex items-center justify-center font-bold text-lg sm:text-xl mr-3 sm:mr-4">
+          {testimonial.name.charAt(0)}
+        </div>
+        <div>
+          <p className="font-bold text-white text-sm sm:text-base">{testimonial.name}</p>
+          <p className="text-xs sm:text-sm text-purple-300">{testimonial.title}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const Testimonials = () => {
-  const [emblaRef] = useEmblaCarousel({ 
-    loop: true,
-    dragFree: true // Allows free-flowing drag for smoother feel
-  }, [
-    Autoplay({ 
-      playOnInit: true, 
-      delay: 1700, // Longer delay between slides
-      stopOnInteraction: false, 
-      stopOnMouseEnter: true,
-      rootNode: (emblaRoot) => emblaRoot // Ensures proper context
-    })
-  ]);
-
+  const [isPaused, setIsPaused] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const positionRef = useRef(0);
+  const speedRef = useRef(0.5);
+  
+  // Drag interaction state
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const startScrollLeftRef = useRef(0);
+  
+  // Create two identical sets of testimonials for the infinite loop effect
+  const allTestimonials = [...testimonials, ...testimonials, ...testimonials];
+  
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    
+    // GSAP-like smooth animation using transform instead of scrollLeft
+    const animate = () => {
+      if (!isPaused && !isDraggingRef.current) {
+        positionRef.current += speedRef.current;
+        
+        // Reset when we've moved by half the width (first set of testimonials)
+        const trackWidth = track.scrollWidth / 3;
+        if (positionRef.current >= trackWidth) {
+          positionRef.current = 0;
+        }
+        
+        // Use transform for smoother animation (GPU accelerated)
+        track.style.transform = `translateX(${-positionRef.current}px)`;
+      }
+      
+      animationRef.current = requestAnimationFrame(animate);
+    };
+    
+    animationRef.current = requestAnimationFrame(animate);
+    
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [isPaused]);
+  
+  // Setup drag handlers
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    
+    const handleDragStart = (e: MouseEvent | TouchEvent) => {
+      isDraggingRef.current = true;
+      setIsPaused(true);
+      
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      startXRef.current = clientX;
+      startScrollLeftRef.current = positionRef.current;
+      
+      document.body.style.cursor = 'grabbing';
+    };
+    
+    const handleDragMove = (e: MouseEvent | TouchEvent) => {
+      if (!isDraggingRef.current) return;
+      
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const dx = clientX - startXRef.current;
+      positionRef.current = startScrollLeftRef.current - dx;
+      
+      // Handle loop wraparound
+      const trackWidth = track.scrollWidth / 3;
+      if (positionRef.current < 0) {
+        positionRef.current = trackWidth + positionRef.current;
+      } else if (positionRef.current > trackWidth) {
+        positionRef.current = positionRef.current % trackWidth;
+      }
+      
+      track.style.transform = `translateX(${-positionRef.current}px)`;
+    };
+    
+    const handleDragEnd = () => {
+      isDraggingRef.current = false;
+      setIsPaused(false);
+      document.body.style.cursor = '';
+    };
+    
+    // Mouse events
+    track.addEventListener('mousedown', handleDragStart);
+    window.addEventListener('mousemove', handleDragMove);
+    window.addEventListener('mouseup', handleDragEnd);
+    
+    // Touch events
+    track.addEventListener('touchstart', handleDragStart);
+    window.addEventListener('touchmove', handleDragMove);
+    window.addEventListener('touchend', handleDragEnd);
+    
+    return () => {
+      // Cleanup
+      track.removeEventListener('mousedown', handleDragStart);
+      window.removeEventListener('mousemove', handleDragMove);
+      window.removeEventListener('mouseup', handleDragEnd);
+      
+      track.removeEventListener('touchstart', handleDragStart);
+      window.removeEventListener('touchmove', handleDragMove);
+      window.removeEventListener('touchend', handleDragEnd);
+    };
+  }, []);
+  
   return (
-    <section style={{ contentVisibility: 'auto', containIntrinsicSize: '100vh', willChange: 'transform, opacity' }} className="relative bg-[#02010C] text-white py-20 sm:py-32 overflow-hidden">
+    <section className="relative bg-[#02010C] text-white py-20 sm:py-32 overflow-hidden">
       <BackgroundSquares />
       <div className="relative z-10 container mx-auto px-4">
         <div className="text-center mb-8 sm:mb-12">
@@ -93,36 +210,24 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="relative">
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex">
-              {testimonials.map((testimonial, index) => (
-                                <div className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 p-3 sm:p-6" key={index}>
-                                    <div className="h-full bg-gradient-to-br from-[#5909A2] to-[#21033C] rounded-2xl p-5 sm:p-8 flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-center mb-4">
-                        {[...Array(testimonial.stars)].map((_, i) => (
-                          <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                        ))}
-                      </div>
-                      <p className="text-gray-200 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">{testimonial.quote}</p>
-                    </div>
-                    <div className="flex items-center">
-                      {/* Mock avatar */}
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-900 flex items-center justify-center font-bold text-lg sm:text-xl mr-3 sm:mr-4">
-                        {testimonial.name.charAt(0)}
-                      </div>
-                      <div>
-                        <p className="font-bold text-white text-sm sm:text-base">{testimonial.name}</p>
-                        <p className="text-xs sm:text-sm text-purple-300">{testimonial.title}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+        <div className="testimonial-container">
+          <div 
+            className="testimonial-track"
+            ref={trackRef}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            style={{
+              transform: 'translateX(0)',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+              WebkitFontSmoothing: 'subpixel-antialiased',
+              cursor: 'grab'
+            }}
+          >
+            {allTestimonials.map((testimonial, index) => (
+              <TestimonialCard key={index} testimonial={testimonial} />
+            ))}
           </div>
-
         </div>
       </div>
     </section>

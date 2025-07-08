@@ -1,57 +1,65 @@
-.nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  padding: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 9999px;
-  transition: background-color 0.3s;
+/* Testimonial container */
+.testimonial-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
 }
 
-/* Smooth transitions for testimonial cards */
-.embla__slide {
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-/* Add easing to the carousel */
-.embla__container {
-  backface-visibility: hidden;
+/* Testimonial track */
+.testimonial-track {
+  display: flex;
+  gap: 16px;
+  width: fit-content;
+  transform: translateZ(0);
   will-change: transform;
+  transition: transform 0.1s linear;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
 }
 
-.nav-button:hover {
-  background-color: rgba(0, 0, 0, 0.5);
+/* Testimonial card styling */
+.testimonial-card {
+  flex: 0 0 auto;
+  width: 85vw;
+  padding: 12px;
+  transform: translateZ(0);
+  pointer-events: auto;
 }
 
-.nav-button-left {
-  left: 4px;
-}
-
-.nav-button-right {
-  right: 4px;
-}
-
-.nav-button svg {
-  width: 20px;
-  height: 20px;
-}
-
+/* Responsive card widths */
 @media (min-width: 640px) {
-  .nav-button {
-    padding: 0.5rem;
+  .testimonial-card {
+    width: 45vw;
+    padding: 16px;
   }
-  
-  .nav-button-left {
-    left: 0;
+}
+
+@media (min-width: 768px) {
+  .testimonial-card {
+    width: 30vw;
   }
-  
-  .nav-button-right {
-    right: 0;
-  }
-  
-  .nav-button svg {
-    width: 24px;
-    height: 24px;
-  }
+}
+
+/* Add fade effect on edges */
+.testimonial-container::before,
+.testimonial-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.testimonial-container::before {
+  left: 0;
+  background: linear-gradient(to right, #02010C, transparent);
+}
+
+.testimonial-container::after {
+  right: 0;
+  background: linear-gradient(to left, #02010C, transparent);
 }
