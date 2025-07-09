@@ -1,0 +1,34 @@
+/* Mobile-specific fixes */
+@media (max-width: 768px) {
+  /* Disable pointer events on orbs in mobile */
+  .orb-container {
+    pointer-events: none !important;
+  }
+  
+  /* Enable vertical scrolling on solution cards */
+  .pc-card-wrapper {
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+  }
+  
+  .pc-card {
+    pointer-events: auto !important;
+    touch-action: pan-y !important;
+    transform: none !important;
+  }
+  
+  .pc-content {
+    transform: none !important;
+  }
+  
+  /* Ensure the Get Started button is clickable */
+  .pc-learn-more-btn {
+    pointer-events: auto !important;
+  }
+  
+  /* Fix for embla carousel slides */
+  .embla__slide {
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+  }
+}

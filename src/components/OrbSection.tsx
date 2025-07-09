@@ -107,7 +107,10 @@ const NavItem: React.FC<NavItemProps> = ({ scrollYProgress, index, title }) => {
   );
 
   return (
-    <motion.span style={{ opacity }}>
+    <motion.span 
+      style={{ opacity }}
+      className="md:text-xl md:font-semibold md:tracking-wider"
+    >
       {title.toUpperCase()}
     </motion.span>
   );
@@ -362,13 +365,13 @@ const OrbSection = () => {
   const leftOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [-350, isMobile ? -50 : -200] // Closer to center on desktop, original on mobile
+    [-350, isMobile ? -50 : -150] // Closer to center on desktop, original on mobile
   );
   
   const rightOrbX = useTransform(
     scrollYProgress,
     [0.4, 0.45],
-    [350, isMobile ? 50 : 200] // Closer to center on desktop, original on mobile
+    [350, isMobile ? 50 : 150] // Closer to center on desktop, original on mobile
   );
   
   const orbsY = useTransform(
@@ -477,13 +480,13 @@ const OrbSection = () => {
             contain: 'layout paint size',
             zIndex: 10 // Ensure consistent z-index
           }}
-          className="absolute inset-0 flex items-center justify-center scale-100 bg-[#02010C] pointer-events-auto"
+          className="absolute inset-0 flex items-center justify-center scale-100 bg-[#02010C] pointer-events-auto orb-container"
           initial={false}
         >
           <div className="w-full h-full pointer-events-auto">
             <Orb 
               interactive={true} 
-              hoverIntensity={0.6} 
+              hoverIntensity={0.3} 
               rotateOnHover={true} 
               forceHoverState={false}
             />
@@ -524,7 +527,7 @@ const OrbSection = () => {
                 style={{ 
                   x: leftOrbX,
                   y: orbsY,
-                  scale: isMobile ? 0.6 : 1.8,
+                  scale: isMobile ? 0.6 : 1.6,
                   willChange: 'transform',
                   contain: 'strict',
                   backfaceVisibility: 'hidden',
@@ -548,7 +551,7 @@ const OrbSection = () => {
                 style={{ 
                   x: rightOrbX,
                   y: orbsY,
-                  scale: isMobile ? 0.6 : 1.8,
+                  scale: isMobile ? 0.6 : 1.6,
                   willChange: 'transform',
                   contain: 'strict',
                   backfaceVisibility: 'hidden',
@@ -573,8 +576,8 @@ const OrbSection = () => {
                 </h2>
               </div>
               
-              {/* Description for Educate section */}
-              <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-24 left-1/2 -translate-x-1/2 w-[85%] text-center' : 'left-16 top-1/2 -translate-y-1/2 w-64 text-left'}`}>
+              {/* Description for Educate section - right side on desktop, centered on mobile */}
+              <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-24 left-1/2 -translate-x-1/2 w-[85%] text-center' : 'right-16 top-1/2 -translate-y-1/2 w-64 text-right'}`}>
                 <p className="text-white text-base pointer-events-none">
                   We train and support your team with the right tools and know-how to embed AI across your entire organization.
                 </p>
@@ -615,7 +618,7 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.4} 
+                hoverIntensity={0.3} 
                 rotateOnHover={true}
                 syncId="develop"
                 hue={-20} // Green-yellow hue
@@ -639,7 +642,7 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.4} 
+                hoverIntensity={0.3} 
                 rotateOnHover={true}
                 syncId="develop"
                 hue={-40} // Yellow-orange hue
@@ -663,7 +666,7 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.4} 
+                hoverIntensity={0.3} 
                 rotateOnHover={true}
                 syncId="develop"
                 hue={-60} // Orange-red hue
@@ -695,8 +698,20 @@ const OrbSection = () => {
           }}
           className="absolute inset-0 z-30"
         >
-          {/* Top navigation-like text */}
-          <motion.div style={{ opacity: navOpacity }} className="absolute top-16 left-0 right-0 mx-auto flex w-fit space-x-4 md:space-x-8 text-sm md:text-base text-white">
+          {/* Left side navigation - vertical on desktop, horizontal on mobile */}
+          <motion.div style={{ opacity: navOpacity }} className="absolute top-1/2 -translate-y-1/2 left-16 hidden md:flex flex-col space-y-8 text-sm md:text-lg text-white">
+            {content.map((item, index) => (
+              <NavItem
+                key={item.title}
+                scrollYProgress={scrollYProgress}
+                index={index}
+                title={item.title}
+              />
+            ))}
+          </motion.div>
+          
+          {/* Mobile navigation - horizontal */}
+          <motion.div style={{ opacity: navOpacity }} className="absolute top-16 left-0 right-0 mx-auto flex md:hidden w-fit space-x-4 text-sm text-white">
             {content.map((item, index) => (
               <NavItem
                 key={item.title}

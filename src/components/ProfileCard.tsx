@@ -52,24 +52,30 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
+    
+    // Check if device is mobile (screen width < 768px)
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    
+    // Only add event listeners on desktop
+    if (!isMobile) {
+      const handlePointerEnter = () => setIsPointerInside(true);
+      const handlePointerLeave = () => setIsPointerInside(false);
+      const handlePointerMove = (e: PointerEvent) => {
+        if (isPointerInside) {
+          updatePointerPosition(e);
+        }
+      };
 
-    const handlePointerEnter = () => setIsPointerInside(true);
-    const handlePointerLeave = () => setIsPointerInside(false);
-    const handlePointerMove = (e: PointerEvent) => {
-      if (isPointerInside) {
-        updatePointerPosition(e);
-      }
-    };
+      card.addEventListener('pointerenter', handlePointerEnter);
+      card.addEventListener('pointerleave', handlePointerLeave);
+      card.addEventListener('pointermove', handlePointerMove);
 
-    card.addEventListener('pointerenter', handlePointerEnter);
-    card.addEventListener('pointerleave', handlePointerLeave);
-    card.addEventListener('pointermove', handlePointerMove);
-
-    return () => {
-      card.removeEventListener('pointerenter', handlePointerEnter);
-      card.removeEventListener('pointerleave', handlePointerLeave);
-      card.removeEventListener('pointermove', handlePointerMove);
-    };
+      return () => {
+        card.removeEventListener('pointerenter', handlePointerEnter);
+        card.removeEventListener('pointerleave', handlePointerLeave);
+        card.removeEventListener('pointermove', handlePointerMove);
+      };
+    }
   }, [isPointerInside, updatePointerPosition]);
 
   return (

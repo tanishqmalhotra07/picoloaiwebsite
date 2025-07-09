@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ShinyText from './ShinyText';
 import { useContactForm } from '@/context/ContactFormContext';
+import AnimatedArrow from './AnimatedArrow';
 import './testimonials.css';
 
 interface ResultCardProps {
@@ -61,11 +62,14 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
         <p className={`text-lg sm:text-xl font-bold pt-2 ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
         
         <div className="h-16 flex items-center justify-center">
-          {isExclusive ? (
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white blur-[10.1px]">{value}</h3>
-          ) : (
-            <ShinyText text={value} className="text-2xl sm:text-3xl md:text-4xl font-bold" />
-          )}
+          <div className="flex items-center gap-2">
+            <AnimatedArrow />
+            {isExclusive ? (
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white blur-[10.1px]">{value}</h3>
+            ) : (
+              <ShinyText text={value} className="text-2xl sm:text-3xl md:text-4xl font-bold" />
+            )}
+          </div>
         </div>
         <p className="text-xs text-gray-400 -mt-4 mb-2">Potential Increase in Annual Revenue</p>
         
@@ -146,13 +150,13 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
 
   return (
     <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4">
-      <div className="w-full sm:w-1/2">
+      <div className="w-full sm:w-1/3">
         <label className="text-left text-base sm:text-lg">{label}</label>
       </div>
-      <div className="w-full sm:w-1/2 flex items-center gap-4">
-        <div className="w-3/4 relative">
+      <div className="w-full sm:w-2/3 flex items-center gap-4">
+        <div className="w-4/5 relative">
           <div 
-            className="absolute bg-purple-600 text-white text-xs rounded-md px-2 py-1 -translate-x-1/2 -top-8 pointer-events-none flex items-center gap-1"
+            className="absolute bg-purple-600 text-white text-xs rounded-md px-3 py-1.5 -translate-x-1/2 -top-8 pointer-events-none flex items-center gap-1 min-w-[60px] justify-center"
             style={{ left: `${percentage}%` }}
           >
             {isCustomer && <img src="/customer.png" alt="customer icon" className="h-3 w-3" />}
@@ -182,7 +186,7 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
             </span>
           </div>
         </div>
-        <div className="w-1/4 relative flex mb-5  items-center">
+        <div className="w-1/5 relative flex mb-5 items-center">
           <div className="relative w-full">
             {isCustomer ? 
               <img src="/customer.png" alt="icon" className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3" /> :
@@ -301,7 +305,7 @@ const ServicesSection = () => {
                 : 'bg-transparent text-gray-400 border-2 border-gray-800 hover:bg-gray-800/50'
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             <span className="text-xs lg:text-lg">Retail or E-commerce</span>
@@ -314,7 +318,7 @@ const ServicesSection = () => {
                 : 'bg-transparent text-gray-400 border-2 border-gray-800 hover:bg-gray-800/50'
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
             <span className="text-xs lg:text-lg">Professional Services and Specialized Products</span>
@@ -331,7 +335,7 @@ const ServicesSection = () => {
                     <span>Customer Interactions per month</span>
                   </div>
                   <p className="text-xs text-gray-400 mt-1 pl-7">
-                    Monthly leads/interactions your business gets on all digital platforms<br />(your website, insta, etc.)
+                    Monthly leads/interactions your business gets on all<br /> digital platforms(your website, insta, etc.)
                   </p>
                 </div>
               } 
@@ -344,7 +348,7 @@ const ServicesSection = () => {
             <Slider 
               label={
                 <div className="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Average Order Value Per Customer
@@ -361,6 +365,11 @@ const ServicesSection = () => {
       </div>
 
       <div ref={resultsRef} className="w-full max-w-6xl mx-auto mt-6 sm:mt-10">
+        <div className="text-center -mt-5 mb-10">
+          <h3 className="text-lg sm:text-medium md:text-xl font-medium text-white">
+            Calculate Your Increase in Annual Revenue
+          </h3>
+        </div>
         <AnimatePresence>
             <motion.div 
               className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-0"

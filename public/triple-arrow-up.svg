@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Bottom (largest) arrow -->
+    <path d="M18 16l-6-6-6 6" class="arrow-bottom" />
+    <!-- Middle arrow -->
+    <path d="M18 10l-6-6-6 6" class="arrow-middle" />
+    <!-- Top (smallest) arrow -->
+    <path d="M18 4l-6-6-6 6" class="arrow-top" transform="translate(0, 2)" />
+  </g>
+</svg>

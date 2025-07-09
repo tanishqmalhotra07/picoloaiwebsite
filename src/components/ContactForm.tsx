@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface ContactFormProps {
@@ -9,6 +9,80 @@ interface ContactFormProps {
 }
 
 const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    role: '',
+    companyName: '',
+    companyWebsite: '',
+    companySize: '',
+    companyRevenue: '',
+    projectBudget: '',
+    services: '',
+    message: ''
+  });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    
+    try {
+      // Google Sheets Web App URL - this is the URL of the deployed Google Apps Script
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/exec';
+      
+      // Format data for Google Sheets
+      const formDataForSheet = new FormData();
+      formDataForSheet.append('timestamp', new Date().toISOString());
+      Object.entries(formData).forEach(([key, value]) => {
+        formDataForSheet.append(key, value);
+      });
+      
+      // Send data to Google Sheets
+      const response = await fetch(scriptURL, {
+        method: 'POST',
+        body: formDataForSheet,
+        mode: 'no-cors' // This is important for CORS issues
+      });
+      
+      // Since mode is no-cors, we can't actually check the response status
+      // So we'll just assume it was successful
+      setSubmitStatus('success');
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        role: '',
+        companyName: '',
+        companyWebsite: '',
+        companySize: '',
+        companyRevenue: '',
+        projectBudget: '',
+        services: '',
+        message: ''
+      });
+      
+      // Close the form after a delay
+      setTimeout(() => {
+        onClose();
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   const backdropVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -103,83 +177,159 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
           >
             <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
             <h2 className="text-3xl font-bold mb-6">Tell us where you&apos;re at</h2>
-            <form>
-                            <div className="grid no-scrollbar grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+            <form onSubmit={handleSubmit}>
+              <div className="grid no-scrollbar grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">What is your name?</label>
-                  <input type="text" placeholder="Name" className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" />
+                  <input 
+                    type="text" 
+                    name="name" 
+                    value={formData.name} 
+                    onChange={handleChange} 
+                    placeholder="Name" 
+                    className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
+                    required 
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">What is your email?</label>
-                  <input type="email" placeholder="Email" className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" />
+                  <input 
+                    type="email" 
+                    name="email" 
+                    value={formData.email} 
+                    onChange={handleChange} 
+                    placeholder="Email" 
+                    className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
+                    required 
+                  />
                 </div>
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">What is your role in the company?</label>
-                <input type="text" placeholder="Enter role" className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" />
+                <input 
+                  type="text" 
+                  name="role" 
+                  value={formData.role} 
+                  onChange={handleChange} 
+                  placeholder="Enter role" 
+                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
+                />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-                  <input type="text" placeholder="Enter company name" className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" />
+                  <input 
+                    type="text" 
+                    name="companyName" 
+                    value={formData.companyName} 
+                    onChange={handleChange} 
+                    placeholder="Enter company name" 
+                    className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Company Website</label>
-                  <input type="text" placeholder="Enter company website" className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" />
+                  <input 
+                    type="text" 
+                    name="companyWebsite" 
+                    value={formData.companyWebsite} 
+                    onChange={handleChange} 
+                    placeholder="Enter company website" 
+                    className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
+                  />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                 <div>
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Company Size</label>
-                  <select className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500">
-                    <option>Select company size</option>
-                    <option>1-10</option>
-                    <option>11-50</option>
-                    <option>51-200</option>
-                    <option>201-500</option>
-                    <option>500+</option>
+                  <select 
+                    name="companySize" 
+                    value={formData.companySize} 
+                    onChange={handleChange} 
+                    className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
+                  >
+                    <option value="">Select company size</option>
+                    <option value="1-10">1-10</option>
+                    <option value="11-50">11-50</option>
+                    <option value="51-200">51-200</option>
+                    <option value="201-500">201-500</option>
+                    <option value="500+">500+</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Company&apos;s Annual Revenue</label>
-                  <select className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500">
-                    <option>Select revenue range</option>
-                    <option>Under $1M</option>
-                    <option>$1M - $10M</option>
-                    <option>$10M - $50M</option>
-                    <option>$50M - $100M</option>
-                    <option>$100M+</option>
+                  <select 
+                    name="companyRevenue" 
+                    value={formData.companyRevenue} 
+                    onChange={handleChange} 
+                    className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
+                  >
+                    <option value="">Select revenue range</option>
+                    <option value="Under $1M">Under $1M</option>
+                    <option value="$1M - $10M">$1M - $10M</option>
+                    <option value="$10M - $50M">$10M - $50M</option>
+                    <option value="$50M - $100M">$50M - $100M</option>
+                    <option value="$100M+">$100M+</option>
                   </select>
                 </div>
               </div>
-               <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Project budget</label>
-                  <select className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500">
-                    <option>Select budget range</option>
-                     <option>$5k - $10k</option>
-                    <option>$10k - $25k</option>
-                    <option>$25k - $50k</option>
-                    <option>$50k+</option>
-                  </select>
-                </div>
-                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">What services are you interested in?</label>
-                  <select className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500">
-                    <option>Select service</option>
-                    <option>AI Development</option>
-                    <option>Web Development</option>
-                    <option>Mobile Development</option>
-                    <option>UI/UX Design</option>
-                  </select>
-                </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Project budget</label>
+                <select 
+                  name="projectBudget" 
+                  value={formData.projectBudget} 
+                  onChange={handleChange} 
+                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
+                >
+                  <option value="">Select budget range</option>
+                  <option value="$5k - $10k">$5k - $10k</option>
+                  <option value="$10k - $25k">$10k - $25k</option>
+                  <option value="$25k - $50k">$25k - $50k</option>
+                  <option value="$50k+">$50k+</option>
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">What services are you interested in?</label>
+                <select 
+                  name="services" 
+                  value={formData.services} 
+                  onChange={handleChange} 
+                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
+                >
+                  <option value="">Select service</option>
+                  <option value="AI Development">AI Development</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Mobile Development">Mobile Development</option>
+                  <option value="UI/UX Design">UI/UX Design</option>
+                </select>
+              </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                <textarea placeholder="Enter message" rows={4} className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"></textarea>
+                <textarea 
+                  name="message" 
+                  value={formData.message} 
+                  onChange={handleChange} 
+                  placeholder="Enter message" 
+                  rows={4} 
+                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
+                ></textarea>
               </div>
               <div className="text-center mt-6">
-                 <button type="submit" className="bg-white text-black px-8 py-3 rounded-full font-semibold border border-gray-300 hover:bg-gray-100 transition">
-                  Send inquiry
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="bg-white text-black px-8 py-3 rounded-full font-semibold border border-gray-300 hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Sending...' : 'Send inquiry'}
                 </button>
+                
+                {submitStatus === 'success' && (
+                  <p className="text-green-600 mt-2">Your inquiry has been sent successfully!</p>
+                )}
+                
+                {submitStatus === 'error' && (
+                  <p className="text-red-600 mt-2">There was an error sending your inquiry. Please try again.</p>
+                )}
               </div>
             </form>
           </motion.div>

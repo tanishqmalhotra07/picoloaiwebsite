@@ -32,7 +32,7 @@
   perspective: 500px;
   transform: translate3d(0, 0, 0.1px);
   position: relative;
-  touch-action: none;
+  touch-action: pan-y;
 }
 
 .pc-card-wrapper::before {
@@ -70,18 +70,26 @@
 @media (max-width: 768px) {
   .pc-card-wrapper {
     --card-opacity: 0 !important;
+    pointer-events: auto !important;
+    touch-action: pan-y !important;
   }
   
   .pc-card-wrapper::before {
     opacity: 0 !important;
   }
   
-  .pc-card-wrapper:active {
-    --card-opacity: 1 !important;
+  .pc-card {
+    pointer-events: auto !important;
+    touch-action: pan-y !important;
+    transform: none !important;
   }
   
-  .pc-card-wrapper:active::before {
-    opacity: 1 !important;
+  .pc-card * {
+    pointer-events: auto !important;
+  }
+  
+  .pc-content {
+    transform: none !important;
   }
 }
 

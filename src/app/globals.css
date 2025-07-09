@@ -1,5 +1,40 @@
 @import "./embla.css";
 @import "tailwindcss";
+@import "./mobile-fix.css";
+
+@keyframes fadeInUp1 {
+  0% { opacity: 0; transform: translateY(10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-5px); }
+}
+
+@keyframes fadeInUp2 {
+  0% { opacity: 0; transform: translateY(10px); }
+  20% { opacity: 0; transform: translateY(10px); }
+  40% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-5px); }
+}
+
+@keyframes fadeInUp3 {
+  0% { opacity: 0; transform: translateY(10px); }
+  40% { opacity: 0; transform: translateY(10px); }
+  60% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-5px); }
+}
+
+.animate-arrow-1 {
+  animation: fadeInUp1 2s infinite;
+}
+
+.animate-arrow-2 {
+  animation: fadeInUp2 2s infinite;
+}
+
+.animate-arrow-3 {
+  animation: fadeInUp3 2s infinite;
+}
 
 :root {
   --background: #02010C;

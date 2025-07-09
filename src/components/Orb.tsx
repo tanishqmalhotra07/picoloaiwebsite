@@ -329,7 +329,19 @@ const OrbComponent: React.FC<OrbProps> = ({
     };
   }, [hue, hoverIntensity, forceHoverState, rotateOnHover, interactive, syncId]);
 
-  return <div ref={ctnDom} className="w-full h-full gpu-accelerated cursor-pointer" style={{ willChange: 'transform' }} />;
+  // Check if we're on mobile
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  
+  return (
+    <div 
+      ref={ctnDom} 
+      className="w-full h-full gpu-accelerated cursor-pointer" 
+      style={{ 
+        willChange: 'transform',
+        pointerEvents: isMobile ? 'none' : 'auto'
+      }} 
+    />
+  );
 };
 
 const Orb = memo(OrbComponent);
