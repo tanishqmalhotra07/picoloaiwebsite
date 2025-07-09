@@ -745,8 +745,8 @@ const OrbSection = () => {
           }}
           className="absolute inset-0 z-40 flex flex-col items-center justify-center bg-[#02010C]"
         >
-          <div className="w-full flex flex-col items-center">
-            <div className="text-center mt-16 lg:mb-10 sm:mt-8 md:mt-10">
+          <div className="w-full flex flex-col items-center justify-center flex-grow">
+            <div className="text-center mt-8 sm:mt-12 lg:mb-10">
               <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-regular text-white px-4">
               <span className="text-purple-400 text-center">AI Agents</span> that talk, type, and turn 
               </h2>
@@ -754,7 +754,7 @@ const OrbSection = () => {
               conversations into conversions
               </h3>
             </div>
-            <div className="embla w-full max-w-7xl px-4 sm:px-6 md:px-10 relative carousel-fader">
+            <div className="embla w-full max-w-7xl px-4 sm:px-6 md:px-10 relative">
               <div className="embla__viewport solutions-carousel-viewport" ref={emblaRef}>
                 <div className="embla__container">
                   {solutionsData.map((solution, i) => (
