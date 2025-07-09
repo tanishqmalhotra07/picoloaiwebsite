@@ -300,7 +300,7 @@ const ServicesSection = () => {
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 mb-5 px-4 relative z-100000 !important">
           <button
             onClick={() => setActiveTab('retail')}
-            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-medium whitespace-nowrap ${
+            className={`w-auto sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-full transition-all duration-300 font-medium whitespace-nowrap ${
               activeTab === 'retail' 
                 ? 'bg-purple-600 text-white border-2 border-purple-600 shadow-lg shadow-purple-500/20'
                 : 'bg-transparent text-gray-400 border-2 border-gray-800 hover:bg-gray-800/50'
@@ -309,11 +309,11 @@ const ServicesSection = () => {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
-            <span className="text-xs lg:text-lg">Retail or E-commerce</span>
+            <span className="text-[10px] sm:text-xs lg:text-lg">Retail or E-commerce</span>
           </button>
           <button
             onClick={() => setActiveTab('professional')}
-            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-medium whitespace-nowrap ${
+            className={`w-auto sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-full transition-all duration-300 font-medium whitespace-nowrap ${
               activeTab === 'professional' 
                 ? 'bg-purple-600 text-white border-2 border-purple-600 shadow-lg shadow-purple-500/20'
                 : 'bg-transparent text-gray-400 border-2 border-gray-800 hover:bg-gray-800/50'
@@ -322,7 +322,7 @@ const ServicesSection = () => {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            <span className="text-xs lg:text-lg">Professional Services and Specialized Products</span>
+            <span className="text-[10px] sm:text-xs lg:text-lg">Professional Services and Specialized Products</span>
           </button>
         </div>
 
