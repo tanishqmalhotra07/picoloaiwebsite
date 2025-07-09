@@ -386,9 +386,9 @@ const ServicesSection = () => {
                   value={results.standard}
                   description={[
                     "25% Improvement in Lead Capture",
-                    "0% Leads Lost",
                     "15% Higher Conversation Rate",
                     "5% Increase in Repurchase Rate",
+                    "0% Leads Lost",
                     "",
                     "",
                     "",
@@ -402,10 +402,10 @@ const ServicesSection = () => {
                   value={results.pro}
                   description={[
                     "45% Improvement in Lead Capture",
-                    "0% Leads Lost",
                     "30% Higher Conversation Rate",
                     "10% Increase in Repurchase Rate",
-                    "5% Higher Average Order Value"
+                    "5% Higher Average Order Value",
+                    "0% Leads Lost"
                   ]}
                   isRecommended
                 />
