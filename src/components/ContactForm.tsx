@@ -30,12 +30,15 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
+  // Form submission handler - Google Sheets integration to be implemented later
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
     
     try {
+      // TODO: Implement Google Sheets integration later
+      /* 
       // Google Sheets Web App URL - this is the URL of the deployed Google Apps Script
       const scriptURL = 'https://script.google.com/macros/s/AKfycbwXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/exec';
       
@@ -47,16 +50,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       });
       
       // Send data to Google Sheets
-      // const response = await fetch(scriptURL, {
-      //   method: 'POST',
-      //   body: formDataForSheet,
-      //   mode: 'no-cors' // This is important for CORS issues
-      // });
+      const response = await fetch(scriptURL, {
+        method: 'POST',
+        body: formDataForSheet,
+        mode: 'no-cors' // This is important for CORS issues
+      });
+      */
       
-      // TODO: Implement Google Sheets integration later
-      
-      // Since mode is no-cors, we can't actually check the response status
-      // So we'll just assume it was successful
+      // For now, just simulate a successful submission
       setSubmitStatus('success');
       
       // Reset form after successful submission
