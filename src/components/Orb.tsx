@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useRef, memo } from 'react';
+import React, { useEffect, useRef, memo, useState } from 'react';
 import { Renderer, Program, Mesh, Triangle, Vec3 } from 'ogl';
+import './OrbFallback.css';
 
 const vert = /* glsl */ `
     precision highp float;
@@ -179,10 +180,24 @@ const OrbComponent: React.FC<OrbProps> = ({
   syncId,
 }) => {
   const ctnDom = useRef<HTMLDivElement>(null);
+  const [useFallback, setUseFallback] = useState(false);
 
   useEffect(() => {
+    // Skip effect if using fallback
+    if (useFallback) return;
     const container = ctnDom.current;
     if (!container) return;
+    
+    // Prevent creating WebGL context on low-memory mobile devices
+    const isMobileDevice = typeof window !== 'undefined' && 
+      (window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    
+    // Use a simpler fallback on mobile devices with potential memory issues
+    if (isMobileDevice) {
+      // Use CSS fallback for mobile devices
+      setUseFallback(true);
+      return;
+    }
 
     const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
     const gl = renderer.gl;
@@ -286,28 +301,43 @@ const OrbComponent: React.FC<OrbProps> = ({
     window.addEventListener('scroll', handleScroll);
     
     const update = (t: number) => {
+      // Check if the component is still mounted
+      if (!container || !container.isConnected) {
+        cancelAnimationFrame(rafId);
+        return;
+      }
+      
       rafId = requestAnimationFrame(update);
       
-      if (isScrolling) {
-        frameCount = (frameCount + 1) % 3;
-        if (frameCount !== 0) return;
+      try {
+        // Skip some frames during scrolling to improve performance
+        if (isScrolling) {
+          frameCount = (frameCount + 1) % 3;
+          if (frameCount !== 0) return;
+        }
+        
+        const dt = (t - lastTime) * 0.001;
+        lastTime = t;
+        program.uniforms.iTime.value = t * 0.001;
+        program.uniforms.hue.value = hue;
+        program.uniforms.hoverIntensity.value = hoverIntensity;
+
+        const effectiveHover = forceHoverState ? 1 : targetHover;
+        program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.1;
+
+        if (rotateOnHover && program.uniforms.hover.value > 0.5) {
+          currentRot += dt * rotationSpeed;
+        }
+        program.uniforms.rot.value = currentRot;
+
+        // Only render if the WebGL context is still valid
+        if (!gl.isContextLost()) {
+          renderer.render({ scene: mesh });
+        }
+      } catch (error) {
+        console.error('Error rendering orb:', error);
+        cancelAnimationFrame(rafId);
       }
-      
-      const dt = (t - lastTime) * 0.001;
-      lastTime = t;
-      program.uniforms.iTime.value = t * 0.001;
-      program.uniforms.hue.value = hue;
-      program.uniforms.hoverIntensity.value = hoverIntensity;
-
-      const effectiveHover = forceHoverState ? 1 : targetHover;
-      program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.1;
-
-      if (rotateOnHover && program.uniforms.hover.value > 0.5) {
-        currentRot += dt * rotationSpeed;
-      }
-      program.uniforms.rot.value = currentRot;
-
-      renderer.render({ scene: mesh });
     };
     rafId = requestAnimationFrame(update);
 
@@ -327,12 +357,25 @@ const OrbComponent: React.FC<OrbProps> = ({
       }
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [hue, hoverIntensity, forceHoverState, rotateOnHover, interactive, syncId]);
+  }, [hue, hoverIntensity, forceHoverState, rotateOnHover, interactive, syncId, useFallback]);
 
   // Check if we're on mobile
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   
-  return (
+  // Determine fallback class based on hue
+  let fallbackClass = '';
+  if (hue < -50) fallbackClass = 'blue';
+  else if (hue < -20) fallbackClass = 'purple';
+  else if (hue < 0) fallbackClass = 'green';
+  
+  return useFallback ? (
+    // CSS fallback for mobile devices
+    <div 
+      className={`orb-fallback ${fallbackClass}`}
+      style={{ pointerEvents: 'none' }}
+    />
+  ) : (
+    // WebGL version for desktop
     <div 
       ref={ctnDom} 
       className="w-full h-full gpu-accelerated cursor-pointer" 
