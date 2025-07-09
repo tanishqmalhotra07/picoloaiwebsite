@@ -154,8 +154,8 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
       <div className="w-full sm:w-1/3">
         <label className="text-left text-base sm:text-lg">{label}</label>
       </div>
-      <div className="w-full sm:w-2/3 flex items-center gap-4">
-        <div className="w-4/5 relative">
+      <div className="w-full sm:w-2/3 flex flex-col sm:flex-row items-center gap-1">
+        <div className="w-full sm:w-4/5 relative">
           <div 
             className="absolute bg-purple-600 text-white text-xs rounded-md px-3 py-1.5 -translate-x-1/2 -top-8 pointer-events-none flex items-center gap-1 min-w-[60px] justify-center"
             style={{ left: `${percentage}%` }}
@@ -187,8 +187,8 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
             </span>
           </div>
         </div>
-        <div className="w-1/5 relative flex mb-5 items-center">
-          <div className="relative w-full">
+        <div className="w-full sm:w-1/5 relative flex sm:items-center mt-4 sm:mt-0">
+          <div className="relative lg:ml-2 lg:mb-6 w-full">
             {isCustomer ? 
               <img src="/customer.png" alt="icon" className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3" /> :
               (prefix && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{prefix}</span>)
@@ -202,6 +202,7 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
               value={inputValue}
               className="w-full bg-purple-800/10 border border-gray-700 rounded-lg py-1 pl-7 pr-2 text-white text-sm focus:ring-purple-500 focus:border-purple-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
+
           </div>
         </div>
       </div>
