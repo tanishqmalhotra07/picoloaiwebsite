@@ -86,19 +86,19 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           <div className="pc-glare"></div>
           <div className="pc-content">
             <div className="pc-details">
-              <h3 className="text-2xl sm:text-3xl font-bold text-white text-center leading-tight">{name || title}</h3>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white text-center leading-tight min-h-[4rem] sm:min-h-[4.5rem] flex items-center justify-center">{name || title}</h3>
               {image && (
-                <div className={`pc-image-container ${name === 'Custom AI Agent' ? 'mt-8' : ''}`}>
+                <div className="pc-image-container h-16 sm:h-20 flex items-center justify-center my-3 sm:my-4">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={`/${image}.png`} 
                     alt={name || title || ''} 
-                    className="pc-image mx-auto h-16 w-auto object-contain"
+                    className="pc-image mx-auto h-full w-auto object-contain"
                   />
                 </div>
               )}
-              {industry && <p className="pc-industry text-purple-400 text-sm font-medium mb-2">{industry}</p>}
-              <p className="pc-description">{description}</p>
+              {industry && <p className="pc-industry text-purple-400 text-xs sm:text-sm font-medium mb-2 min-h-[1.5rem] flex items-center justify-center">{industry}</p>}
+              <p className="pc-description text-xs sm:text-sm md:text-base min-h-[4rem] sm:min-h-[5rem] flex items-center justify-center">{description}</p>
             </div>
             <div className="pc-footer">
                 <button onClick={openForm} className="pc-learn-more-btn">Get Started</button>

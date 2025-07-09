@@ -451,7 +451,7 @@ const OrbSection = () => {
     <section
       id="about"
       ref={targetRef}
-      className="relative h-[600vh] w-full"
+      className="relative h-[500vh] md:h-[600vh] lg:h-[600vh] w-full"
       style={{ background: '#02010C', contain: 'paint layout' }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden gpu-accelerated" style={{ willChange: 'transform', contain: 'paint layout' }}>

@@ -212,7 +212,6 @@
 .pc-description {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.8);
-  margin-top: -2rem;
   padding: 0;
   word-break: break-word;
   overflow-wrap: break-word;
@@ -222,18 +221,17 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  line-height: 1.4;
 }
 
 
 
 .pc-footer {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
+    width: 100%;
     display: flex;
     justify-content: center;
     padding: 0 20px;
+    margin-top: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -314,7 +312,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  padding: 1rem;
+  padding: 1rem 0.75rem;
   pointer-events: auto;
 }
 

@@ -207,7 +207,7 @@ const Hero = () => {
         </motion.div>
 
         {/* Bottom Buttons */}
-        <motion.div className="flex justify-start items-center" variants={itemVariants}>
+        <motion.div className="flex justify-start items-center mb-8 sm:mb-0" variants={itemVariants}>
           <motion.button
             className="p-0.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"
             variants={getStartedButtonVariants}
