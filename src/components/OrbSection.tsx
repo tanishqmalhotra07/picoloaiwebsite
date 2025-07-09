@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import useMobileScroll from '../hooks/useMobileScroll';
 import {
   motion,
   useScroll,
@@ -213,6 +214,9 @@ const useIsMobile = () => {
 
 const OrbSection = () => {
   const targetRef = useRef<HTMLDivElement>(null);
+  
+  // Apply enhanced scrolling on mobile only
+  useMobileScroll(targetRef, 1.5); // 2x faster scrolling on mobile
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ['start start', 'end end'],
@@ -451,7 +455,7 @@ const OrbSection = () => {
     <section
       id="about"
       ref={targetRef}
-      className="relative h-[600vh] w-full"
+      className="relative h-[500vh] md:h-[600vh] w-full"
       style={{ background: '#02010C', contain: 'paint layout' }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden gpu-accelerated" style={{ willChange: 'transform', contain: 'paint layout' }}>

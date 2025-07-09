@@ -17,7 +17,7 @@ const EndSection = () => {
           <div className="hidden sm:flex flex-col justify-between space-y-4 sm:space-y-6 md:space-y-8 sm:col-span-1">
             <div className="flex items-center space-x-3 sm:space-x-4">
               <div className="flex">
-                <Image src="/footer.png" alt="Footer" width={200} height={70} className="h-auto" />
+                <Image src="/footer.png" alt="Footer" width={200} height={200} className="h-70 w-75" />
               </div>
             </div>
           </div>
