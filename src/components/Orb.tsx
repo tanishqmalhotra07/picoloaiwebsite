@@ -362,11 +362,11 @@ const OrbComponent: React.FC<OrbProps> = ({
   // Check if we're on mobile
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   
-  // Determine fallback class based on hue
-  let fallbackClass = '';
-  if (hue < -50) fallbackClass = 'blue';
-  else if (hue < -20) fallbackClass = 'purple';
-  else if (hue < 0) fallbackClass = 'green';
+  // Determine fallback class based on hue - all purple shades
+  let fallbackClass = 'purple';
+  // All orbs use purple variants
+  if (syncId === 'educate') fallbackClass = 'blue';
+  else if (syncId === 'develop') fallbackClass = 'green';
   
   return useFallback ? (
     // CSS fallback for mobile devices
