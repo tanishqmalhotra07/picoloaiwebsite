@@ -47,11 +47,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       });
       
       // Send data to Google Sheets
-      const response = await fetch(scriptURL, {
-        method: 'POST',
-        body: formDataForSheet,
-        mode: 'no-cors' // This is important for CORS issues
-      });
+      // const response = await fetch(scriptURL, {
+      //   method: 'POST',
+      //   body: formDataForSheet,
+      //   mode: 'no-cors' // This is important for CORS issues
+      // });
+      
+      // TODO: Implement Google Sheets integration later
       
       // Since mode is no-cors, we can't actually check the response status
       // So we'll just assume it was successful

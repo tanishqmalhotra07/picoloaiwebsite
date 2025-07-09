@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import ShinyText from './ShinyText';
 import { useContactForm } from '@/context/ContactFormContext';
 import AnimatedArrow from './AnimatedArrow';
@@ -331,7 +332,7 @@ const ServicesSection = () => {
               label={
                 <div className="flex flex-col items-start">
                   <div className="flex items-center gap-2">
-                    <img src="/customer.png" alt="customer icon" className="h-4 w-4" />
+                    <Image src="/customer.png" alt="customer icon" width={16} height={16} className="h-4 w-4" />
                     <span>Customer Interactions per month</span>
                   </div>
                   <p className="text-xs text-gray-400 mt-1 pl-7">
