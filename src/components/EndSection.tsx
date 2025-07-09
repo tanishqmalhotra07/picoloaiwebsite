@@ -1,15 +1,35 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Aurora from './Aurora';
 
 const EndSection = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   return (
     <footer style={{ contentVisibility: 'auto', containIntrinsicSize: '50vh', willChange: 'transform, opacity' }} className="relative bg-[#02010C] text-white pt-16 pb-20 sm:pb-10 overflow-hidden -mb-10">
-      <div className="absolute inset-0 z-0 h-[102%] w-full">
-        <Aurora colorStops={["#8716EE", "#FF0033", "#F633EF"]} blend={0.3} amplitude={1.0} speed={0.5} />
-      </div>
+      {/* Aurora background - hidden on mobile */}
+      {!isMobile && (
+        <div className="absolute inset-0 z-0 h-[102%] w-full">
+          <Aurora colorStops={["#8716EE", "#FF0033", "#F633EF"]} blend={0.3} amplitude={1.0} speed={0.5} />
+        </div>
+      )}
       <div className="relative z-10 container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-16">
 
