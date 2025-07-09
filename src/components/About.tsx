@@ -58,7 +58,7 @@ const About = () => {
           <br />
         </motion.h1>
         <motion.p variants={itemVariants} className="mt-4 text-xl sm:text-2xl md:text-3xl font-semibold text-white px-6">
-        Think of Agents as your all-star team, working 24/7
+        Think of Agents as your <span className="text-pink-400">all-star team, working 24/7</span>
         </motion.p>
       </motion.div>
     </div>

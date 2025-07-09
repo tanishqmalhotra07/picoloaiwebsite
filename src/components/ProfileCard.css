@@ -328,11 +328,7 @@
   font-weight: 600;
   margin: 0 0 0.75rem 0;
   font-size: min(4svh, 2em);
-  background-image: linear-gradient(to bottom, #fff, #6f6fbe);
-  background-size: 1em 1.5em;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #ffffff;
 }
 
 .pc-image-container {
