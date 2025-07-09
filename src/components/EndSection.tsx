@@ -61,7 +61,7 @@ const EndSection = () => {
                 <div className="w-6 h-6 sm:w-8 sm:h-8 relative">
                   <Image src="/Circled Envelope.png" alt="Email" fill sizes="(max-width: 640px) 24px, 32px" className="object-contain" />
                 </div>
-                <a href="mailto:picolo.ai.team@gmail.com" className="hover:text-purple-400 transition-colors text-xs sm:text-sm md:text-base">picolo.ai.team@gmail.com</a>
+                <a href="mailto:picolo.ai.team@gmail.com" className="hover:text-purple-400 transition-colors text-xs sm:text-sm md:text-base underline">picolo.ai.team@gmail.com</a>
               </div>
             </div>
             <hr className="border-gray-700 " />

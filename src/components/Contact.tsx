@@ -38,22 +38,22 @@ const Contact = () => {
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">Ready to Power Up with AI?</h2>
             <p className="text-base sm:text-lg mb-6 sm:mb-8">We&apos;d love to talk about how we can work together.</p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center sm:space-x-8 mb-6 space-y-4 sm:space-y-0">
-              <a href="mailto:picolo.ai.team@gmail.com" className="flex items-center">
+              <a href="mailto:picolo.ai.team@gmail.com" className="flex items-center hover:text-blue-400 transition-colors">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 relative mr-3">
                   <Image src="/Circled Envelope.png" alt="Email" fill sizes="(max-width: 640px) 32px, 40px" className="object-contain" />
                 </div>
-                <span className="text-sm sm:text-base">picolo.ai.team@gmail.com</span>
+                <span className="text-sm sm:text-base underline">picolo.ai.team@gmail.com</span>
               </a>
             </div>
             <hr className="border-gray-600 my-6" />
             <div className="flex justify-around items-center my-6 max-w-md">
-              <a href="#" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
+              <a href="https://www.instagram.com/picolo.ai?igsh=MXhvYTRwb2JibmFmcA==" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
                 <span className="font-semibold text-sm sm:text-base">Instagram:</span>
                 <div className="w-8 h-8 sm:w-10 sm:h-10 relative">
                   <Image src="/Instagram.png" alt="Instagram" fill sizes="(max-width: 640px) 32px, 40px" className="object-contain" />
                 </div>
               </a>
-              <a href="#" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
+              <a href="https://www.linkedin.com/company/picolo-ai-agents/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
                 <span className="font-semibold text-sm sm:text-base">LinkedIn:</span>
                 <div className="w-8 h-8 sm:w-10 sm:h-10 relative">
                   <Image src="/LinkedIn.png" alt="LinkedIn" fill sizes="(max-width: 640px) 32px, 40px" className="object-contain" />
@@ -61,7 +61,7 @@ const Contact = () => {
               </a>
             </div>
             <hr className="border-gray-600 my-6" />
-            <p className="text-sm sm:text-base md:text-lg">Fill out the form to chat with a <a href="#" className="text-blue-400">Picolo team</a> member about business needs and get your questions answered.</p>
+            <p className="text-sm sm:text-base md:text-lg">Fill out the form to chat with a <span className="text-blue-400">Picolo team</span> member about business needs and get your questions answered.</p>
           </motion.div>
           <motion.div className="flex justify-center md:justify-end items-center md:pr-8 mt-8 md:mt-0" variants={itemVariants}>
             <div className="relative group">
