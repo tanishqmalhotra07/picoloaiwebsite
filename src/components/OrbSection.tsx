@@ -618,7 +618,7 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.3} 
+                hoverIntensity={0.1} 
                 rotateOnHover={true}
                 syncId="develop"
                 hue={-20} // Green-yellow hue
@@ -642,7 +642,7 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.3} 
+                hoverIntensity={0.1} 
                 rotateOnHover={true}
                 syncId="develop"
                 hue={-40} // Yellow-orange hue
@@ -666,7 +666,7 @@ const OrbSection = () => {
             >
               <Orb 
                 interactive={false} 
-                hoverIntensity={0.3} 
+                hoverIntensity={0.2} 
                 rotateOnHover={true}
                 syncId="develop"
                 hue={-60} // Orange-red hue
