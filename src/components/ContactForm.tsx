@@ -272,16 +272,29 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                 </select>
               </div>
               <div className="text-center mt-6">
-                <button 
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="bg-white text-black px-8 py-3 rounded-full font-semibold border border-gray-300 hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? 'Sending...' : 'Submit'}
-                </button>
-                
-                {submitStatus === 'success' && (
-                  <p className="text-green-600 mt-2">Your inquiry has been sent successfully!</p>
+                {submitStatus !== 'success' ? (
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="bg-white text-black px-8 py-3 rounded-full font-semibold border border-gray-300 hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? 'Sending...' : 'Submit'}
+                  </button>
+                ) : (
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.5, type: 'spring' }}
+                    className="flex flex-col items-center justify-center"
+                  >
+                    <div className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-8 py-3 rounded-full font-semibold flex items-center space-x-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span>Message Sent!</span>
+                    </div>
+                    <p className="text-green-600 mt-2">Your inquiry has been sent successfully!</p>
+                  </motion.div>
                 )}
                 
                 {submitStatus === 'error' && (
