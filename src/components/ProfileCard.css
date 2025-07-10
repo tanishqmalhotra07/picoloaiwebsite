@@ -327,7 +327,7 @@
 .pc-details h3 {
   font-weight: 600;
   margin: 0 0 0.75rem 0;
-  font-size: min(4svh, 2em);
+  font-size: min(3svh, 1.5em);
   color: #ffffff;
 }
 
@@ -385,7 +385,7 @@
   }
 
   .pc-details h3 {
-    font-size: min(3.5svh, 1.8em);
+    font-size: min(2.2svh, 1.2em);
     margin-bottom: 0.5rem;
   }
 
@@ -440,7 +440,7 @@
   }
 
   .pc-details h3 {
-    font-size: min(3.5svh, 2em);
+    font-size: min(2svh, 1em);
   }
 
   .pc-details p {
@@ -487,7 +487,7 @@
   }
 
   .pc-details h3 {
-    font-size: min(3svh, 1.5em);
+    font-size: min(2vh, 1em);
   }
 
   .pc-details p {
