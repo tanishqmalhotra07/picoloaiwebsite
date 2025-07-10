@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import CountrySelect from './CountrySelect';
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -12,14 +13,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    role: '',
+    country: '',
     companyName: '',
     companyWebsite: '',
-    companySize: '',
-    companyRevenue: '',
-    projectBudget: '',
-    services: '',
-    message: ''
+    businessNature: '',
+    desiredOutcome: '',
+    budgetRange: ''
   });
   
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,7 +39,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       // TODO: Implement Google Sheets integration later
       /* 
       // Google Sheets Web App URL - this is the URL of the deployed Google Apps Script
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbwXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/exec';
+      const scriptURL = 'https://script.google.com/macros/s/1TDgKGmsWqz0SY8MQn9henlKFA3RkYyrxsXAacxFPxsE/exec';
       
       // Format data for Google Sheets
       const formDataForSheet = new FormData();
@@ -50,7 +49,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       });
       
       // Send data to Google Sheets
-      const response = await fetch(scriptURL, {
+      await fetch(scriptURL, {
         method: 'POST',
         body: formDataForSheet,
         mode: 'no-cors' // This is important for CORS issues
@@ -64,14 +63,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       setFormData({
         name: '',
         email: '',
-        role: '',
+        country: '',
         companyName: '',
         companyWebsite: '',
-        companySize: '',
-        companyRevenue: '',
-        projectBudget: '',
-        services: '',
-        message: ''
+        businessNature: '',
+        desiredOutcome: '',
+        budgetRange: ''
       });
       
       // Close the form after a delay
@@ -179,143 +176,103 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
-            <h2 className="text-3xl font-bold mb-6">Tell us where you&apos;re at</h2>
+            <h2 className="text-3xl font-bold mb-6">Please provide us with some details</h2>
             <form onSubmit={handleSubmit}>
               <div className="grid no-scrollbar grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">What is your name?</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Name*</label>
                   <input 
                     type="text" 
                     name="name" 
                     value={formData.name} 
                     onChange={handleChange} 
-                    placeholder="Name" 
+                    placeholder="Your name" 
                     className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
                     required 
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">What is your email?</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email*</label>
                   <input 
                     type="email" 
                     name="email" 
                     value={formData.email} 
                     onChange={handleChange} 
-                    placeholder="Email" 
+                    placeholder="Your email" 
                     className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
                     required 
                   />
                 </div>
               </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">What is your role in the company?</label>
-                <input 
-                  type="text" 
-                  name="role" 
-                  value={formData.role} 
-                  onChange={handleChange} 
-                  placeholder="Enter role" 
-                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
-                />
-              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Country*</label>
+                  <CountrySelect
+                    value={formData.country}
+                    onChange={(value) => setFormData(prev => ({ ...prev, country: value }))}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Company Name*</label>
                   <input 
                     type="text" 
                     name="companyName" 
                     value={formData.companyName} 
                     onChange={handleChange} 
-                    placeholder="Enter company name" 
+                    placeholder="Your company name" 
                     className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
+                    required
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Company Website</label>
-                  <input 
-                    type="text" 
-                    name="companyWebsite" 
-                    value={formData.companyWebsite} 
-                    onChange={handleChange} 
-                    placeholder="Enter company website" 
-                    className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Company Size</label>
-                  <select 
-                    name="companySize" 
-                    value={formData.companySize} 
-                    onChange={handleChange} 
-                    className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
-                  >
-                    <option value="">Select company size</option>
-                    <option value="1-10">1-10</option>
-                    <option value="11-50">11-50</option>
-                    <option value="51-200">51-200</option>
-                    <option value="201-500">201-500</option>
-                    <option value="500+">500+</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Company&apos;s Annual Revenue</label>
-                  <select 
-                    name="companyRevenue" 
-                    value={formData.companyRevenue} 
-                    onChange={handleChange} 
-                    className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
-                  >
-                    <option value="">Select revenue range</option>
-                    <option value="Under $1M">Under $1M</option>
-                    <option value="$1M - $10M">$1M - $10M</option>
-                    <option value="$10M - $50M">$10M - $50M</option>
-                    <option value="$50M - $100M">$50M - $100M</option>
-                    <option value="$100M+">$100M+</option>
-                  </select>
                 </div>
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Project budget</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Company website or Google URL</label>
+                <input 
+                  type="text" 
+                  name="companyWebsite" 
+                  value={formData.companyWebsite} 
+                  onChange={handleChange} 
+                  placeholder="https://" 
+                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500" 
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">What is the nature of your business?</label>
+                <textarea 
+                  name="businessNature" 
+                  value={formData.businessNature} 
+                  onChange={handleChange} 
+                  placeholder="Please describe your business" 
+                  rows={3} 
+                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
+                ></textarea>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">What's the main outcome you're hoping to achieve by working with us or the AI solution you want us to develop?</label>
+                <textarea 
+                  name="desiredOutcome" 
+                  value={formData.desiredOutcome} 
+                  onChange={handleChange} 
+                  placeholder="Please describe your goals" 
+                  rows={4} 
+                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
+                ></textarea>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Is there a budget range you're considering for this project?</label>
                 <select 
-                  name="projectBudget" 
-                  value={formData.projectBudget} 
+                  name="budgetRange" 
+                  value={formData.budgetRange} 
                   onChange={handleChange} 
                   className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
                 >
                   <option value="">Select budget range</option>
-                  <option value="$5k - $10k">$5k - $10k</option>
-                  <option value="$10k - $25k">$10k - $25k</option>
-                  <option value="$25k - $50k">$25k - $50k</option>
-                  <option value="$50k+">$50k+</option>
+                  <option value="Under $500">Under $500</option>
+                  <option value="$500 - $1,000">$500 - $1,000</option>
+                  <option value="$1,000 - $3,000">$1,000 - $3,000</option>
+                  <option value="More than $3,000">More than $3,000</option>
                 </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">What services are you interested in?</label>
-                <select 
-                  name="services" 
-                  value={formData.services} 
-                  onChange={handleChange} 
-                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
-                >
-                  <option value="">Select service</option>
-                  <option value="AI Development">AI Development</option>
-                  <option value="Web Development">Web Development</option>
-                  <option value="Mobile Development">Mobile Development</option>
-                  <option value="UI/UX Design">UI/UX Design</option>
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                <textarea 
-                  name="message" 
-                  value={formData.message} 
-                  onChange={handleChange} 
-                  placeholder="Enter message" 
-                  rows={4} 
-                  className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
-                ></textarea>
               </div>
               <div className="text-center mt-6">
                 <button 
@@ -323,7 +280,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                   disabled={isSubmitting}
                   className="bg-white text-black px-8 py-3 rounded-full font-semibold border border-gray-300 hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Sending...' : 'Send inquiry'}
+                  {isSubmitting ? 'Sending...' : 'Submit'}
                 </button>
                 
                 {submitStatus === 'success' && (

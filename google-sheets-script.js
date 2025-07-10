@@ -1,10 +1,3 @@
-// This code should be deployed as a Google Apps Script Web App
-// 1. Go to https://script.google.com/
-// 2. Create a new project
-// 3. Paste this code
-// 4. Deploy as a web app (accessible to anyone, even anonymous)
-// 5. Copy the web app URL and use it in your ContactForm.tsx
-
 function doPost(e) {
   try {
     // Get the form data
@@ -19,11 +12,11 @@ function doPost(e) {
     const sheet = spreadsheet.getSheets()[0];
     
     // Check if headers exist, if not add them
-    const headers = sheet.getRange(1, 1, 1, 12).getValues()[0];
+    const headers = sheet.getRange(1, 1, 1, 8).getValues()[0];
     if (headers[0] === '') {
-      sheet.getRange(1, 1, 1, 12).setValues([
-        ['Timestamp', 'Name', 'Email', 'Role', 'Company Name', 'Company Website', 
-         'Company Size', 'Company Revenue', 'Project Budget', 'Services', 'Message', 'Form Submission Date']
+      sheet.getRange(1, 1, 1, 8).setValues([
+        ['Timestamp', 'Name', 'Email', 'Country', 'Company Name', 'Company Website', 
+         'Business Nature', 'Desired Outcome', 'Budget Range', 'Form Submission Date']
       ]);
     }
     
@@ -35,14 +28,12 @@ function doPost(e) {
       timestamp,
       data.name || '',
       data.email || '',
-      data.role || '',
+      data.country || '',
       data.companyName || '',
       data.companyWebsite || '',
-      data.companySize || '',
-      data.companyRevenue || '',
-      data.projectBudget || '',
-      data.services || '',
-      data.message || '',
+      data.businessNature || '',
+      data.desiredOutcome || '',
+      data.budgetRange || '',
       formattedDate
     ];
     

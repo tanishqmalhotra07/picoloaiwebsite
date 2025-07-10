@@ -131,6 +131,7 @@ const Hero = () => {
       ref={heroRef}
       className="relative h-screen w-full overflow-hidden bg-black"
       onMouseMove={handleMouseMove}
+      lang="en"
     >
       <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/80 shadow-[0_0_15px_rgba(0,255,255,0.6)]"></div>
       {/* Background Image Animation */}
@@ -176,6 +177,8 @@ const Hero = () => {
             <motion.span
               className="font-semibold inline-block"
               variants={sentenceLine1Variants}
+              translate="no"
+              lang="en"
             >
               {"We are an AI".split("").map((char, index) => (
                 <motion.span key={index} variants={letterLine1Variants} className="inline-block">
@@ -184,7 +187,7 @@ const Hero = () => {
               ))}
             </motion.span>
             <br />
-            <span className="h-[1em] inline-block w-full md:w-[10em] text-center px-2 min-h-[1em]">
+            <span className="h-[1em] inline-block w-full md:w-[10em] text-center px-2 min-h-[1em]" translate="no" lang="en">
                             <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">
                 {text || '\u00A0'}
               </span>
@@ -193,6 +196,8 @@ const Hero = () => {
             <motion.span
               className="font-semibold inline-block"
               variants={sentenceLine1Variants}
+              translate="no"
+              lang="en"
             >
               {"Company".split("").map((char, index) => (
                 <motion.span key={index} variants={letterLine1Variants} className="inline-block">
@@ -201,7 +206,7 @@ const Hero = () => {
               ))}
             </motion.span>
           </h1>
-                    <p className="mt-6 text-sm sm:text-sm md:text-2xl tracking-tight font-light">
+                    <p className="mt-6 text-sm sm:text-sm md:text-2xl tracking-tight font-light" translate="no" lang="en">
           Simplifying AI so you can scale, save, and succeed
           </p>
         </motion.div>
