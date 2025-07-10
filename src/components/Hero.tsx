@@ -172,7 +172,7 @@ const Hero = () => {
 
         {/* Main Content */}
         <motion.div style={{ y: textY }} className="text-center text-white px-4" variants={itemVariants}>
-                    <h1 className="text-5xl sm:text-5xl md:text-8xl font-normal tracking-tighter ">
+                    <h1 className="text-4xl sm:text-4xl md:text-8xl font-normal tracking-tighter ">
             <motion.span
               className="font-semibold inline-block"
               variants={sentenceLine1Variants}
@@ -201,7 +201,7 @@ const Hero = () => {
               ))}
             </motion.span>
           </h1>
-                    <p className="mt-6 text-lg sm:text-regular md:text-2xl tracking-tight font-light">
+                    <p className="mt-6 text-sm sm:text-sm md:text-2xl tracking-tight font-light">
           Simplifying AI so you can scale, save, and succeed
           </p>
         </motion.div>
