@@ -37,7 +37,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
     
     try {
       // Google Sheets Web App URL - this is the URL of the deployed Google Apps Script
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbxnAQmD9Q9qaaM7GPgpGArkmp0euWLrU6opG2udms_EEhq-uPssB-dK0SLoHAgVROqX/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbyIBe0tUB-y-83nM--SMfaJA0kG7bwC5ct-0fhH5Z7-Zg4loDoLxwaw1B6-NAuNGAu0/exec';
       
       // Format data for Google Sheets
       const formDataForSheet = new FormData();
