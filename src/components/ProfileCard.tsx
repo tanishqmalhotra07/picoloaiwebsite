@@ -86,7 +86,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           <div className="pc-glare"></div>
           <div className="pc-content">
             <div className="pc-details">
-              <h3 className="text-base sm:text-xl md:text-3xl font-bold text-white text-center leading-tight h-[4rem] sm:h-[4.5rem] flex items-center justify-center line-clamp-3">{name || title}</h3>
+              <h3 className="text-sm sm:text-xl md:text-3xl font-bold text-white text-center leading-tight h-[4rem] sm:h-[4.5rem] flex items-center justify-center line-clamp-3">{name || title}</h3>
               {image && (
                 <div className="pc-image-container h-14 sm:h-20 flex items-center justify-center my-1 sm:my-4">
                   {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -172,7 +172,7 @@ const ContentAnimation: React.FC<ContentAnimationProps> = ({ scrollYProgress, in
       {/* Mobile layout */}
       <div className="flex flex-col items-center md:hidden w-full h-full">
         <h3 className="text-4xl sm:text-5xl font-bold text-white pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">{item.title}</h3>
-        <p className="text-white text-sm sm:text-base text-center px-4 w-[85%] pointer-events-none absolute bottom-16 left-1/2 -translate-x-1/2">
+        <p className="text-white text-sm sm:text-base text-center px-4 w-[85%] pointer-events-none absolute bottom-25 left-1/2 -translate-x-1/2">
           {item.description}
         </p>
       </div>
