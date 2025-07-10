@@ -368,12 +368,10 @@ const OrbComponent: React.FC<OrbProps> = ({
   if (syncId === 'educate') fallbackClass = 'blue';
   else if (syncId === 'develop') fallbackClass = 'green';
   
+  // We don't need this anymore since we're handling the images directly in OrbSection.tsx
   return useFallback ? (
-    // CSS fallback for mobile devices
-    <div 
-      className={`orb-fallback ${fallbackClass}`}
-      style={{ pointerEvents: 'none' }}
-    />
+    // Empty div for mobile devices since we're handling images in OrbSection
+    <div style={{ display: 'none' }}></div>
   ) : (
     // WebGL version for desktop
     <div 

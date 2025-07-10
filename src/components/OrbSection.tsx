@@ -9,9 +9,6 @@ import {
 } from 'framer-motion';
 import useEmblaCarousel from 'embla-carousel-react';
 import Orb from './Orb';
-
-
-
 import ProfileCard from './ProfileCard';
 import './ProfileCard.css';
 import './embla.css';
@@ -65,7 +62,7 @@ const solutionsData = [
     "description": "We can develop custom AI agents tailored to your specific business needs and requirements.",
     "image": "updates"
   }
-]
+];
 
 const content = [
   {
@@ -84,8 +81,6 @@ const content = [
       'We design, build, and scale custom AI solutions that solve your most pressing business needs and create a lasting competitive advantage.',
   },
 ];
-
-
 
 interface NavItemProps {
   scrollYProgress: MotionValue<number>;
@@ -154,8 +149,6 @@ const ContentAnimation: React.FC<ContentAnimationProps> = ({ scrollYProgress, in
     [0.8, 1, 1, 1, 1, 0.8]
   );
 
-
-
   return (
     <motion.div
       style={{
@@ -170,10 +163,7 @@ const ContentAnimation: React.FC<ContentAnimationProps> = ({ scrollYProgress, in
       }}
       className="flex flex-col md:flex-row items-center justify-center"
     >
-
-
       {/* Desktop layout */}
-
       <h3 className="hidden md:block text-5xl md:text-6xl font-bold text-white pointer-events-none">{item.title}</h3>
       <p className="hidden md:block absolute top-1/2 -translate-y-1/2 right-16 w-64 text-right text-white text-base pointer-events-none">
         {item.description}
@@ -189,10 +179,6 @@ const ContentAnimation: React.FC<ContentAnimationProps> = ({ scrollYProgress, in
     </motion.div>
   );
 };
-
-
-
-
 
 // Custom hook to detect mobile devices
 const useIsMobile = () => {
@@ -224,7 +210,6 @@ const OrbSection = () => {
   // State for orb interactivity
   const [, setIsOrbInteractive] = useState(true);
   
-
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: false,
     align: 'center',
@@ -239,18 +224,13 @@ const OrbSection = () => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-    useEffect(() => {
+  useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', () => {
       // Always keep the orb interactive regardless of scroll position
       setIsOrbInteractive(true);
     });
     return unsubscribe;
   }, [scrollYProgress]);
-
-  // Orb scaling and positioning - removed unused variable
-  
-  // About section animation
-
   
   // Keep orb visible without expansion or disappearance
   const orbFinalScale = useTransform(
@@ -341,8 +321,6 @@ const OrbSection = () => {
   // Initial text animation - fixed to ensure visibility
   const text1Opacity = useTransform(scrollYProgress, [0, 0.15, 0.2], [1, 1, 0]);
   const text1Y = useTransform(scrollYProgress, [0.1, 0.2], ['0%', '-100%']);
-  
-  // About section text animation
 
   // Final elements container opacity
   const navOpacity = useTransform(scrollYProgress, [0.15, 0.2, 0.8, 0.85], [0, 1, 1, 0]);
@@ -444,10 +422,8 @@ const OrbSection = () => {
     [0.799, 0.8],
     ['none', 'auto']
   );
-  
-  // Solutions transition is handled by opacity and scale
 
-    return (
+  return (
     <section
       id="about"
       ref={targetRef}
@@ -455,8 +431,6 @@ const OrbSection = () => {
       style={{ background: '#02010C', contain: 'paint layout' }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden gpu-accelerated" style={{ willChange: 'transform', contain: 'paint layout' }}>
-
-
         {/* Initial Text */}
         <motion.div
           style={{ opacity: text1Opacity, y: text1Y }}
@@ -469,7 +443,7 @@ const OrbSection = () => {
         </motion.div>
 
         {/* Orb - optimized for hover and mobile */}
-                <motion.div
+        <motion.div
           style={{
             scaleX: orbScaleX,
             scaleY: orbScaleY,
@@ -484,12 +458,20 @@ const OrbSection = () => {
           initial={false}
         >
           <div className="w-full h-full pointer-events-auto">
-            <Orb 
-              interactive={true} 
-              hoverIntensity={0.3} 
-              rotateOnHover={true} 
-              forceHoverState={false}
-            />
+            {isMobile ? (
+              <img 
+                src="/mobile-identify-orb.png" 
+                alt="Identify Orb"
+                className="orb-image"
+              />
+            ) : (
+              <Orb 
+                interactive={true} 
+                hoverIntensity={0.3} 
+                rotateOnHover={true} 
+                forceHoverState={false}
+              />
+            )}
           </div>
         </motion.div>
 
@@ -503,9 +485,7 @@ const OrbSection = () => {
         >
         </motion.div>
         
-
-        
-        {/* Educate Section with two conjoined orbs - performance optimized */}
+        {/* Educate Section with single orb image for mobile */}
         <motion.div
           style={{
             opacity: educateSectionOpacity,
@@ -521,71 +501,98 @@ const OrbSection = () => {
             onMouseEnter={() => window.dispatchEvent(new CustomEvent('educate-hover-start'))}
             onMouseLeave={() => window.dispatchEvent(new CustomEvent('educate-hover-end'))}
           >
-              {/* Left Orb - simplified for performance */}
+            {/* Mobile: Single centered orb image */}
+            {isMobile ? (
               <motion.div 
                 className="absolute w-80 h-80"
                 style={{ 
-                  x: leftOrbX,
                   y: orbsY,
-                  scale: isMobile ? 0.6 : 1.6,
+                  scale: 1,
                   willChange: 'transform',
                   contain: 'strict',
                   backfaceVisibility: 'hidden',
                   pointerEvents: educatePointerEvents
                 }}
-                initial={false}
-                layoutId="left-orb"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
               >
-                <Orb 
-                  interactive={false} 
-                  hoverIntensity={0.15} 
-                  rotateOnHover={true}
-                  syncId="educate"
-                  hue={-100} // Blue-purple hue
+                <img 
+                  src="/mobile-educate-orb.png" 
+                  alt="Educate Orb"
+                  className="orb-image"
                 />
               </motion.div>
-              
-              {/* Right Orb - simplified for performance */}
-              <motion.div 
-                className="absolute w-80 h-80"
-                style={{ 
-                  x: rightOrbX,
-                  y: orbsY,
-                  scale: isMobile ? 0.6 : 1.6,
-                  willChange: 'transform',
-                  contain: 'strict',
-                  backfaceVisibility: 'hidden',
-                  pointerEvents: educatePointerEvents
-                }}
-                initial={false}
-                layoutId="right-orb"
-              >
-                <Orb 
-                  interactive={false} 
-                  hoverIntensity={0.15} 
-                  rotateOnHover={true}
-                  syncId="educate"
-                  hue={-100} // Purple-pink hue
-                />
-              </motion.div>
-              
-              {/* Educate heading in the intersection of orbs */}
-              <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-12' : '-translate-y-0'}`}>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
-                  Educate
-                </h2>
-              </div>
-              
-              {/* Description for Educate section - right side on desktop, centered on mobile */}
-              <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-24 left-1/2 -translate-x-1/2 w-[85%] text-center' : 'right-16 top-1/2 -translate-y-1/2 w-64 text-right'}`}>
-                <p className="text-white text-base pointer-events-none">
-                  We train and support your team with the right tools and know-how to embed AI across your entire organization.
-                </p>
-              </div>
+            ) : (
+              <>
+                {/* Left Orb - desktop only */}
+                <motion.div 
+                  className="absolute w-80 h-80"
+                  style={{ 
+                    x: leftOrbX,
+                    y: orbsY,
+                    scale: 1.6,
+                    willChange: 'transform',
+                    contain: 'strict',
+                    backfaceVisibility: 'hidden',
+                    pointerEvents: educatePointerEvents
+                  }}
+                  initial={false}
+                  layoutId="left-orb"
+                >
+                  <Orb 
+                    interactive={false} 
+                    hoverIntensity={0.15} 
+                    rotateOnHover={true}
+                    syncId="educate"
+                    hue={-100} // Blue-purple hue
+                  />
+                </motion.div>
+                
+                {/* Right Orb - desktop only */}
+                <motion.div 
+                  className="absolute w-80 h-80"
+                  style={{ 
+                    x: rightOrbX,
+                    y: orbsY,
+                    scale: 1.6,
+                    willChange: 'transform',
+                    contain: 'strict',
+                    backfaceVisibility: 'hidden',
+                    pointerEvents: educatePointerEvents
+                  }}
+                  initial={false}
+                  layoutId="right-orb"
+                >
+                  <Orb 
+                    interactive={false} 
+                    hoverIntensity={0.15} 
+                    rotateOnHover={true}
+                    syncId="educate"
+                    hue={-100} // Purple-pink hue
+                  />
+                </motion.div>
+              </>
+            )}
+            
+            {/* Educate heading in the intersection of orbs */}
+            <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-12' : '-translate-y-0'}`}>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
+                Educate
+              </h2>
+            </div>
+            
+            {/* Description for Educate section - right side on desktop, centered on mobile */}
+            <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-24 left-1/2 -translate-x-1/2 w-[85%] text-center' : 'right-16 top-1/2 -translate-y-1/2 w-64 text-right'}`}>
+              <p className="text-white text-base pointer-events-none">
+                We train and support your team with the right tools and know-how to embed AI across your entire organization.
+              </p>
+            </div>
           </div>
         </motion.div>
         
-        {/* Develop Section with three conjoined orbs in a horizontal line */}
+        {/* Develop Section with single orb image for mobile */}
         <motion.div
           style={{
             opacity: developSectionOpacity,
@@ -601,77 +608,104 @@ const OrbSection = () => {
             onMouseEnter={() => window.dispatchEvent(new CustomEvent('develop-hover-start'))}
             onMouseLeave={() => window.dispatchEvent(new CustomEvent('develop-hover-end'))}
           >
-            {/* Left Orb */}
-            <motion.div 
-              className="absolute w-80 h-80"
-              style={{
-                x: developLeftOrbX,
-                y: developLeftOrbY,
-                scale: isMobile ? 0.6 : 1.3,
-                willChange: 'transform',
-                contain: 'strict',
-                backfaceVisibility: 'hidden',
-                pointerEvents: developPointerEvents
-              }}
-              initial={false}
-              layoutId="develop-left-orb"
-            >
-              <Orb 
-                interactive={false} 
-                hoverIntensity={0.1} 
-                rotateOnHover={true}
-                syncId="develop"
-                hue={-20} // Green-yellow hue
-              />
-            </motion.div>
-            
-            {/* Middle Orb */}
-            <motion.div 
-              className="absolute w-80 h-80"
-              style={{
-                x: developMiddleOrbX,
-                y: developMiddleOrbY,
-                scale: isMobile ? 0.6 : 1.6,
-                willChange: 'transform',
-                contain: 'strict',
-                backfaceVisibility: 'hidden',
-                pointerEvents: developPointerEvents
-              }}
-              initial={false}
-              layoutId="develop-middle-orb"
-            >
-              <Orb 
-                interactive={false} 
-                hoverIntensity={0.1} 
-                rotateOnHover={true}
-                syncId="develop"
-                hue={-40} // Yellow-orange hue
-              />
-            </motion.div>
-            
-            {/* Right Orb */}
-            <motion.div 
-              className="absolute w-80 h-80"
-              style={{
-                x: developRightOrbX,
-                y: developRightOrbY,
-                scale: isMobile ? 0.6 : 1.3,
-                willChange: 'transform',
-                contain: 'strict',
-                backfaceVisibility: 'hidden',
-                pointerEvents: developPointerEvents
-              }}
-              initial={false}
-              layoutId="develop-right-orb"
-            >
-              <Orb 
-                interactive={false} 
-                hoverIntensity={0.2} 
-                rotateOnHover={true}
-                syncId="develop"
-                hue={-60} // Orange-red hue
-              />
-            </motion.div>
+            {/* Mobile: Single centered orb image */}
+            {isMobile ? (
+              <motion.div 
+                className="absolute w-80 h-80"
+                style={{
+                  y: developMiddleOrbY,
+                  scale: 1,
+                  willChange: 'transform',
+                  contain: 'strict',
+                  backfaceVisibility: 'hidden',
+                  pointerEvents: developPointerEvents
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <img 
+                  src="/mobile-develop-orb.png" 
+                  alt="Develop Orb"
+                  className="orb-image"
+                />
+              </motion.div>
+            ) : (
+              <>
+                {/* Left Orb - desktop only */}
+                <motion.div 
+                  className="absolute w-80 h-80"
+                  style={{
+                    x: developLeftOrbX,
+                    y: developLeftOrbY,
+                    scale: 1.3,
+                    willChange: 'transform',
+                    contain: 'strict',
+                    backfaceVisibility: 'hidden',
+                    pointerEvents: developPointerEvents
+                  }}
+                  initial={false}
+                  layoutId="develop-left-orb"
+                >
+                  <Orb 
+                    interactive={false} 
+                    hoverIntensity={0.1} 
+                    rotateOnHover={true}
+                    syncId="develop"
+                    hue={-20} // Green-yellow hue
+                  />
+                </motion.div>
+                
+                {/* Middle Orb - desktop only */}
+                <motion.div 
+                  className="absolute w-80 h-80"
+                  style={{
+                    x: developMiddleOrbX,
+                    y: developMiddleOrbY,
+                    scale: 1.6,
+                    willChange: 'transform',
+                    contain: 'strict',
+                    backfaceVisibility: 'hidden',
+                    pointerEvents: developPointerEvents
+                  }}
+                  initial={false}
+                  layoutId="develop-middle-orb"
+                >
+                  <Orb 
+                    interactive={false} 
+                    hoverIntensity={0.1} 
+                    rotateOnHover={true}
+                    syncId="develop"
+                    hue={-40} // Yellow-orange hue
+                  />
+                </motion.div>
+                
+                {/* Right Orb - desktop only */}
+                <motion.div 
+                  className="absolute w-80 h-80"
+                  style={{
+                    x: developRightOrbX,
+                    y: developRightOrbY,
+                    scale: 1.3,
+                    willChange: 'transform',
+                    contain: 'strict',
+                    backfaceVisibility: 'hidden',
+                    pointerEvents: developPointerEvents
+                  }}
+                  initial={false}
+                  layoutId="develop-right-orb"
+                >
+                  <Orb 
+                    interactive={false} 
+                    hoverIntensity={0.2} 
+                    rotateOnHover={true}
+                    syncId="develop"
+                    hue={-60} // Orange-red hue
+                  />
+                </motion.div>
+              </>
+            )}
             
             {/* Develop heading below the orbs */}
             <div className={`absolute z-50 ${isMobile ? 'top-1/2 translate-y-12' : 'top-1/2 -translate-y-1/2'}`}>
@@ -758,7 +792,7 @@ const OrbSection = () => {
               <div className="embla__viewport solutions-carousel-viewport" ref={emblaRef}>
                 <div className="embla__container">
                   {solutionsData.map((solution, i) => (
-                    <div className="embla__slide " key={i}>
+                    <div className="embla__slide" key={i}>
                       <ProfileCard
                         name={solution.name}
                         industry={solution.industry}
