@@ -37,7 +37,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
     
     try {
       // Google Sheets Web App URL - this is the URL of the deployed Google Apps Script
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbyDpre6gG8J7sbxAQMTYwjBklGNYdu_uvqT6AA5DRQ0AEI_v2EqX50TltoSRGNRgMS0MQ/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbxnAQmD9Q9qaaM7GPgpGArkmp0euWLrU6opG2udms_EEhq-uPssB-dK0SLoHAgVROqX/exec';
       
       // Format data for Google Sheets
       const formDataForSheet = new FormData();
@@ -46,10 +46,23 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
         formDataForSheet.append(key, value);
       });
       
+      // Create a URLSearchParams object for better compatibility with Google Apps Script
+      const params = new URLSearchParams();
+      
+      // Add all form fields to the params
+      params.append('name', formData.name);
+      params.append('email', formData.email);
+      params.append('country', formData.country);
+      params.append('companyName', formData.companyName);
+      params.append('companyWebsite', formData.companyWebsite);
+      params.append('businessNature', formData.businessNature);
+      params.append('desiredOutcome', formData.desiredOutcome);
+      params.append('budgetRange', formData.budgetRange);
+      
       // Send data to Google Sheets
-      await fetch(scriptURL, {
+      const response = await fetch(scriptURL, {
         method: 'POST',
-        body: formDataForSheet,
+        body: params,
         mode: 'no-cors' // This is important for CORS issues
       });
       
