@@ -190,8 +190,8 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
         <div className="w-full sm:w-1/5 relative flex sm:items-center mt-4 sm:mt-0">
           <div className="relative lg:ml-2 lg:mb-6 w-full">
             {isCustomer ? 
-              <img src="/customer.png" alt="icon" className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3" /> :
-              (prefix && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{prefix}</span>)
+              <Image src="/customer.png" alt="customer icon" width={12} height={12} className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3" /> :
+              <Image src="/dollar.png" alt="dollar icon" width={12} height={12} className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3" />
             }
             <input 
               type="number"
@@ -350,9 +350,7 @@ const ServicesSection = () => {
             <Slider 
               label={
                 <div className="flex mb-5 lg:mb-0 items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                  <Image src="/dollar.png" alt="dollar icon" width={16} height={16} className="h-4 w-4" />
                   <span className="text-white">Average Order Value Per Customer</span>
                 </div>
               } 
