@@ -366,7 +366,7 @@ const ServicesSection = () => {
 
       <div ref={resultsRef} className="w-full max-w-6xl mx-auto mt-6 sm:mt-10">
         <div className="text-center -mt-5 mb-10">
-          <h3 className="text-lg sm:text-medium md:text-xl font-medium text-white">
+          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-white">
             Calculate Your Increase in Annual Revenue
           </h3>
         </div>
