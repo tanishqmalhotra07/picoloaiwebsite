@@ -335,7 +335,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
 
+@media (max-width: 640px) {
+  .pc-image-container {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 .pc-image {
