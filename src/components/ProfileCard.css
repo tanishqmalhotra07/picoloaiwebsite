@@ -327,7 +327,7 @@
 .pc-details h3 {
   font-weight: 600;
   margin: 0 0 0.75rem 0;
-  font-size: min(3svh, 1.5em);
+  font-size: min(4svh, 2em);
   color: #ffffff;
 }
 
