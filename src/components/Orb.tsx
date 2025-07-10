@@ -362,11 +362,7 @@ const OrbComponent: React.FC<OrbProps> = ({
   // Check if we're on mobile
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   
-  // Determine fallback class based on hue - all purple shades
-  let fallbackClass = 'purple';
-  // All orbs use purple variants
-  if (syncId === 'educate') fallbackClass = 'blue';
-  else if (syncId === 'develop') fallbackClass = 'green';
+  // We no longer need fallback classes since we're using images directly in OrbSection
   
   // We don't need this anymore since we're handling the images directly in OrbSection.tsx
   return useFallback ? (
