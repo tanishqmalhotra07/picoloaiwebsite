@@ -60,7 +60,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       params.append('budgetRange', formData.budgetRange);
       
       // Send data to Google Sheets
-      const response = await fetch(scriptURL, {
+      await fetch(scriptURL, {
         method: 'POST',
         body: params,
         mode: 'no-cors' // This is important for CORS issues
