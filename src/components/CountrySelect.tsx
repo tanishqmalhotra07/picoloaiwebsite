@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 
 interface CountrySelectProps {
   value: string;
@@ -157,10 +156,11 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, required
       >
         {selectedCountry ? (
           <div className="flex items-center">
-            <img 
-              src={selectedCountry.flag} 
-              alt={`${selectedCountry.name} flag`} 
-              className="w-5 h-auto mr-2"
+            <span 
+              className="w-5 h-3 mr-2 inline-block bg-contain bg-no-repeat"
+              style={{ backgroundImage: `url(${selectedCountry.flag})` }}
+              role="img"
+              aria-label={`${selectedCountry.name} flag`}
             />
             <span>{selectedCountry.name}</span>
           </div>
@@ -203,10 +203,11 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, required
                   setSearchTerm('');
                 }}
               >
-                <img 
-                  src={country.flag} 
-                  alt={`${country.name} flag`} 
-                  className="w-5 h-auto mr-2"
+                <span 
+                  className="w-5 h-3 mr-2 inline-block bg-contain bg-no-repeat"
+                  style={{ backgroundImage: `url(${country.flag})` }}
+                  role="img"
+                  aria-label={`${country.name} flag`}
                 />
                 <span>{country.name}</span>
               </div>

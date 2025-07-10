@@ -249,7 +249,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                 ></textarea>
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">What's the main outcome you're hoping to achieve by working with us or the AI solution you want us to develop?</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">What&apos;s the main outcome you&apos;re hoping to achieve by working with us or the AI solution you want us to develop?</label>
                 <textarea 
                   name="desiredOutcome" 
                   value={formData.desiredOutcome} 
@@ -260,7 +260,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                 ></textarea>
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Is there a budget range you're considering for this project?</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Is there a budget range you&apos;re considering for this project?</label>
                 <select 
                   name="budgetRange" 
                   value={formData.budgetRange} 
