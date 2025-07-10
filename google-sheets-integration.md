@@ -23,8 +23,7 @@ This document explains how to set up the Google Sheets integration for the conta
 ## Step 3: Update the Contact Form Code
 
 1. Open `src/components/ContactForm.tsx`
-2. Find the line with `const scriptURL = 'https://script.google.com/macros/s/1TDgKGmsWqz0SY8MQn9henlKFA3RkYyrxsXAacxFPxsE/exec';`
-3. Replace it with the Web App URL you copied in Step 2
+2. The script URL has been updated to: `https://script.google.com/macros/s/AKfycbyDpre6gG8J7sbxAQMTYwjBklGNYdu_uvqT6AA5DRQ0AEI_v2EqX50TltoSRGNRgMS0MQ/exec`
 
 ## Step 4: Create a Google Spreadsheet
 

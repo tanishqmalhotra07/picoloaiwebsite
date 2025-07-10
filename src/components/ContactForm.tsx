@@ -36,10 +36,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
     setSubmitStatus('idle');
     
     try {
-      // TODO: Implement Google Sheets integration later
-      /* 
       // Google Sheets Web App URL - this is the URL of the deployed Google Apps Script
-      const scriptURL = 'https://script.google.com/macros/s/1TDgKGmsWqz0SY8MQn9henlKFA3RkYyrxsXAacxFPxsE/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbyDpre6gG8J7sbxAQMTYwjBklGNYdu_uvqT6AA5DRQ0AEI_v2EqX50TltoSRGNRgMS0MQ/exec';
       
       // Format data for Google Sheets
       const formDataForSheet = new FormData();
@@ -54,9 +52,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
         body: formDataForSheet,
         mode: 'no-cors' // This is important for CORS issues
       });
-      */
       
-      // For now, just simulate a successful submission
+      // Process successful submission
       setSubmitStatus('success');
       
       // Reset form after successful submission
