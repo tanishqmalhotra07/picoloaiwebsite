@@ -32,11 +32,11 @@ function Model({ url, containerRef, ...props }: { url: string; containerRef: Rea
     const handleResize = () => {
       const width = window.innerWidth;
       if (width < 768) { // Mobile
-        setScale(0.65);
+        setScale(0.5);
       } else if (width < 1024) { // Tablet
-        setScale(0.85);
+        setScale(0.67);
       } else { // Desktop
-        setScale(1.0);
+        setScale(0.7);
       }
     };
 
@@ -58,7 +58,7 @@ function Model({ url, containerRef, ...props }: { url: string; containerRef: Rea
   useFrame(() => {
     if (!modelRef.current) return;
     
-    const maxVerticalRotation = 30 * (Math.PI / 180);
+    const maxVerticalRotation = 20 * (Math.PI / 180);
     let targetRotationX = (mousePos.current.y * Math.PI) / 2;
 
     // Clamp the vertical rotation
@@ -67,7 +67,7 @@ function Model({ url, containerRef, ...props }: { url: string; containerRef: Rea
       -maxVerticalRotation,
       maxVerticalRotation
     );
-    const maxRotation = 40 * (Math.PI / 180); // 70 degrees in radians
+    const maxRotation = 30 * (Math.PI / 180); // 70 degrees in radians
     let targetRotationY = -Math.PI / 2 + (mousePos.current.x * Math.PI) / 2;
 
     // Clamp the rotation to the 70-degree limit
@@ -100,26 +100,26 @@ function Model({ url, containerRef, ...props }: { url: string; containerRef: Rea
   );
 }
 
-const GreetingBubble = () => (
+const GreetingBubble = ({ isHovered }: { isHovered: boolean }) => (
   <motion.div
-    className="absolute top-1/4 right-40 mr-2 w-max max-w-xs p-3 bg-white rounded-lg shadow-lg"
-    initial={{ opacity: 0, y: 20 }}
+    className="absolute top-1/3 right-24 sm:right-28 md:right-32 lg:right-36 mr-2 w-max max-w-xs p-1.5 sm:p-2 bg-white rounded-lg shadow-lg"
+    initial={{ opacity: 1, y: 0 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.3, type: 'spring' }}
   >
-    <p className="text-sm text-gray-800">May I help you?</p>
+    <p className="text-[10px] sm:text-sm text-gray-800">{isHovered ? 'Hello!' : 'May I help you?'}</p>
     <div
-      className="absolute right-0 top-1/2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-white border-b-8 border-b-transparent"
+      className="absolute right-0 top-1/2 w-0 h-0 border-t-4 border-t-transparent border-l-4 border-l-white border-b-4 border-b-transparent"
       style={{ transform: 'translate(100%, -50%)' }}
     ></div>
   </motion.div>
 );
 
-export default function RobotModel({ url, showGreeting }: { url: string; showGreeting: boolean }) {
+export default function RobotModel({ url, isHovered }: { url: string; isHovered: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
   return (
     <div ref={containerRef} className="relative w-full h-full">
-      {showGreeting && <GreetingBubble />}
+      <GreetingBubble isHovered={isHovered} />
       <Canvas
                 camera={{ position: [0, 0.5, 4.5], fov: 30 }}
         style={{ background: 'transparent' }}

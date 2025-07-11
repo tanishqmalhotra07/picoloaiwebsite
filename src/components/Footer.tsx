@@ -31,7 +31,7 @@ const Footer = () => {
   return (
     <>
       <motion.footer
-                className="fixed bottom-2 sm:bottom-4 md:bottom-6 lg:bottom-8 right-2 sm:right-4 md:right-6 lg:right-8 z-50"
+                className="fixed bottom-2 right-2 z-50"
         variants={itemVariants}
         initial="hidden"
         animate="visible"
@@ -47,10 +47,10 @@ const Footer = () => {
           }}
           onHoverStart={() => setIsHovered(true)}
           onHoverEnd={() => setIsHovered(false)}
-          whileHover={{ scale: 1.15 }}
+
           onClick={toggleChatbot}
         >
-          <RobotModel url="/ChatRobo.glb" showGreeting={isHovered} />
+          <RobotModel url="/ChatRobo.glb" isHovered={isHovered} />
         </motion.div>
       </motion.footer>
       <Chatbot isOpen={isChatbotOpen} onClose={() => setChatbotOpen(false)} />
