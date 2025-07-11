@@ -17,15 +17,15 @@ function Model({ url, containerRef, ...props }: { url: string; containerRef: Rea
       if (!containerRef.current) return;
 
       const rect = containerRef.current.getBoundingClientRect();
-      const robotCenterX = rect.left + rect.width / 2;
-      const screenCenterY = window.innerHeight / 2;
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
 
-      const mouseX = event.clientX - robotCenterX;
-      const mouseY = event.clientY - screenCenterY;
+      const mouseX = event.clientX - centerX;
+      const mouseY = event.clientY - centerY;
 
       mousePos.current = {
-        x: (mouseX / (rect.width / 2)) * 0.5, // Horizontal relative to robot
-        y: (mouseY / (window.innerHeight / 2)), // Vertical relative to screen center
+        x: (mouseX / (rect.width / 2)) * 0.5,
+        y: (mouseY / (rect.height / 2)) * 0.5, // Negated to correct inversion
       };
     };
 
@@ -58,7 +58,7 @@ function Model({ url, containerRef, ...props }: { url: string; containerRef: Rea
   useFrame(() => {
     if (!modelRef.current) return;
     
-    const maxVerticalRotation = 25 * (Math.PI / 180);
+    const maxVerticalRotation = 30 * (Math.PI / 180);
     let targetRotationX = (mousePos.current.y * Math.PI) / 2;
 
     // Clamp the vertical rotation
