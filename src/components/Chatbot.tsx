@@ -13,12 +13,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
+      document.body.classList.add('no-scroll');
       setIsLoading(true);
       const timer = setTimeout(() => {
         setIsLoading(false);
       }, 3000); // 3 second loading animation
       return () => clearTimeout(timer);
+    } else {
+      document.body.classList.remove('no-scroll');
     }
+
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
   }, [isOpen]);
 
   return (
