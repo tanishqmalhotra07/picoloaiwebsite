@@ -6,7 +6,7 @@ import { useGLTF } from '@react-three/drei';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
 
-function Model({ url, ...props }: { url: string }) {
+function Model({ url, containerRef, ...props }: { url: string; containerRef: React.RefObject<HTMLDivElement | null> }) {
   const { scene } = useGLTF(url);
   const modelRef = useRef<THREE.Group>(null);
   const mousePos = useRef({ x: 0, y: 0 });
@@ -14,9 +14,18 @@ function Model({ url, ...props }: { url: string }) {
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
+      if (!containerRef.current) return;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const robotCenterX = rect.left + rect.width / 2;
+      const screenCenterY = window.innerHeight / 2;
+
+      const mouseX = event.clientX - robotCenterX;
+      const mouseY = event.clientY - screenCenterY;
+
       mousePos.current = {
-        x: (event.clientX / window.innerWidth) * 2 - 1,
-        y: -(event.clientY / window.innerHeight) * 2 + 1,
+        x: (mouseX / (rect.width / 2)) * 0.5, // Horizontal relative to robot
+        y: -(mouseY / (window.innerHeight / 2)), // Vertical relative to screen center
       };
     };
 
@@ -49,8 +58,24 @@ function Model({ url, ...props }: { url: string }) {
   useFrame(() => {
     if (!modelRef.current) return;
     
-    const targetRotationX = (mousePos.current.y * Math.PI) / 6;
-    const targetRotationY = -Math.PI / 2 + (mousePos.current.x * Math.PI) / 4;
+    const maxVerticalRotation = 25 * (Math.PI / 180);
+    let targetRotationX = (mousePos.current.y * Math.PI) / 2;
+
+    // Clamp the vertical rotation
+    targetRotationX = THREE.MathUtils.clamp(
+      targetRotationX,
+      -maxVerticalRotation,
+      maxVerticalRotation
+    );
+    const maxRotation = 40 * (Math.PI / 180); // 70 degrees in radians
+    let targetRotationY = -Math.PI / 2 + (mousePos.current.x * Math.PI) / 2;
+
+    // Clamp the rotation to the 70-degree limit
+    targetRotationY = THREE.MathUtils.clamp(
+      targetRotationY,
+      -Math.PI / 2 - maxRotation,
+      -Math.PI / 2 + maxRotation
+    );
     
     modelRef.current.rotation.x = THREE.MathUtils.lerp(
       modelRef.current.rotation.x,
@@ -91,8 +116,9 @@ const GreetingBubble = () => (
 );
 
 export default function RobotModel({ url, showGreeting }: { url: string; showGreeting: boolean }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   return (
-    <div className="relative w-full h-full">
+    <div ref={containerRef} className="relative w-full h-full">
       {showGreeting && <GreetingBubble />}
       <Canvas
                 camera={{ position: [0, 0.5, 4.5], fov: 30 }}
@@ -102,7 +128,7 @@ export default function RobotModel({ url, showGreeting }: { url: string; showGre
         <directionalLight position={[5, 5, 5]} intensity={1} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
         <pointLight position={[-10, -10, -10]} />
-        <Model url={url} />
+                <Model url={url} containerRef={containerRef} />
       </Canvas>
     </div>
   );
