@@ -31,7 +31,7 @@ const Footer = () => {
   return (
     <>
       <motion.footer
-                className="fixed bottom-2 right-2 z-50"
+                className="fixed bottom-[0.4rem] right-[-0.5rem] sm:bottom-2 sm:right-2 z-50"
         variants={itemVariants}
         initial="hidden"
         animate="visible"
