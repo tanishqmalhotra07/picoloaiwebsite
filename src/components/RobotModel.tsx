@@ -25,7 +25,7 @@ function Model({ url, containerRef, ...props }: { url: string; containerRef: Rea
 
       mousePos.current = {
         x: (mouseX / (rect.width / 2)) * 0.5, // Horizontal relative to robot
-        y: -(mouseY / (window.innerHeight / 2)), // Vertical relative to screen center
+        y: (mouseY / (window.innerHeight / 2)), // Vertical relative to screen center
       };
     };
 
