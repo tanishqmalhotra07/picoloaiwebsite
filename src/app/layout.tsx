@@ -39,7 +39,7 @@ export default function RootLayout({
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 5000);
           
-          const response = await fetch(CHATBOT_BASE_URL, {
+          await fetch(CHATBOT_BASE_URL, {
             signal: controller.signal,
             // Add mode: 'no-cors' to prevent CORS issues during development
             mode: 'no-cors'
