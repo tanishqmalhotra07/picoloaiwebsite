@@ -7,6 +7,7 @@ import ShinyText from './ShinyText';
 import { useContactForm } from '@/context/ContactFormContext';
 import AnimatedArrow from './AnimatedArrow';
 import './testimonials.css';
+import './PulsatingButton.css';
 
 interface ResultCardProps {
   title: string;
@@ -61,7 +62,8 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
         </div>
       )}
       <div className={cardClasses}>
-        <p className={`text-lg sm:text-xl font-bold pt-2 ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
+        <p className="text-xs text-gray-400 pt-2 mb-1">Increase in Annual Revenue</p>
+        <p className={`text-lg sm:text-xl font-bold mb-2 ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
         
         <div className="h-16 flex items-center justify-center">
           <div className="flex items-center gap-2">
@@ -73,7 +75,6 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
             )}
           </div>
         </div>
-        <p className="text-xs text-gray-400 -mt-4 mb-2">Potential Increase in Annual Revenue</p>
         
         <div className="text-gray-300 leading-tight flex-grow w-full flex items-center justify-center">
           {isExclusive ? (
@@ -368,17 +369,28 @@ const ServicesSection = () => {
 
       <div ref={resultsRef} className="w-full max-w-6xl mx-auto mt-6 sm:mt-10">
         <div className="text-center -mt-5 mb-10">
-          <button 
-            className="text-base sm:text-lg md:text-xl font-medium px-6 py-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 transform hover:scale-105"
+          <motion.button 
+            className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 transition-all duration-300 transform hover:scale-105 pulsating-button"
             onClick={() => {
               setShowResults(true);
               if (resultsRef.current) {
                 resultsRef.current.scrollIntoView({ behavior: 'smooth' });
               }
             }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            animate={{
+              boxShadow: ['0 10px 15px -3px rgba(116, 19, 205, 0.3)', '0 20px 25px -5px rgba(116, 19, 205, 0.5)', '0 10px 15px -3px rgba(116, 19, 205, 0.3)'],
+              scale: [1, 1.02, 1],
+            }}
+            transition={{ 
+              duration: 2, 
+              repeat: Infinity, 
+              ease: 'easeInOut' 
+            }}
           >
-            Calculate
-          </button>
+            Calculate Now
+          </motion.button>
         </div>
         <AnimatePresence>
             <motion.div 

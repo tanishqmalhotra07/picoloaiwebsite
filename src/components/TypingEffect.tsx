@@ -8,6 +8,7 @@ interface TypingEffectProps {
   onComplete?: () => void;
 }
 
+
 const TypingEffect: React.FC<TypingEffectProps> = ({ 
   text, 
   speed = 15, // Moderate typing speed (15ms delay)

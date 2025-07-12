@@ -1,0 +1,38 @@
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+.pulsating-button {
+  position: relative;
+}
+
+.pulsating-button::before,
+.pulsating-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(116, 19, 205, 0.5) 0%, rgba(255, 0, 128, 0.5) 100%);
+  z-index: -1;
+}
+
+.pulsating-button::before {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+.pulsating-button::after {
+  animation: pulse-ring 2s 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
