@@ -36,7 +36,7 @@ function Model({ url, containerRef, ...props }: { url: string; containerRef: Rea
       } else if (width < 1024) { // Tablet
         setScale(0.67);
       } else { // Desktop
-        setScale(0.63);
+        setScale(0.57);
       }
     };
 
@@ -67,7 +67,7 @@ function Model({ url, containerRef, ...props }: { url: string; containerRef: Rea
       -maxVerticalRotation,
       maxVerticalRotation
     );
-    const maxRotation = 25 * (Math.PI / 180); // 70 degrees in radians
+    const maxRotation = 20 * (Math.PI / 180); // 70 degrees in radians
     let targetRotationY = -Math.PI / 2 + (mousePos.current.x * Math.PI) / 2;
 
     // Clamp the rotation to the 70-degree limit

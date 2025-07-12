@@ -254,7 +254,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                   value={formData.businessNature} 
                   onChange={handleChange} 
                   placeholder="Please describe your business" 
-                  rows={3} 
+                  rows={2} 
                   className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
                 ></textarea>
               </div>
@@ -265,7 +265,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                   value={formData.desiredOutcome} 
                   onChange={handleChange} 
                   placeholder="Please describe your goals" 
-                  rows={4} 
+                  rows={2} 
                   className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
                 ></textarea>
               </div>

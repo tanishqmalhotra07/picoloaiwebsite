@@ -15,6 +15,7 @@ interface ResultCardProps {
   isExclusive?: boolean;
   isRecommended?: boolean;
   onContact?: () => void;
+  showResults?: boolean;
 }
 
 const HighlightedDescription: React.FC<{ text: string[] }> = ({ text }) => {
@@ -36,7 +37,7 @@ const HighlightedDescription: React.FC<{ text: string[] }> = ({ text }) => {
   );
 };
 
-const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isExclusive, isRecommended, onContact }) => {
+const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isExclusive, isRecommended, onContact, showResults }) => {
   const wrapperClasses = `
     relative rounded-2xl p-[1.5px]
     bg-gradient-to-br from-purple-500/80 via-pink-500/80 to-indigo-500/80
@@ -68,7 +69,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
             {isExclusive ? (
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white blur-[10.1px]">{value}</h3>
             ) : (
-              <ShinyText text={value} className="text-2xl sm:text-3xl md:text-4xl font-bold" />
+              <ShinyText text={value} className={`text-2xl sm:text-3xl md:text-4xl font-bold ${!showResults ? 'blur-[5px]' : ''}`} />
             )}
           </div>
         </div>
@@ -237,6 +238,7 @@ const ServicesSection = () => {
   const [activeTab, setActiveTab] = useState('retail');
   const [customers, setCustomers] = useState(40000);
   const [orderValue, setOrderValue] = useState(50);
+  const [showResults, setShowResults] = useState(false);
   // Calculate dynamic results based on sliders and active tab
   const calculateResults = () => {
     // Standard Package multipliers
@@ -294,8 +296,8 @@ const ServicesSection = () => {
       <div className="w-full max-w-7xl flex flex-col items-center gap-6 text-center">
         
         <div className="mb-10 z-10000 sm:mb-4 px-4">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-4">We don&apos;t just deliver technology.</h2>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-center pb-5 mb-1 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">We deliver tangible business outcomes.</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-4">We deliver tangible business outcomes.</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-center pb-5 mb-1 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">Adjust The Sliders to Calculate your Increase in Revenue</h2>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-5 mb-5 px-4 relative z-100000 !important">
@@ -366,9 +368,17 @@ const ServicesSection = () => {
 
       <div ref={resultsRef} className="w-full max-w-6xl mx-auto mt-6 sm:mt-10">
         <div className="text-center -mt-5 mb-10">
-          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-white">
-            Calculate Your Increase in Annual Revenue
-          </h3>
+          <button 
+            className="text-base sm:text-lg md:text-xl font-medium px-6 py-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 transform hover:scale-105"
+            onClick={() => {
+              setShowResults(true);
+              if (resultsRef.current) {
+                resultsRef.current.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+          >
+            Calculate
+          </button>
         </div>
         <AnimatePresence>
             <motion.div 
@@ -392,6 +402,7 @@ const ServicesSection = () => {
                     "",
                     ""
                   ]}
+                  showResults={showResults}
                 />
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
@@ -406,6 +417,7 @@ const ServicesSection = () => {
                     "0% Leads Lost"
                   ]}
                   isRecommended
+                  showResults={showResults}
                 />
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
@@ -415,6 +427,7 @@ const ServicesSection = () => {
                   description="For custom requirements and a personalized plan, feel free to get in touch. We'll tailor a solution that fits your exact needs."
                   isExclusive
                   onContact={openForm}
+                  showResults={showResults}
                 />
               </motion.div>
             </motion.div>

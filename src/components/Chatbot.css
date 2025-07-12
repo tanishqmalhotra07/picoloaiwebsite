@@ -41,9 +41,8 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.5em;
+  font-size: 1.4em;
   color: white;
-  font-weight: bold;
 }
 
 .chatbot-body {
@@ -53,7 +52,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  overscroll-behavior: contain;
 }
 
 .chatbot-body::before {
@@ -139,12 +137,13 @@
     background-color: #7413CD !important;
     color: white !important;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2em !important;
+    font-size: 1em !important;
+    margin-left: 5px;
 }
 
 .loading-container {
@@ -177,4 +176,226 @@
     max-width: 400px;
     max-height: 550px;
   }
+}
+
+/* Add this to Chatbot.css */
+.chatbot-body-content {
+  flex-grow: 1; /* Makes it take up available space */
+  padding: 20px;
+  overflow-y: auto; /* Enables vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Needed for z-index of messages */
+  z-index: 2; /* To ensure messages are above the ::before overlay */
+}
+
+/* Styles for chat messages within chatbot-body-content */
+.chatbot-body-content .flex {
+  display: flex;
+}
+.chatbot-body-content .justify-end {
+  justify-content: flex-end;
+}
+.chatbot-body-content .justify-start {
+  justify-content: flex-start;
+}
+.chatbot-body-content .mb-4 {
+  margin-bottom: 1rem; /* 16px */
+}
+.chatbot-body-content .p-3 {
+  padding: 0.75rem; /* 12px */
+}
+.chatbot-body-content .rounded-lg {
+  border-radius: 0.5rem; /* 8px */
+}
+.chatbot-body-content .shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.chatbot-body-content .max-w-\[75\%\] {
+  max-width: 75%;
+}
+.chatbot-body-content .bg-purple-700 {
+  background-color: #7413CD; /* Dark purple */
+}
+.chatbot-body-content .text-white {
+  color: #fff;
+}
+.chatbot-body-content .rounded-br-none {
+  border-bottom-right-radius: 0;
+}
+.chatbot-body-content .bg-purple-100 {
+  background-color: #f3e8ff; /* Light purple */
+}
+.chatbot-body-content .text-gray-800 {
+  color: #1f2937; /* Tailwind gray-800 */
+}
+.chatbot-body-content .rounded-bl-none {
+  border-bottom-left-radius: 0;
+}
+.chatbot-body-content .text-sm {
+  font-size: 0.875rem; /* 14px */
+}
+.chatbot-body-content .block {
+  display: block;
+}
+.chatbot-body-content .text-xs {
+  font-size: 0.75rem; /* 12px */
+}
+.chatbot-body-content .mt-1 {
+  margin-top: 0.25rem; /* 4px */
+}
+.chatbot-body-content .opacity-75 {
+  opacity: 0.75;
+}
+.chatbot-body-content .text-red-500 {
+  color: #ef4444; /* Tailwind red-500 */
+}
+.chatbot-body-content .text-center {
+  text-align: center;
+}
+.chatbot-body-content .mt-4 {
+  margin-top: 1rem; /* 16px */
+}
+.chatbot-body-content .p-2 {
+  padding: 0.5rem; /* 8px */
+}
+.chatbot-body-content .bg-red-100 {
+  background-color: #fee2e2; /* Tailwind red-100 */
+}
+.chatbot-body-content .rounded-md {
+  border-radius: 0.375rem; /* 6px */
+}
+
+/* Loading dots animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+.chatbot-body-content .animate-bounce {
+  animation: bounce 1s infinite;
+}
+.chatbot-body-content .w-2 { width: 0.4rem; }
+.chatbot-body-content .h-2 { height: 0.4rem; }
+.chatbot-body-content .bg-purple-600 { background-color: #7413CD; }
+.chatbot-body-content .rounded-full { border-radius: 9999px; }
+.chatbot-body-content .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  margin-left: 0.5rem;
+}
+.chatbot-body-content .items-center { align-items: center; }
+.chatbot-body-content .flex { display: flex; }
+
+/* Input and Send Button Styling */
+.chatbot-input input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  padding: 8px;
+  font-size: 0.9em;
+  border-radius: 9999px; /* Rounded corners for input */
+  border: 1px solid #e5e7eb; /* Light border for input */
+  padding-left: 15px; /* Padding for text inside input */
+  margin-right: 5px; /* Add space between input and button */
+}
+
+.chatbot-input input:focus {
+  outline: none;
+  border-color: #3b82f6; /* Blue border on focus */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25); /* Focus ring */
+}
+
+.chatbot-input .send-btn {
+  /* Keep your existing send-btn styles */
+  background-color: #7413CD !important;
+  color: white !important;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em !important;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.chatbot-input .send-btn:hover:not(:disabled) {
+  background-color: #5a0f9e !important; /* Darker purple on hover */
+}
+
+.chatbot-input .send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Spinner for send button */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.chatbot-input .animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Typing effect fade animation */
+.typing-fade {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.typing-fade.fade-in {
+  opacity: 1;
+}
+
+/* Welcome message and suggestions */
+.welcome-message {
+  text-align: center;
+  margin-top: 20px; /* Positions it at the top */
+  margin-bottom: auto;
+}
+
+.welcome-message h3 {
+  color: #02010C; /* Using hex for clarity */
+  font-size: 1.8em;
+  margin: 0;
+}
+
+.welcome-message p {
+  font-size: 1.2em;
+  margin: 5px 0 0 0;
+  color: rgba(2, 1, 12, 0.8); /* Using rgba for clarity */
+}
+
+.suggestions {
+  margin-top: 20px; /* Adjust as needed */
+  text-align: center;
+}
+
+.suggestions p {
+  color: #555;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.suggestion-btn {
+  display: inline-block; /* Changed to inline-block for better spacing */
+  padding: 8px 15px; /* Adjusted padding */
+  margin: 5px; /* Added margin for spacing between buttons */
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  text-align: center; /* Center text within button */
+  cursor: pointer;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.suggestion-btn:hover {
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
