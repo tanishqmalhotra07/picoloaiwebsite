@@ -358,6 +358,47 @@
   margin-bottom: auto;
 }
 
+/* Markdown content styling */
+.markdown-content {
+  line-height: 1.5;
+}
+
+.markdown-content h1, .markdown-content h2, .markdown-content h3 {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+.markdown-content ul, .markdown-content ol {
+  padding-left: 1.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.markdown-content table {
+  border-collapse: collapse;
+  margin: 1em 0;
+  width: 100%;
+  font-size: 0.9em;
+  overflow-x: auto;
+  display: block;
+}
+
+.markdown-content th, .markdown-content td {
+  border: 1px solid #7413CD;
+  padding: 0.5em;
+  text-align: left;
+}
+
+.markdown-content th {
+  background-color: rgba(116, 19, 205, 0.1);
+  font-weight: bold;
+}
+
+.markdown-content tr:nth-child(even) {
+  background-color: rgba(116, 19, 205, 0.05);
+}
+
 .welcome-message h3 {
   color: #02010C; /* Using hex for clarity */
   font-size: 1.8em;

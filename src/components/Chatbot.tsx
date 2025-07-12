@@ -273,13 +273,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                           : 'bg-purple-100 text-gray-800 rounded-bl-none'
                       }`}
                     >
-                      <p className="text-sm">
+                      <div className="text-sm whitespace-pre-wrap markdown-content">
                         {msg.sender === 'ai' ? (
-                          <TypingEffect text={msg.text} speed={30} />
+                          <TypingEffect text={msg.text} speed={15} />
                         ) : (
                           msg.text
                         )}
-                      </p>
+                      </div>
                       <span className="block text-xs mt-1 opacity-75">
                         {msg.timestamp}
                       </span>
