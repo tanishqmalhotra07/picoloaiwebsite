@@ -1,0 +1,15 @@
+/* Webkit scrollbar styles for ContactForm */
+.contact-form-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.contact-form-scrollbar::-webkit-scrollbar-track {
+  background: #F5F3FF;
+  border-radius: 10px;
+}
+
+.contact-form-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #8B5CF6;
+  border-radius: 10px;
+  border: 2px solid #F5F3FF;
+}
