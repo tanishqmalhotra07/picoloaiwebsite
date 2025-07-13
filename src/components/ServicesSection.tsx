@@ -62,7 +62,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
         </div>
       )}
       <div className={cardClasses}>
-        <p className="text-xs text-gray-400 pt-2 mb-1">Increase in Annual Revenue</p>
+        <p className="text-sm sm:text-base text-gray-300 pt-2 mb-1 font-semibold">Increase in Annual Revenue</p>
         <p className={`text-lg sm:text-xl font-bold mb-2 ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
         
         <div className="h-16 flex items-center justify-center">
@@ -402,7 +402,7 @@ const ServicesSection = () => {
             >
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
-                  title="Standard"
+                  title="Standard Package"
                   value={results.standard}
                   description={[
                     "25% Improvement in Lead Capture",
@@ -434,7 +434,7 @@ const ServicesSection = () => {
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
-                  title="Exclusive"
+                  title="Exclusive Package"
                   value={results.exclusive}
                   description="For custom requirements and a personalized plan, feel free to get in touch. We'll tailor a solution that fits your exact needs."
                   isExclusive
