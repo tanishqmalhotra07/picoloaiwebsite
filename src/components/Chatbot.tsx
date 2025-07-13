@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import TypingEffect from './TypingEffect';
 import './Chatbot.css'; // Your existing CSS for styling
 import ReactMarkdown from 'react-markdown'; // Import for Markdown rendering
 import remarkGfm from 'remark-gfm'; // Import for GitHub Flavored Markdown (tables, task lists)
@@ -25,8 +24,6 @@ interface ChatbotProps {
 const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // State for the initial loading animation of the modal
   const [showInitialLoading, setShowInitialLoading] = useState(true);
-  // State to track if the chatbot is minimized
-  const [isMinimized, setIsMinimized] = useState(false);
   // State to track if the chatbot has been opened at least once
   const [hasBeenOpened, setHasBeenOpened] = useState(false);
 
@@ -47,7 +44,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
 
   // Effect for the initial loading animation of the modal
   useEffect(() => {
-    if (isOpen && !isMinimized) {
+    if (isOpen) {
       // If the chatbot has been opened before, don't show loading animation again
       if (hasBeenOpened) {
         setShowInitialLoading(false);
@@ -59,15 +56,15 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         }, 3000); // 3 second loading animation
         return () => clearTimeout(timer);
       }
-    } else if (!isOpen && !isMinimized) {
-      // Reset chat states when modal closes completely (not minimized)
+    } else {
+      // Reset chat states when modal closes completely
       setMessages([]);
       setInput('');
       setIsSendingMessage(false);
       setError(null);
       setHasBeenOpened(false);
     }
-  }, [isOpen, isMinimized, hasBeenOpened]);
+  }, [isOpen, hasBeenOpened]);
 
   // Effect for scrolling to the bottom whenever messages update
   useEffect(() => {
@@ -181,10 +178,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // Prevent body scrolling when modal is open while preserving scroll position (from ContactForm.tsx)
   useEffect(() => {
     const preventScroll = (e: Event) => {
-      if (isOpen && !isMinimized) e.preventDefault();
+      if (isOpen) e.preventDefault();
     };
 
-    if (isOpen && !isMinimized) {
+    if (isOpen) {
       const scrollY = window.scrollY;
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
@@ -219,27 +216,11 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
       window.removeEventListener('wheel', preventScroll);
       window.removeEventListener('touchmove', preventScroll);
     };
-  }, [isOpen, isMinimized]);
-
-  // Function to handle minimizing the chatbot
-  const handleMinimize = () => {
-    setIsMinimized(true);
-    onClose(); // Close the chatbot UI but keep the state
-    
-    // Enable scrolling
-    document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.width = '';
-    const scrollY = document.body.style.top;
-    document.body.style.top = '';
-    if (scrollY) {
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
-    }
-  };
+  }, [isOpen]);
 
   return (
     <AnimatePresence>
-      {isOpen && !isMinimized && (
+      {isOpen && (
         <motion.div
           className="chatbot-container"
           initial="hidden"
@@ -275,7 +256,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                   <span>Picolo AI</span>
                 </div>
                 <div className="header-icons">
-                  <button onClick={onClose} className="close-btn">
+                  <button onClick={onClose} className="close-btn" title="Close">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
