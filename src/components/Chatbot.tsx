@@ -227,13 +227,26 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              style={{
+                position: 'relative',
+                overflow: 'hidden'
+              }}
             >
+              <div className="absolute inset-0 z-0" style={{
+                backgroundImage: "url('/chatbotbg.jpg')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'bottom',
+                opacity: 0.1,
+                scale: 1.2,
+                transform: 'rotate(30deg)'
+              }}></div>
               <motion.div
                 animate={{
                   scale: [1, 1.2, 1],
                   rotate: [0, 10, -10, 0],
                 }}
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                className="relative z-10"
               >
                 <Image src="/ChatbotLogo.png" alt="Picolo Logo" width={80} height={80} className="loading-logo" />
               </motion.div>
