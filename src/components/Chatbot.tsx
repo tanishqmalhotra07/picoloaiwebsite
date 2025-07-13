@@ -1,11 +1,11 @@
-'use client'; // This directive is crucial for Next.js App Router components that use client-side features like useState, useEffect.
+'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import './Chatbot.css'; // Your existing CSS for styling
-import ReactMarkdown from 'react-markdown'; // Import for Markdown rendering
-import remarkGfm from 'remark-gfm'; // Import for GitHub Flavored Markdown (tables, task lists)
+import './Chatbot.css';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // Define the shape of a message
 interface Message {
@@ -13,7 +13,6 @@ interface Message {
   text: string;
   sender: 'user' | 'ai';
   timestamp: string;
-  isTyping?: boolean;
 }
 
 interface ChatbotProps {
@@ -28,10 +27,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   const [hasBeenOpened, setHasBeenOpened] = useState(false);
 
   // States for the actual chat functionality
-  const [messages, setMessages] = useState<Message[]>([]); // Stores all chat messages
-  const [input, setInput] = useState(''); // Current user input
-  const [isSendingMessage, setIsSendingMessage] = useState(false); // Indicates if an AI response is being fetched
-  const [error, setError] = useState<string | null>(null); // Stores any error messages
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Ref for scrolling to the bottom of the chat window
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -45,7 +44,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // Effect for the initial loading animation of the modal
   useEffect(() => {
     if (isOpen) {
-      // If the chatbot has been opened before, don't show loading animation again
       if (hasBeenOpened) {
         setShowInitialLoading(false);
       } else {
@@ -53,11 +51,11 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         const timer = setTimeout(() => {
           setShowInitialLoading(false);
           setHasBeenOpened(true);
-        }, 3000); // 3 second loading animation
+        }, 3000);
         return () => clearTimeout(timer);
       }
     } else {
-      // Reset chat states when modal closes completely
+      // Reset chat states when modal closes
       setMessages([]);
       setInput('');
       setIsSendingMessage(false);
@@ -73,32 +71,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
     }
   }, [messages]);
 
-  // Effect to ping the backend on component mount (page load)
+  // Effect to ping the backend on component mount
   useEffect(() => {
     if (CHATBOT_BASE_URL) {
-      console.log('Pinging chatbot backend to prevent cold start:', CHATBOT_BASE_URL);
-      fetch(CHATBOT_BASE_URL) // Ping the root URL, not /chat
-        .then(response => {
-          if (response.ok) {
-            console.log('Chatbot backend ping successful.');
-          } else {
-            console.error('Chatbot backend ping failed:', response.status, response.statusText);
-          }
-        })
-        .catch(error => {
-          console.error('Error during chatbot backend ping:', error);
-        });
-    } else {
-      console.warn('NEXT_PUBLIC_CHATBOT_API_URL not set, skipping backend ping on page load.');
+      fetch(CHATBOT_BASE_URL).catch(() => {});
     }
-  }, [CHATBOT_BASE_URL]);  // Empty dependency array means this runs once on mount (client-side)
+  }, [CHATBOT_BASE_URL]);
 
   // Function to send a message to the AI backend
   const sendMessage = async () => {
     const trimmedInput = input.trim();
-    if (!trimmedInput || isSendingMessage) return; // Don't send empty messages or if already sending
+    if (!trimmedInput || isSendingMessage) return;
 
-    setError(null); // Clear any previous errors
+    setError(null);
 
     // Add user message to state
     const newUserMessage: Message = {
@@ -108,13 +93,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
       timestamp: new Date().toLocaleTimeString(),
     };
     setMessages((prevMessages) => [...prevMessages, newUserMessage]);
-    setInput(''); // Clear input field
+    setInput('');
 
-    setIsSendingMessage(true); // Show loading indicator for AI response
+    setIsSendingMessage(true);
 
     // Check if API URL is configured
     if (!CHATBOT_API_URL_FULL) {
-      console.error('Chatbot API URL is not configured. Please set NEXT_PUBLIC_CHATBOT_API_URL environment variable in Vercel.');
       setError('Chatbot service is not configured. Please contact support.');
       setIsSendingMessage(false);
       return;
@@ -128,8 +112,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
           'Content-Type': 'application/json',
           'Origin': window.location.origin
         },
-        body: JSON.stringify({ message: trimmedInput }), // Send the user's message
-        credentials: 'omit' // Don't send cookies for cross-origin requests
+        body: JSON.stringify({ message: trimmedInput }),
+        credentials: 'omit'
       });
 
       if (!response.ok) {
@@ -142,17 +126,16 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
       // Add AI response to state
       const newAiMessage: Message = {
         id: Date.now() + 1,
-        text: data.response, // Assuming your backend returns { "response": "AI's reply" }
+        text: data.response,
         sender: 'ai',
         timestamp: new Date().toLocaleTimeString(),
       };
       setMessages((prevMessages) => [...prevMessages, newAiMessage]);
 
     } catch (err) {
-      console.error('Failed to fetch AI response:', err);
       setError(`Failed to get response: ${err instanceof Error ? err.message : String(err)}. Please try again.`);
     } finally {
-      setIsSendingMessage(false); // Hide loading indicator
+      setIsSendingMessage(false);
     }
   };
 
@@ -170,12 +153,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
     exit: { opacity: 0, y: 50, scale: 0.5, transition: { duration: 0.5, ease: 'easeInOut' } },
   };
 
-  // Handle wheel events to prevent background scrolling (from ContactForm.tsx)
+  // Handle wheel events to prevent background scrolling
   const handleWheel = (e: React.WheelEvent) => {
     e.stopPropagation();
   };
 
-  // Prevent body scrolling when modal is open while preserving scroll position (from ContactForm.tsx)
+  // Prevent body scrolling when modal is open
   useEffect(() => {
     const preventScroll = (e: Event) => {
       if (isOpen) e.preventDefault();
@@ -337,7 +320,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                     {error}
                   </div>
                 )}
-                <div ref={messagesEndRef} /> {/* Scroll target */}
+                <div ref={messagesEndRef} />
               </div>
 
               {/* Chat Input Area */}
@@ -348,12 +331,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask a question..."
-                  disabled={isSendingMessage} // Disable input while sending
+                  disabled={isSendingMessage}
                 />
                 <button
                   className="send-btn"
                   onClick={sendMessage}
-                  disabled={isSendingMessage || !input.trim()} // Disable send button while sending or if input is empty
+                  disabled={isSendingMessage || !input.trim()}
                 >
                   {isSendingMessage ? (
                     <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

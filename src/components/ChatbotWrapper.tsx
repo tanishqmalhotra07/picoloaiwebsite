@@ -7,26 +7,15 @@ import RobotModel from './RobotModel';
 const ChatbotWrapper: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [hasMessages, setHasMessages] = useState(false);
-
-  // Function to handle minimizing the chatbot
-  const handleMinimize = () => {
-    setIsMinimized(true);
-    setIsChatOpen(false);
-  };
 
   // Function to handle opening the chatbot
   const handleOpen = () => {
     setIsChatOpen(true);
-    setIsMinimized(false);
   };
 
   // Function to handle closing the chatbot
   const handleClose = () => {
     setIsChatOpen(false);
-    setIsMinimized(false);
-    setHasMessages(false);
   };
 
   return (
@@ -46,11 +35,7 @@ const ChatbotWrapper: React.FC = () => {
       {/* The chatbot component */}
       <Chatbot 
         isOpen={isChatOpen} 
-        onClose={isMinimized ? handleOpen : handleClose}
-        onMinimize={handleMinimize}
-        isMinimized={isMinimized}
-        preserveMessages={isMinimized && hasMessages}
-        onMessageSent={() => setHasMessages(true)}
+        onClose={handleClose}
       />
     </>
   );
