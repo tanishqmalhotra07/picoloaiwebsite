@@ -402,7 +402,7 @@ const ServicesSection = () => {
             >
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
-                  title="Standard Package"
+                  title="with Standard Package"
                   value={results.standard}
                   description={[
                     "25% Improvement in Lead Capture",
@@ -419,7 +419,7 @@ const ServicesSection = () => {
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
-                  title="Pro Package"
+                  title="with Pro Package"
                   value={results.pro}
                   description={[
                     "45% Improvement in Lead Capture",
@@ -434,7 +434,7 @@ const ServicesSection = () => {
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
-                  title="Custom Package"
+                  title="with Custom Package"
                   value={results.exclusive}
                   description="For custom requirements and a personalized plan, feel free to get in touch. We'll tailor a solution that fits your exact needs."
                   isExclusive
