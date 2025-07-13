@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import TypingEffect from './TypingEffect';
 import './Chatbot.css'; // Your existing CSS for styling
+import ReactMarkdown from 'react-markdown'; // Import for Markdown rendering
+import remarkGfm from 'remark-gfm'; // Import for GitHub Flavored Markdown (tables, task lists)
 
 // Define the shape of a message
 interface Message {
@@ -23,6 +25,10 @@ interface ChatbotProps {
 const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // State for the initial loading animation of the modal
   const [showInitialLoading, setShowInitialLoading] = useState(true);
+  // State to track if the chatbot is minimized
+  const [isMinimized, setIsMinimized] = useState(false);
+  // State to track if the chatbot has been opened at least once
+  const [hasBeenOpened, setHasBeenOpened] = useState(false);
 
   // States for the actual chat functionality
   const [messages, setMessages] = useState<Message[]>([]); // Stores all chat messages
@@ -34,32 +40,61 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Environment variable for your backend API URL
-  // NEXT_PUBLIC_ prefix makes it available in the browser.
-  // This variable MUST be set in your Vercel project settings.
-  // Example: NEXT_PUBLIC_CHATBOT_API_URL=https://your-chatbot-backend-ai.onrender.com/chat
-  const CHATBOT_API_URL = process.env.NEXT_PUBLIC_CHATBOT_API_URL;
+  const CHATBOT_API_URL_FULL = process.env.NEXT_PUBLIC_CHATBOT_API_URL;
+  const CHATBOT_BASE_URL = CHATBOT_API_URL_FULL
+                            ? CHATBOT_API_URL_FULL.replace('/chat', '')
+                            : undefined;
 
   // Effect for the initial loading animation of the modal
   useEffect(() => {
-    if (isOpen) {
-      setShowInitialLoading(true);
-      const timer = setTimeout(() => {
+    if (isOpen && !isMinimized) {
+      // If the chatbot has been opened before, don't show loading animation again
+      if (hasBeenOpened) {
         setShowInitialLoading(false);
-      }, 3000); // 3 second loading animation
-      return () => clearTimeout(timer);
-    } else {
-      // Reset chat states when modal closes
+      } else {
+        setShowInitialLoading(true);
+        const timer = setTimeout(() => {
+          setShowInitialLoading(false);
+          setHasBeenOpened(true);
+        }, 3000); // 3 second loading animation
+        return () => clearTimeout(timer);
+      }
+    } else if (!isOpen && !isMinimized) {
+      // Reset chat states when modal closes completely (not minimized)
       setMessages([]);
       setInput('');
       setIsSendingMessage(false);
       setError(null);
+      setHasBeenOpened(false);
     }
-  }, [isOpen]);
+  }, [isOpen, isMinimized, hasBeenOpened]);
 
   // Effect for scrolling to the bottom whenever messages update
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ block: 'end', inline: 'nearest' });
+    }
   }, [messages]);
+
+  // Effect to ping the backend on component mount (page load)
+  useEffect(() => {
+    if (CHATBOT_BASE_URL) {
+      console.log('Pinging chatbot backend to prevent cold start:', CHATBOT_BASE_URL);
+      fetch(CHATBOT_BASE_URL) // Ping the root URL, not /chat
+        .then(response => {
+          if (response.ok) {
+            console.log('Chatbot backend ping successful.');
+          } else {
+            console.error('Chatbot backend ping failed:', response.status, response.statusText);
+          }
+        })
+        .catch(error => {
+          console.error('Error during chatbot backend ping:', error);
+        });
+    } else {
+      console.warn('NEXT_PUBLIC_CHATBOT_API_URL not set, skipping backend ping on page load.');
+    }
+  }, [CHATBOT_BASE_URL]);  // Empty dependency array means this runs once on mount (client-side)
 
   // Function to send a message to the AI backend
   const sendMessage = async () => {
@@ -81,66 +116,44 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
     setIsSendingMessage(true); // Show loading indicator for AI response
 
     // Check if API URL is configured
-    if (!CHATBOT_API_URL) {
-      console.warn('Chatbot API URL is not configured. Using demo mode.');
-      // Demo mode - simulate a response
-      setTimeout(() => {
-        const demoResponse: Message = {
-          id: Date.now() + 1,
-          text: "I'm sorry, I'm currently in demo mode. The chatbot backend is not connected. Please check the .env.local file to set up the NEXT_PUBLIC_CHATBOT_API_URL environment variable.",
-          sender: 'ai',
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        setMessages((prevMessages) => [...prevMessages, demoResponse]);
-        setIsSendingMessage(false);
-      }, 1500);
+    if (!CHATBOT_API_URL_FULL) {
+      console.error('Chatbot API URL is not configured. Please set NEXT_PUBLIC_CHATBOT_API_URL environment variable in Vercel.');
+      setError('Chatbot service is not configured. Please contact support.');
+      setIsSendingMessage(false);
       return;
     }
 
     try {
-      // Add a timeout to the fetch to prevent long-hanging requests
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-      
       // Make API call to your backend
-      const response = await fetch(CHATBOT_API_URL, {
+      const response = await fetch(CHATBOT_API_URL_FULL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Origin': window.location.origin
         },
         body: JSON.stringify({ message: trimmedInput }), // Send the user's message
-        signal: controller.signal
-        // Removed no-cors mode to get actual response
+        credentials: 'omit' // Don't send cookies for cross-origin requests
       });
-      
-      clearTimeout(timeoutId);
-      
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       
       // Add AI response to state
       const newAiMessage: Message = {
         id: Date.now() + 1,
-        text: data.response, // Use the actual API response
+        text: data.response, // Assuming your backend returns { "response": "AI's reply" }
         sender: 'ai',
-        timestamp: new Date().toLocaleTimeString()
+        timestamp: new Date().toLocaleTimeString(),
       };
       setMessages((prevMessages) => [...prevMessages, newAiMessage]);
 
     } catch (err) {
-      console.warn('Failed to fetch AI response:', err);
-      
-      // Provide a fallback response even when there's an error
-      const fallbackResponse: Message = {
-        id: Date.now() + 1,
-        text: "I'm sorry, I couldn't process your request at the moment. This is a development version without a connected backend.",
-        sender: 'ai',
-        timestamp: new Date().toLocaleTimeString(),
-      };
-      setMessages((prevMessages) => [...prevMessages, fallbackResponse]);
+      console.error('Failed to fetch AI response:', err);
+      setError(`Failed to get response: ${err instanceof Error ? err.message : String(err)}. Please try again.`);
     } finally {
       setIsSendingMessage(false); // Hide loading indicator
     }
@@ -168,10 +181,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // Prevent body scrolling when modal is open while preserving scroll position (from ContactForm.tsx)
   useEffect(() => {
     const preventScroll = (e: Event) => {
-      if (isOpen) e.preventDefault();
+      if (isOpen && !isMinimized) e.preventDefault();
     };
 
-    if (isOpen) {
+    if (isOpen && !isMinimized) {
       const scrollY = window.scrollY;
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
@@ -206,21 +219,35 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
       window.removeEventListener('wheel', preventScroll);
       window.removeEventListener('touchmove', preventScroll);
     };
-  }, [isOpen]);
+  }, [isOpen, isMinimized]);
 
+  // Function to handle minimizing the chatbot
+  const handleMinimize = () => {
+    setIsMinimized(true);
+    onClose(); // Close the chatbot UI but keep the state
+    
+    // Enable scrolling
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    const scrollY = document.body.style.top;
+    document.body.style.top = '';
+    if (scrollY) {
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+  };
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isOpen && !isMinimized && (
         <motion.div
           className="chatbot-container"
           initial="hidden"
           animate="visible"
           exit="exit"
           variants={chatbotVariants}
-          // Prevent clicks on container from closing if you want to allow clicking outside to close
-          // onClick={onClose} // Uncomment this if you want clicking outside the modal to close it
         >
+          <div className="chatbot-container-inner">
           {showInitialLoading ? (
             <motion.div
               className="loading-container"
@@ -244,63 +271,71 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
               {/* Chat Header */}
               <div className="chatbot-header">
                 <div className="header-title">
-                  <Image src="/ChatbotLogo.png" alt="Picolo Logo" width={35} height={35} />
+                  <Image src="/ChatbotLogo.png" alt="Picolo Logo" width={28} height={28} />
                   <span>Picolo AI</span>
                 </div>
                 <div className="header-icons">
-                  <button onClick={onClose}>&times;</button>
+                  <button onClick={onClose} className="close-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
                 </div>
               </div>
 
               {/* Chat Body - Message Display Area */}
               <div className="chatbot-body-content" onWheel={handleWheel} onTouchMove={(e) => e.stopPropagation()}>
                 {messages.length === 0 && !isSendingMessage && (
-                  <div className="welcome-message">
-                    <h3>Good Evening! 👋</h3>
-                    <p>How can I help you today?</p>
+                  <div className="welcome-container">
+                    <div className="welcome-message">
+                      <h3><span className="gradient-text">Good Evening!</span> 👋</h3>
+                      <p>How can I help you today?</p>
+                    </div>
                   </div>
                 )}
                 
                 {messages.map((msg) => (
                   <div
                     key={msg.id}
-                    className={`message-container ${msg.sender}`}
+                    className={`flex mb-4 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     {msg.sender === 'ai' && (
-                      <div className="avatar-container">
-                        <Image
-                          src={'/ChatbotLogo.png'}
-                          alt="ai avatar"
-                          width={24}
-                          height={24}
-                          className="avatar ai-avatar"
-                        />
+                      <div className="flex-shrink-0 mr-2 mb-1">
+                        <Image src="/ChatbotLogo.png" alt="Picolo AI" width={30} height={30} />
                       </div>
                     )}
                     <div
-                      className={`message-bubble ${
+                      className={`max-w-[75%] p-3 rounded-lg shadow-md ${
                         msg.sender === 'user'
-                          ? 'user-bubble'
-                          : 'ai-bubble'
+                          ? 'bg-gradient-to-r from-purple-700 to-purple-600 text-white rounded-br-none'
+                          : 'bg-gradient-to-r from-purple-100 to-pink-100 text-gray-800 rounded-bl-none'
                       }`}
                     >
-                      <div className="text-sm whitespace-pre-wrap markdown-content">
-                        {msg.sender === 'ai' ? (
-                          <TypingEffect text={msg.text} speed={15} />
-                        ) : (
-                          msg.text
-                        )}
-                      </div>
+                      {msg.sender === 'ai' ? (
+                        <div className="text-sm whitespace-pre-wrap markdown-content">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              table: ({ ...props }) => (
+                                <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                                  <table {...props} />
+                                </div>
+                              ),
+                            }}
+                          >
+                            {msg.text}
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="text-sm">{msg.text}</p>
+                      )}
                     </div>
                     {msg.sender === 'user' && (
-                      <div className="avatar-container">
-                        <Image
-                          src={'/customer.png'}
-                          alt="user avatar"
-                          width={24}
-                          height={24}
-                          className="avatar user-avatar"
-                        />
+                      <div className="flex-shrink-0 ml-2 mb-1">
+                        <div className="bg-purple-600 rounded-full p-1">
+                          <Image src="/customer.png" alt="User" width={16} height={16} />
+                        </div>
                       </div>
                     )}
                   </div>
@@ -326,7 +361,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
 
               {/* Chat Input Area */}
               <div className="chatbot-input">
-
                 <input
                   type="text"
                   value={input}
@@ -346,12 +380,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                   ) : (
-                    '➤'
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
                   )}
                 </button>
               </div>
             </>
           )}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
