@@ -4,20 +4,19 @@
   right: 20px;
   width: 350px;
   height: 450px; /* Reduced height */
-  background-color: white;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   z-index: 1000;
-  border: 1px solid #eee;
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box, linear-gradient(135deg, #8e2de2, #4a00e0) border-box;
 }
 
 .chatbot-header {
-  background-color: #7413CD;
   color: white;
-  padding: 15px;
+  padding: 10px 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,6 +25,7 @@
 
 .header-title {
   display: flex;
+  color: #8f03d5; /* Tailwind blue-500 */
   align-items: center;
   gap: 8px;
   font-weight: bold;
@@ -34,7 +34,9 @@
 
 .header-icons {
   display: flex;
-  gap: 15px;
+  gap: 10px;
+  position:absolute;
+  top:0;
 }
 
 .header-icons button {
@@ -110,7 +112,7 @@
   align-items: center;
   padding: 10px 15px;
   border-top: 1px solid #eee;
-  background-color: white;
+  background-color: #7413CD;
 }
 
 .chatbot-input input {
@@ -293,14 +295,14 @@
 /* Input and Send Button Styling */
 .chatbot-input input {
   flex-grow: 1;
-  border: none;
-  background: transparent;
+  border: 1px solid #ddd;
+  background: white;
+  color: #333;
   padding: 8px;
   font-size: 0.9em;
-  border-radius: 9999px; /* Rounded corners for input */
-  border: 1px solid #e5e7eb; /* Light border for input */
-  padding-left: 15px; /* Padding for text inside input */
-  margin-right: 5px; /* Add space between input and button */
+  border-radius: 9999px;
+  padding-left: 15px;
+  margin-right: 10px;
 }
 
 .chatbot-input input:focus {
@@ -310,9 +312,8 @@
 }
 
 .chatbot-input .send-btn {
-  /* Keep your existing send-btn styles */
-  background-color: #7413CD !important;
-  color: white !important;
+  background-color: white !important;
+  color: #7413CD !important;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -321,10 +322,11 @@
   justify-content: center;
   font-size: 1.2em !important;
   transition: background-color 0.2s ease-in-out;
+  border: none;
 }
 
 .chatbot-input .send-btn:hover:not(:disabled) {
-  background-color: #5a0f9e !important; /* Darker purple on hover */
+  background-color: #f0e6ff !important; /* Lighter purple on hover */
 }
 
 .chatbot-input .send-btn:disabled {
@@ -439,4 +441,55 @@
 .suggestion-btn:hover {
   background-color: #f5f5f5;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Avatar and Message Bubble Styles */
+.message-container {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+  gap: 10px;
+}
+
+.message-container.user {
+  justify-content: flex-end;
+}
+
+.message-container.ai {
+  justify-content: flex-start;
+}
+
+
+
+.avatar-container {
+  flex-shrink: 0;
+}
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-avatar {
+  background-color: #7413CD;
+  padding: 5px; /* Adds a purple circle around the customer icon */
+}
+
+.message-bubble {
+  max-width: 75%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.user-bubble {
+  background-color: #7413CD;
+  color: #fff;
+  border-bottom-right-radius: 0;
+}
+
+.ai-bubble {
+  background-color: #f3e8ff;
+  color: #1f2937;
+  border-bottom-left-radius: 0;
 }

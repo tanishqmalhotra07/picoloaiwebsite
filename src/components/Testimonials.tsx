@@ -93,7 +93,7 @@ const Testimonials = () => {
   const trackRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
   const positionRef = useRef(0);
-  const speedRef = useRef(0.5);
+  const speedRef = useRef(0.8); // Adjust speed as needed
   
   // Drag interaction state
   const isDraggingRef = useRef(false);

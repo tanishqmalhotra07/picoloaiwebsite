@@ -57,13 +57,13 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
       {(isRecommended || isExclusive) && (
         <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center z-10">
           <div className={`text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider ${isRecommended ? 'bg-purple-600' : 'bg-pink-600'}`}>
-            {isRecommended ? 'Recommended' : 'Exclusive'}
+            {isRecommended ? 'Recommended' : 'Exclusive '}
           </div>
         </div>
       )}
       <div className={cardClasses}>
-        <p className="text-sm sm:text-base text-gray-300 pt-2 mb-1 font-semibold">Increase in Annual Revenue</p>
-        <p className={`text-lg sm:text-xl font-bold mb-2 ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
+        <p className="text-lg sm:text-xl text-gray-300 pt-2 mb-1 font-semibold">Increase in Annual Revenue</p>
+        <p className={`text-sm sm:text-lg font-bold mb-2 ${isExclusive ? 'text-purple-400' : 'text-white'}`}>{title}</p>
         
         <div className="h-16 flex items-center justify-center">
           <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ title, value, description, isEx
             onClick={onContact} 
             className="mt-auto px-5 py-1.5 text-sm font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full transition-transform duration-300 hover:scale-105"
           >
-            Request a Call Back
+            Join the Waitlist
           </button>
         )}
       </div>
@@ -434,7 +434,7 @@ const ServicesSection = () => {
               </motion.div>
               <motion.div variants={itemVariants} style={{ willChange: 'transform, opacity' }}>
                 <ResultCard
-                  title="Exclusive Package"
+                  title="Custom Package"
                   value={results.exclusive}
                   description="For custom requirements and a personalized plan, feel free to get in touch. We'll tailor a solution that fits your exact needs."
                   isExclusive

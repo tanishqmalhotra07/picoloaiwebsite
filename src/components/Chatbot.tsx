@@ -244,8 +244,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
               {/* Chat Header */}
               <div className="chatbot-header">
                 <div className="header-title">
-                  <Image src="/logo.png" alt="Picolo Logo" width={24} height={24} />
-                  <span>PICOLO AI</span>
+                  <Image src="/ChatbotLogo.png" alt="Picolo Logo" width={35} height={35} />
+                  <span>Picolo AI</span>
                 </div>
                 <div className="header-icons">
                   <button onClick={onClose}>&times;</button>
@@ -264,13 +264,24 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                 {messages.map((msg) => (
                   <div
                     key={msg.id}
-                    className={`flex mb-4 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                    className={`message-container ${msg.sender}`}
                   >
+                    {msg.sender === 'ai' && (
+                      <div className="avatar-container">
+                        <Image
+                          src={'/ChatbotLogo.png'}
+                          alt="ai avatar"
+                          width={24}
+                          height={24}
+                          className="avatar ai-avatar"
+                        />
+                      </div>
+                    )}
                     <div
-                      className={`max-w-[75%] p-3 rounded-lg shadow-md ${
+                      className={`message-bubble ${
                         msg.sender === 'user'
-                          ? 'bg-purple-700 text-white rounded-br-none'
-                          : 'bg-purple-100 text-gray-800 rounded-bl-none'
+                          ? 'user-bubble'
+                          : 'ai-bubble'
                       }`}
                     >
                       <div className="text-sm whitespace-pre-wrap markdown-content">
@@ -280,10 +291,18 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                           msg.text
                         )}
                       </div>
-                      <span className="block text-xs mt-1 opacity-75">
-                        {msg.timestamp}
-                      </span>
                     </div>
+                    {msg.sender === 'user' && (
+                      <div className="avatar-container">
+                        <Image
+                          src={'/customer.png'}
+                          alt="user avatar"
+                          width={24}
+                          height={24}
+                          className="avatar user-avatar"
+                        />
+                      </div>
+                    )}
                   </div>
                 ))}
                 {isSendingMessage && (
@@ -307,7 +326,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
 
               {/* Chat Input Area */}
               <div className="chatbot-input">
-                <button>+</button> {/* This button is currently not functional */}
+
                 <input
                   type="text"
                   value={input}

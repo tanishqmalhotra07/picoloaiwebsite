@@ -175,7 +175,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
           onClick={onClose}
         >
           <motion.div
-            className="bg-[#EBF9FF] text-black rounded-lg shadow-xl p-8 w-full max-w-2xl max-h-[80vh] overflow-y-auto relative scrollbar-hide"
+            className="bg-[#EBF9FF] text-black rounded-lg shadow-xl p-8 w-full max-w-2xl max-h-[80vh] overflow-y-auto relative"
             variants={formVariants}
             initial="hidden"
             animate="visible"
@@ -277,7 +277,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                   onChange={handleChange} 
                   className="w-full p-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
                 >
-                  <option value="">Select budget range</option>
+                  <option value="" className='text-gray-500'>Select budget range</option>
                   <option value="Under $500">Under $500</option>
                   <option value="$500 - $1,000">$500 - $1,000</option>
                   <option value="$1,000 - $3,000">$1,000 - $3,000</option>
