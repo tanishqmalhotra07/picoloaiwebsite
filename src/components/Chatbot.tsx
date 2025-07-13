@@ -20,14 +20,16 @@ interface ChatbotProps {
   onClose: () => void;
 }
 
+// Create static variables to persist across renders
+const staticMessages: Message[] = [];
+let hasShownLoadingAnimation = false;
+
 const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // State for the initial loading animation of the modal
   const [showInitialLoading, setShowInitialLoading] = useState(true);
-  // State to track if the chatbot has been opened at least once
-  const [hasBeenOpened, setHasBeenOpened] = useState(false);
-
+  
   // States for the actual chat functionality
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(staticMessages);
   const [input, setInput] = useState('');
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,25 +46,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // Effect for the initial loading animation of the modal
   useEffect(() => {
     if (isOpen) {
-      if (hasBeenOpened) {
+      if (hasShownLoadingAnimation) {
+        // Skip loading animation if it has been shown before
         setShowInitialLoading(false);
       } else {
         setShowInitialLoading(true);
         const timer = setTimeout(() => {
           setShowInitialLoading(false);
-          setHasBeenOpened(true);
+          hasShownLoadingAnimation = true; // Mark loading as shown
         }, 3000);
         return () => clearTimeout(timer);
       }
-    } else {
-      // Reset chat states when modal closes
-      setMessages([]);
-      setInput('');
-      setIsSendingMessage(false);
-      setError(null);
-      setHasBeenOpened(false);
     }
-  }, [isOpen, hasBeenOpened]);
+  }, [isOpen]);
 
   // Effect for scrolling to the bottom whenever messages update
   useEffect(() => {
@@ -77,6 +73,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
       fetch(CHATBOT_BASE_URL).catch(() => {});
     }
   }, [CHATBOT_BASE_URL]);
+
+  // Update static messages when local messages change
+  useEffect(() => {
+    // Copy messages to static array to persist across renders
+    staticMessages.length = 0;
+    staticMessages.push(...messages);
+  }, [messages]);
 
   // Function to send a message to the AI backend
   const sendMessage = async () => {
