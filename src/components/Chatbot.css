@@ -60,6 +60,11 @@
   font-size: 1.2em;
 }
 
+.header-icons {
+  display: flex;
+  align-items: center;
+}
+
 .header-icons .close-btn {
   background: transparent;
   border: none;
