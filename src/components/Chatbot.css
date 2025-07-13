@@ -65,7 +65,13 @@
   align-items: center;
 }
 
-.header-icons .close-btn {
+.header-icons {
+  display: flex;
+  align-items: bottom;
+  gap: 8px;
+}
+
+.header-icons .close-btn, .header-icons .refresh-btn {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -81,7 +87,7 @@
   background-color: #EDE9FE;
 }
 
-.header-icons .close-btn svg {
+.header-icons .close-btn svg, .header-icons .refresh-btn svg {
   color: #5B21B6;
 }
 
