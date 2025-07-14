@@ -11,7 +11,7 @@ interface TypingEffectProps {
 
 const TypingEffect: React.FC<TypingEffectProps> = ({ 
   text, 
-  speed = 12, 
+  speed = 10, // Default speed in milliseconds
   onComplete 
 }) => {
   const [displayedText, setDisplayedText] = useState('');

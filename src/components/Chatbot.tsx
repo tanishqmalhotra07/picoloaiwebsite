@@ -116,14 +116,23 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
     }
 
     try {
-      // Make API call to your backend
+      // Get previous messages for context (limit to last 10 messages for efficiency)
+      const recentMessages = messages.slice(-10);
+      
+      // Make API call to your backend with conversation history
       const response = await fetch(CHATBOT_API_URL_FULL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Origin': window.location.origin
         },
-        body: JSON.stringify({ message: trimmedInput }),
+        body: JSON.stringify({ 
+          message: trimmedInput,
+          conversation_history: recentMessages.map(msg => ({
+            text: msg.text,
+            sender: msg.sender
+          }))
+        }),
         credentials: 'omit'
       });
 
