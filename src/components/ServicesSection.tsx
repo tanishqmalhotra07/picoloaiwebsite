@@ -162,7 +162,7 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
             className="absolute bg-purple-600 text-white text-xs rounded-md px-3 py-1.5 -translate-x-1/2 -top-8 pointer-events-none flex items-center gap-1 min-w-[60px] justify-center"
             style={{ left: `${percentage}%` }}
           >
-            {isCustomer && <img src="/customer.png" alt="customer icon" className="h-3 w-3" />}
+            {isCustomer && <Image src="/customer.png" alt="customer icon" width={12} height={12} className="h-3 w-3" />}
             {prefix}
             {value.toLocaleString()}
           </div>
@@ -180,11 +180,11 @@ const Slider: React.FC<SliderProps> = ({ label, value, min, max, onChange, prefi
           </div>
           <div className="flex justify-between text-xs text-gray-400 mt-1">
             <span className="flex items-center gap-1">
-              {isCustomer && <img src="/customer.png" alt="customer icon" className="h-3 w-3" />}
+              {isCustomer && <Image src="/customer.png" alt="customer icon" width={12} height={12} className="h-3 w-3" />}
               {prefix}{min.toLocaleString()}
             </span>
             <span className="flex items-center gap-1">
-              {isCustomer && <img src="/customer.png" alt="customer icon" className="h-3 w-3" />}
+              {isCustomer && <Image src="/customer.png" alt="customer icon" width={12} height={12} className="h-3 w-3" />}
               {prefix}{max.toLocaleString()}
             </span>
           </div>
