@@ -347,10 +347,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                                     <table {...props} />
                                   </div>
                                 ),
-                                ul: ({node, ...props}) => (
+                                ul: ({...props}) => (
                                   <ul className="list-disc pl-5 my-2" {...props} />
                                 ),
-                                li: ({node, ...props}) => (
+                                li: ({...props}) => (
                                   <li className="mb-1" {...props} />
                                 )
                               }}
