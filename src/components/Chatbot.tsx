@@ -6,6 +6,7 @@ import Image from 'next/image';
 import './Chatbot.css';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import TypingEffect from './TypingEffect';
 
 // Define the shape of a message
 interface Message {
@@ -13,6 +14,7 @@ interface Message {
   text: string;
   sender: 'user' | 'ai';
   timestamp: string;
+  isTyping?: boolean;
 }
 
 interface ChatbotProps {
@@ -132,12 +134,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
 
       const data = await response.json();
       
-      // Add AI response to state
+      // Add AI response to state with typing effect
       const newAiMessage: Message = {
         id: Date.now() + 1,
         text: data.response,
         sender: 'ai',
         timestamp: new Date().toLocaleTimeString(),
+        isTyping: true
       };
       setMessages((prevMessages) => [...prevMessages, newAiMessage]);
 
@@ -310,18 +313,33 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                     >
                       {msg.sender === 'ai' ? (
                         <div className="text-sm whitespace-pre-wrap markdown-content">
-                          <ReactMarkdown
-                            remarkPlugins={[remarkGfm]}
-                            components={{
-                              table: ({ ...props }) => (
-                                <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-                                  <table {...props} />
-                                </div>
-                              ),
-                            }}
-                          >
-                            {msg.text}
-                          </ReactMarkdown>
+                          {msg.isTyping ? (
+                            <TypingEffect 
+                              text={msg.text} 
+                              speed={10}
+                              onComplete={() => {
+                                // Mark typing as complete
+                                setMessages(messages => 
+                                  messages.map(m => 
+                                    m.id === msg.id ? {...m, isTyping: false} : m
+                                  )
+                                );
+                              }}
+                            />
+                          ) : (
+                            <ReactMarkdown
+                              remarkPlugins={[remarkGfm]}
+                              components={{
+                                table: ({ ...props }) => (
+                                  <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                                    <table {...props} />
+                                  </div>
+                                )
+                              }}
+                            >
+                              {msg.text}
+                            </ReactMarkdown>
+                          )}
                         </div>
                       ) : (
                         <p className="text-sm">{msg.text}</p>

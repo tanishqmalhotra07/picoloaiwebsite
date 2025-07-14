@@ -1,0 +1,18 @@
+.typing-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.typing-text::after {
+  content: '|';
+  animation: blink 1s step-start infinite;
+  font-weight: normal;
+  display: inline-block;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
