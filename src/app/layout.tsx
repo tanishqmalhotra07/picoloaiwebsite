@@ -67,7 +67,10 @@ export default function RootLayout({
         <title>Picolo AI</title>
         <meta name="description" content="Supercharge Your Workflow with AI Precision." />
         <meta httpEquiv="Content-Language" content="en" />
-        <link rel="icon" href="/ChatbotLogo.png" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#8B5CF6" />
       </head>
       <body className={`${inter.className} bg-black text-white antialiased`}>
         <StyledComponentsRegistry>
