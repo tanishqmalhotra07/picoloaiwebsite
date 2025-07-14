@@ -35,11 +35,15 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   const [input, setInput] = useState('');
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Store thread ID for conversation continuity
+  const [threadId, setThreadId] = useState<string | null>(null);
 
   // Function to clear chat messages
   const handleRefresh = () => {
     setMessages([]);
     staticMessages.length = 0;
+    setThreadId(null); // Clear thread ID to start a new conversation
   };
 
   // Ref for scrolling to the bottom of the chat window
@@ -116,10 +120,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
     }
 
     try {
-      // Get previous messages for context (limit to last 10 messages for efficiency)
-      const recentMessages = messages.slice(-10);
-      
-      // Make API call to your backend with conversation history
+      // Make API call to your backend with thread_id if available
       const response = await fetch(CHATBOT_API_URL_FULL, {
         method: 'POST',
         headers: {
@@ -128,10 +129,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         },
         body: JSON.stringify({ 
           message: trimmedInput,
-          conversation_history: recentMessages.map(msg => ({
-            text: msg.text,
-            sender: msg.sender
-          }))
+          thread_id: threadId // Send thread_id if we have one
         }),
         credentials: 'omit'
       });
@@ -142,6 +140,11 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
       }
 
       const data = await response.json();
+      
+      // Store the thread_id if provided by the backend
+      if (data.thread_id) {
+        setThreadId(data.thread_id);
+      }
       
       // Add AI response to state with typing effect
       const newAiMessage: Message = {
