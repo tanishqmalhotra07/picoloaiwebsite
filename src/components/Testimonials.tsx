@@ -67,11 +67,12 @@ const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] 
     <div className="h-full bg-gradient-to-br from-[#5909A2] to-[#21033C] rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
       <div>
         <div className="flex items-center mb-4">
-          <Star className="w-5 h-5 text-yellow-400 fill-current" />
-          <Star className="w-5 h-5 text-yellow-400 fill-current" />
-          <Star className="w-5 h-5 text-yellow-400 fill-current" />
-          <Star className="w-5 h-5 text-yellow-400 fill-current" />
-          <Star className="w-5 h-5 text-yellow-400 fill-current" />
+          {[...Array(5)].map((_, i) => (
+            <Star 
+              key={i} 
+              className={`w-5 h-5 ${i < testimonial.stars ? 'text-yellow-400 fill-current' : 'text-gray-600 fill-current opacity-50'}`} 
+            />
+          ))}
         </div>
         <p className="text-gray-200 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">{testimonial.quote}</p>
       </div>
