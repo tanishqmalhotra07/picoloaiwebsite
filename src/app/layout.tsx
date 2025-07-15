@@ -64,13 +64,47 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-black">
       <head>
-        <title>Picolo AI</title>
-        <meta name="description" content="Supercharge Your Workflow with AI Precision." />
+        <title>Picolo AI - 24/7 AI Agents for WhatsApp & Website | Boost Sales</title>
+        <meta name="description" content="Picolo AI creates custom AI agents that handle customer interactions 24/7, qualify leads, and boost sales across WhatsApp, website, and Instagram. Increase revenue by up to 45%." />
+        <meta name="keywords" content="AI agents, WhatsApp automation, business AI, lead generation, customer service AI, sales automation, AI chatbot, AI assistant, business growth, revenue increase" />
         <meta httpEquiv="Content-Language" content="en" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="Picolo AI - 24/7 AI Agents for WhatsApp & Website | Boost Sales" />
+        <meta property="og:description" content="Picolo AI creates custom AI agents that handle customer interactions 24/7, qualify leads, and boost sales across WhatsApp, website, and Instagram." />
+        <meta property="og:image" content="https://www.picoloai.com/ChatbotLogo.png" />
+        <meta property="og:url" content="https://www.picoloai.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Picolo AI" />
+        <meta property="og:locale" content="en_US" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Picolo AI - 24/7 AI Agents for Business Growth" />
+        <meta name="twitter:description" content="AI agents that handle customer interactions 24/7, qualify leads, and boost sales." />
+        <meta name="twitter:image" content="https://www.picoloai.com/ChatbotLogo.png" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow" />
+        <link rel="canonical" href="https://www.picoloai.com" />
+        <link rel="icon" href="/ChatbotLogo.png" type="image/png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#8B5CF6" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "Picolo AI",
+          "url": "https://www.picoloai.com",
+          "logo": "https://www.picoloai.com/ChatbotLogo.png",
+          "description": "Picolo AI creates custom AI agents that handle customer interactions 24/7, qualify leads, and boost sales across WhatsApp, website, and Instagram.",
+          "sameAs": [
+            "https://www.linkedin.com/company/picolo-ai",
+            "https://www.instagram.com/picolo.ai"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "email": "picolo.ai.team@gmail.com"
+          }
+        }) }} />
       </head>
       <body className={`${inter.className} bg-black text-white antialiased`}>
         <StyledComponentsRegistry>

@@ -1,0 +1,26 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Picolo AI",
+  "url": "https://www.picoloai.com",
+  "logo": "https://www.picoloai.com/ChatbotLogo.png",
+  "description": "Picolo AI creates custom AI agents that handle customer interactions 24/7, qualify leads, and boost sales across WhatsApp, website, and Instagram.",
+  "sameAs": [
+    "https://www.linkedin.com/company/picolo-ai",
+    "https://www.instagram.com/picolo.ai"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "India"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "email": "picolo.ai.team@gmail.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "name": "AI Agents for Business",
+    "description": "Custom AI agents for WhatsApp, website, and Instagram that handle customer interactions 24/7"
+  }
+}

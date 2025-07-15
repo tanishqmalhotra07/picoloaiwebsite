@@ -16,7 +16,7 @@ const testimonials = [
     quote: "From missed leads to closed orders — the AI handles our online inquiries before my team even opens their laptops.",
     name: "CEO",
     title: "Industrial Equipment Distributor",
-    stars: 5,
+    stars: 4,
   },
   {
     quote: "Customers message at 11pm and get everything from pricing to appointment links. We've automated our entire client journey.",
@@ -34,7 +34,7 @@ const testimonials = [
     quote: "Earlier we used to lose our WhatsApp leads after hours. Now the AI captures, qualifies, and syncs to our CRM on autopilot.",
     name: "Head of Sales",
     title: "Auto Dealership Group",
-    stars: 5,
+    stars: 4,
   },
   {
     quote: "The AI agent talks like a real team member — it's booking trials, collecting payments, and even promoting our loyalty program.",
@@ -46,7 +46,7 @@ const testimonials = [
     quote: "We now close leads directly from WhatsApp with instant product catalogs, auto-replies, and payment links — frictionless.",
     name: "Director",
     title: "B2B Fashion Wholesaler",
-    stars: 5,
+    stars: 4,
   },
   {
     quote: "Our AI agent responds faster than my entire front desk ever could — bookings doubled in just 3 weeks.",
@@ -58,7 +58,7 @@ const testimonials = [
     quote: "Our AI assistant handles everything — from guest queries to table bookings to feedback collection. Hospitality just got an upgrade.",
     name: "Operations Head",
     title: "Multi-location Restaurant Group",
-    stars: 5,
+    stars: 4,
   }
 ];
 
