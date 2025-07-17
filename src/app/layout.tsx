@@ -70,8 +70,8 @@ export default function RootLayout({
         <meta name="keywords" content="AI agents, WhatsApp automation, business AI, lead generation, customer service AI, sales automation, AI chatbot, AI assistant, business growth, revenue increase" />
         <meta httpEquiv="Content-Language" content="en" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="og:title" content="Picolo AI - 24/7 AI Agents for WhatsApp & Website | Boost Sales" />
-        <meta property="og:description" content="Picolo AI creates custom AI agents that handle customer interactions 24/7, qualify leads, and boost sales across WhatsApp, website, and Instagram." />
+        <meta property="og:title" content="Picolo AI | The AI Transfornmation Parntner for Your Business" />
+        <meta property="og:description" content="We help simplify the power of AI for your business and build a team of customized AI Agents that help you - Scale, Save & Succeed!" />
         <meta property="og:image" content="https://www.picoloai.com/ChatbotLogo.png" />
         <meta property="og:url" content="https://www.picoloai.com" />
         <meta property="og:type" content="website" />
