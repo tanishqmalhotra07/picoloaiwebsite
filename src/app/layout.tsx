@@ -72,7 +72,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta property="og:title" content="Picolo AI | The AI Transfornmation Parntner for Your Business" />
         <meta property="og:description" content="We help simplify the power of AI for your business and build a team of customized AI Agents that help you - Scale, Save & Succeed!" />
-        <meta property="og:image" content="https://www.picoloai.com/ChatbotLogo.png" />
+        <meta property="og:image" content="https://www.picoloai.com/og-image.png" />
         <meta property="og:url" content="https://www.picoloai.com" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Picolo AI" />
@@ -80,7 +80,7 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Picolo AI - 24/7 AI Agents for Business Growth" />
         <meta name="twitter:description" content="AI agents that handle customer interactions 24/7, qualify leads, and boost sales." />
-        <meta name="twitter:image" content="https://www.picoloai.com/ChatbotLogo.png" />
+        <meta name="twitter:image" content="https://www.picoloai.com/og-image.png" />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <meta name="googlebot" content="index, follow" />
         <link rel="canonical" href="https://www.picoloai.com" />
