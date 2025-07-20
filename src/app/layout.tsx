@@ -89,8 +89,10 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#8B5CF6" />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([
+           // Organization Schema
+		{
+		  "@context": "https://schema.org",
           "@type": "Organization",
           "name": "Picolo AI",
           "url": "https://www.picoloai.com",
@@ -105,6 +107,8 @@ export default function RootLayout({
             "contactType": "customer service",
             "email": "picolo.ai.team@gmail.com"
           }
+		}
+// WebSite Schema		
 		  {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -112,7 +116,7 @@ export default function RootLayout({
     "alternateName": ["PicoloAI", "Picolo"], // Optional: alternative names Google might use
     "url": "https://www.picoloai.com"
   }
-        }) }} />
+        ]) }} />
       </head>
       <body className={`${inter.className} bg-black text-white antialiased`}>
         <StyledComponentsRegistry>
