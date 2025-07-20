@@ -107,7 +107,7 @@ export default function RootLayout({
             "contactType": "customer service",
             "email": "picolo.ai.team@gmail.com"
           }
-		}
+		},
 // WebSite Schema		
 		  {
     "@context": "https://schema.org",
