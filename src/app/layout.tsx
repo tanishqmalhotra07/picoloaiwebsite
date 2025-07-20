@@ -70,7 +70,7 @@ export default function RootLayout({
         <meta name="keywords" content="AI agents, WhatsApp automation, business AI, lead generation, customer service AI, sales automation, AI chatbot, AI assistant, business growth, revenue increase" />
         <meta httpEquiv="Content-Language" content="en" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="og:title" content="Picolo AI | The AI Transfornmation Parntner for Your Business" />
+        <meta property="og:title" content="Picolo AI | The AI Transfornmation Partner for Your Business" />
         <meta property="og:description" content="We help simplify the power of AI for your business and build a team of customized AI Agents that help you - Scale, Save & Succeed!" />
         <meta property="og:image" content="https://www.picoloai.com/og-image.png" />
         <meta property="og:url" content="https://www.picoloai.com" />
@@ -78,8 +78,8 @@ export default function RootLayout({
         <meta property="og:site_name" content="Picolo AI" />
         <meta property="og:locale" content="en_US" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Picolo AI - 24/7 AI Agents for Business Growth" />
-        <meta name="twitter:description" content="AI agents that handle customer interactions 24/7, qualify leads, and boost sales." />
+        <meta name="twitter:title" content="Picolo AI | The AI Transfornmation Partner for Your Business" />
+        <meta name="twitter:description" content="We help simplify the power of AI for your business and build a team of customized AI Agents that help you - Scale, Save & Succeed!" />
         <meta name="twitter:image" content="https://www.picoloai.com/og-image.png" />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <meta name="googlebot" content="index, follow" />
@@ -105,6 +105,13 @@ export default function RootLayout({
             "contactType": "customer service",
             "email": "picolo.ai.team@gmail.com"
           }
+		  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Picolo AI", // <-- This is the explicit site name for Google
+    "alternateName": ["PicoloAI", "Picolo"], // Optional: alternative names Google might use
+    "url": "https://www.picoloai.com"
+  }
         }) }} />
       </head>
       <body className={`${inter.className} bg-black text-white antialiased`}>
