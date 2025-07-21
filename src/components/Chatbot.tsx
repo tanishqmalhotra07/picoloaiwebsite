@@ -427,7 +427,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                             onClick={openForm} // <--- CALL TO CONTEXT FUNCTION (changed from openContactForm)
                             className="lets-talk-button bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-colors duration-200"
                         >
-                            Let's Talk!
+                            Let&apos;s Talk!
                         </button>
                     </div>
                 )}

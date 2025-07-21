@@ -8,8 +8,7 @@ import Footer from '@/components/Footer';
 import { ContactFormProvider } from '@/context/ContactFormContext';
 import './globals.css';
 import React, { useEffect } from 'react'; // Keep this import
-import Chatbot from "@/components/Chatbot"; // <--- ADDED THIS IMPORT
-import PulsatingButton from "@/components/PulsatingButton"; // <--- ADDED THIS IMPORT
+import Chatbot from "@/components/Chatbot"; // <--- This import should remain
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -140,10 +139,9 @@ export default function RootLayout({
             <Header />
             <SmoothScrolling>{children}</SmoothScrolling>
             <Footer />
-            {/* <--- ADDED THESE TWO LINES HERE FOR CHATBOT FUNCTIONALITY --- */}
+            {/* <--- ADDED THIS LINE HERE FOR CHATBOT FUNCTIONALITY --- */}
             <Chatbot isOpen={false} onClose={() => {}} />
-            <PulsatingButton />
-            {/* <--- END ADDITION --- */}
+            {/* <--- PulsatingButton REMOVED from here --- */}
           </ContactFormProvider>
         </StyledComponentsRegistry>
       </body>
