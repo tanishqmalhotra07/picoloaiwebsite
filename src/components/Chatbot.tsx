@@ -3,10 +3,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import './Chatbot.css';
+import './Chatbot.css'; // Ensure your CSS is correctly linked
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import TypingEffect from './TypingEffect';
+import TypingEffect from './TypingEffect'; // Ensure TypingEffect is in the same directory or adjust path
+import { useContactForm } from '@/context/ContactFormContext'; // <--- NEW: Import YOUR context hook
 
 // Define the shape of a message
 interface Message {
@@ -22,7 +23,7 @@ interface ChatbotProps {
   onClose: () => void;
 }
 
-// Create static variables to persist across renders
+// Create static variables to persist across renders (for chat history)
 const staticMessages: Message[] = [];
 let hasShownLoadingAnimation = false;
 
@@ -39,11 +40,18 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // Store thread ID for conversation continuity
   const [threadId, setThreadId] = useState<string | null>(null);
 
-  // Function to clear chat messages
+  // NEW STATE: Controls the visibility of the "Let's Talk" button
+  const [showLetsTalkButton, setShowLetsTalkButton] = useState(false);
+
+  // NEW: Access the openForm function from YOUR ContactFormContext
+  const { openForm } = useContactForm(); // <--- UPDATED: Using 'openForm' from your context
+
+  // Function to clear chat messages and reset state
   const handleRefresh = () => {
     setMessages([]);
-    staticMessages.length = 0;
+    staticMessages.length = 0; // Clear static history
     setThreadId(null); // Clear thread ID to start a new conversation
+    setShowLetsTalkButton(false); // Hide the "Let's Talk" button on refresh
   };
 
   // Ref for scrolling to the bottom of the chat window
@@ -52,20 +60,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // Environment variable for your backend API URL
   const CHATBOT_API_URL_FULL = process.env.NEXT_PUBLIC_CHATBOT_API_URL;
   const CHATBOT_BASE_URL = CHATBOT_API_URL_FULL
-                            ? CHATBOT_API_URL_FULL.replace('/chat', '')
-                            : undefined;
+                                ? CHATBOT_API_URL_FULL.replace('/chat', '')
+                                : undefined;
 
   // Effect for the initial loading animation of the modal
   useEffect(() => {
     if (isOpen) {
       if (hasShownLoadingAnimation) {
-        // Skip loading animation if it has been shown before
         setShowInitialLoading(false);
       } else {
         setShowInitialLoading(true);
         const timer = setTimeout(() => {
           setShowInitialLoading(false);
-          hasShownLoadingAnimation = true; // Mark loading as shown
+          hasShownLoadingAnimation = true;
         }, 3000);
         return () => clearTimeout(timer);
       }
@@ -75,20 +82,27 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // Effect for scrolling to the bottom whenever messages update
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ block: 'end', inline: 'nearest' });
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }, [messages]);
 
-  // Effect to ping the backend on component mount
+  // Effect to ping the backend on component mount (for cold start)
   useEffect(() => {
     if (CHATBOT_BASE_URL) {
-      fetch(CHATBOT_BASE_URL).catch(() => {});
+      // Removed console.logs for API URL visibility
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // Increased timeout
+      fetch(CHATBOT_BASE_URL, { signal: controller.signal, mode: 'no-cors' })
+        .then(() => clearTimeout(timeoutId))
+        .catch((error) => {
+          clearTimeout(timeoutId);
+          console.warn('Chatbot backend ping failed, continuing anyway:', error);
+        });
     }
-  }, [CHATBOT_BASE_URL]);
+  }, [CHATBOT_BASE_URL]); // Added CHATBOT_BASE_URL to dependency array
 
   // Update static messages when local messages change
   useEffect(() => {
-    // Copy messages to static array to persist across renders
     staticMessages.length = 0;
     staticMessages.push(...messages);
   }, [messages]);
@@ -99,6 +113,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
     if (!trimmedInput || isSendingMessage) return;
 
     setError(null);
+    setShowLetsTalkButton(false); // Hide the button when a new user message is sent
 
     // Add user message to state
     const newUserMessage: Message = {
@@ -127,7 +142,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
           'Content-Type': 'application/json',
           'Origin': window.location.origin
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           message: trimmedInput,
           thread_id: threadId // Send thread_id if we have one
         }),
@@ -146,6 +161,22 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         setThreadId(data.thread_id);
       }
       
+      // Check AI response for keywords to display "Let's Talk" button
+      const aiResponseText = data.response.toLowerCase();
+      if (
+        aiResponseText.includes("contact us") ||
+        aiResponseText.includes("talk to us") ||
+        aiResponseText.includes("schedule a call") ||
+        aiResponseText.includes("book a meeting") ||
+        aiResponseText.includes("speak with someone") ||
+        aiResponseText.includes("help further") ||
+        aiResponseText.includes("get in touch")
+      ) {
+        setShowLetsTalkButton(true);
+      } else {
+        setShowLetsTalkButton(false); // Hide if not needed in current response
+      }
+
       // Add AI response to state with typing effect
       const newAiMessage: Message = {
         id: Date.now() + 1,
@@ -276,9 +307,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                   <span>Picolo AI</span>
                 </div>
                 <div className="header-icons flex items-center">
-                  <button 
-                    onClick={handleRefresh} 
-                    className="close-btn mr-2" 
+                  <button
+                    onClick={handleRefresh}
+                    className="close-btn mr-2"
                     title="Refresh"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -287,9 +318,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                     </svg>
                   </button>
                   <button onClick={onClose} className="close-btn" title="Close">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 6L6 18" />
+                      <path d="M6 6L18 18" />
                     </svg>
                   </button>
                 </div>
@@ -305,7 +336,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                     </div>
                   </div>
                 )}
-                
+
                 {messages.map((msg) => (
                   <div
                     key={msg.id}
@@ -326,13 +357,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                       {msg.sender === 'ai' ? (
                         <div className="text-sm whitespace-pre-wrap markdown-content">
                           {msg.isTyping ? (
-                            <TypingEffect 
-                              text={msg.text} 
+                            <TypingEffect
+                              text={msg.text}
                               speed={10}
                               onComplete={() => {
                                 // Mark typing as complete
-                                setMessages(messages => 
-                                  messages.map(m => 
+                                setMessages(messages =>
+                                  messages.map(m =>
                                     m.id === msg.id ? {...m, isTyping: false} : m
                                   )
                                 );
@@ -389,6 +420,17 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                   </div>
                 )}
                 <div ref={messagesEndRef} />
+                {/* "Let's Talk" button displayed conditionally */}
+                {showLetsTalkButton && ( // <--- CONDITIONAL RENDERING
+                    <div className="flex justify-center mt-4">
+                        <button
+                            onClick={openForm} // <--- CALL TO CONTEXT FUNCTION (changed from openContactForm)
+                            className="lets-talk-button bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-colors duration-200"
+                        >
+                            Let's Talk!
+                        </button>
+                    </div>
+                )}
               </div>
 
               {/* Chat Input Area */}
