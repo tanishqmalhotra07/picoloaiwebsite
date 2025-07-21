@@ -7,15 +7,16 @@ import './Chatbot.css'; // Ensure your CSS is correctly linked
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import TypingEffect from './TypingEffect'; // Ensure TypingEffect is in the same directory or adjust path
-import { useContactForm } from '@/context/ContactFormContext'; // <--- NEW: Import YOUR context hook
+import { useContactForm } from '@/context/ContactFormContext'; // Import YOUR context hook
 
 // Define the shape of a message
 interface Message {
   id: number;
-  text: string;
+  text: string; // The full text, potentially with markdown
   sender: 'user' | 'ai';
   timestamp: string;
   isTyping?: boolean;
+  shouldShowButtonAfterTyping?: boolean; // Flag to show button after this message types
 }
 
 interface ChatbotProps {
@@ -40,11 +41,11 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // Store thread ID for conversation continuity
   const [threadId, setThreadId] = useState<string | null>(null);
 
-  // NEW STATE: Controls the visibility of the "Let's Talk" button
+  // State to control the visibility of the "Let's Talk" button
   const [showLetsTalkButton, setShowLetsTalkButton] = useState(false);
 
-  // NEW: Access the openForm function from YOUR ContactFormContext
-  const { openForm } = useContactForm(); // <--- UPDATED: Using 'openForm' from your context
+  // Access the openForm function from YOUR ContactFormContext
+  const { openForm } = useContactForm();
 
   // Function to clear chat messages and reset state
   const handleRefresh = () => {
@@ -89,7 +90,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
   // Effect to ping the backend on component mount (for cold start)
   useEffect(() => {
     if (CHATBOT_BASE_URL) {
-      // Removed console.logs for API URL visibility
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000); // Increased timeout
       fetch(CHATBOT_BASE_URL, { signal: controller.signal, mode: 'no-cors' })
@@ -106,6 +106,24 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
     staticMessages.length = 0;
     staticMessages.push(...messages);
   }, [messages]);
+
+  // Helper function: Strips common markdown formatting for typing effect
+  const stripMarkdown = (markdownText: string): string => {
+    let plainText = markdownText;
+    // Remove bold (**) and italic (*) markers
+    plainText = plainText.replace(/\*\*(.*?)\*\*/g, '$1'); // For **bold**
+    plainText = plainText.replace(/\*(.*?)\*/g, '$1'); // For *italic*
+    // Remove headings (#)
+    plainText = plainText.replace(/^[#]+\s*(.*)$/gm, '$1');
+    // Remove list markers (- or * or numbers)
+    plainText = plainText.replace(/^(\s*[-*+]|\s*\d+\.)\s+/gm, '');
+    // Remove blockquotes (>)
+    plainText = plainText.replace(/^>\s*/gm, '');
+    // Remove code blocks (```) and inline code (`)
+    plainText = plainText.replace(/```[\s\S]*?```/g, '');
+    plainText = plainText.replace(/`(.*?)`/g, '$1');
+    return plainText.trim();
+  };
 
   // Function to send a message to the AI backend
   const sendMessage = async () => {
@@ -161,9 +179,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         setThreadId(data.thread_id);
       }
       
-      // Check AI response for keywords to display "Let's Talk" button
-      const aiResponseText = data.response.toLowerCase();
-      if (
+      // Determine if the button should be shown *after* this AI message finishes typing
+      const aiResponseText = String(data.response || '').toLowerCase(); 
+      const shouldShowButtonForThisMessage = (
         aiResponseText.includes("contact us") ||
         aiResponseText.includes("talk to us") ||
         aiResponseText.includes("schedule a call") ||
@@ -171,19 +189,16 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         aiResponseText.includes("speak with someone") ||
         aiResponseText.includes("help further") ||
         aiResponseText.includes("get in touch")
-      ) {
-        setShowLetsTalkButton(true);
-      } else {
-        setShowLetsTalkButton(false); // Hide if not needed in current response
-      }
+      );
 
       // Add AI response to state with typing effect
       const newAiMessage: Message = {
         id: Date.now() + 1,
-        text: data.response,
+        text: String(data.response ?? ''), // Ensure text is always a string here
         sender: 'ai',
         timestamp: new Date().toLocaleTimeString(),
-        isTyping: true
+        isTyping: true,
+        shouldShowButtonAfterTyping: shouldShowButtonForThisMessage
       };
       setMessages((prevMessages) => [...prevMessages, newAiMessage]);
 
@@ -312,7 +327,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                     className="close-btn mr-2"
                     title="Refresh"
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
                       <path d="M21.5 2v6h-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M21.5 12a9 9 0 1 1-2.5-6.3L21.5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
@@ -358,15 +373,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                         <div className="text-sm whitespace-pre-wrap markdown-content">
                           {msg.isTyping ? (
                             <TypingEffect
-                              text={msg.text}
-                              speed={10}
+                              text={stripMarkdown(String(msg.text ?? ''))}
+                              speed={5}
                               onComplete={() => {
-                                // Mark typing as complete
-                                setMessages(messages =>
-                                  messages.map(m =>
+                                setMessages(messages => {
+                                  const updatedMessages = messages.map(m =>
                                     m.id === msg.id ? {...m, isTyping: false} : m
-                                  )
-                                );
+                                  );
+                                  const completedMessage = updatedMessages.find(m => m.id === msg.id);
+                                  if (completedMessage && completedMessage.shouldShowButtonAfterTyping) {
+                                    setShowLetsTalkButton(true);
+                                  }
+                                  return updatedMessages;
+                                });
                               }}
                             />
                           ) : (
@@ -386,12 +405,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                                 )
                               }}
                             >
-                              {msg.text}
+                              {String(msg.text ?? '')}
                             </ReactMarkdown>
                           )}
                         </div>
                       ) : (
-                        <p className="text-sm">{msg.text}</p>
+                        <p className="text-sm">{String(msg.text ?? '')}</p>
                       )}
                     </div>
                     {msg.sender === 'user' && (
@@ -421,10 +440,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                 )}
                 <div ref={messagesEndRef} />
                 {/* "Let's Talk" button displayed conditionally */}
-                {showLetsTalkButton && ( // <--- CONDITIONAL RENDERING
+                {showLetsTalkButton && (
                     <div className="flex justify-center mt-4">
                         <button
-                            onClick={openForm} // <--- CALL TO CONTEXT FUNCTION (changed from openContactForm)
+                            onClick={openForm}
                             className="lets-talk-button bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-colors duration-200"
                         >
                             Let&apos;s Talk!
@@ -449,12 +468,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                   disabled={isSendingMessage || !input.trim()}
                 >
                   {isSendingMessage ? (
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                   ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+                    <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
                   )}
                 </button>
               </div>
