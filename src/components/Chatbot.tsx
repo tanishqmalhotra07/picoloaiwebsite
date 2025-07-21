@@ -189,7 +189,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         aiResponseText.includes("speak with someone") ||
         aiResponseText.includes("help further") ||
         aiResponseText.includes("get in touch") ||
-        aiResponseText.includes("display the button here") // <--- Added this for testing
+        aiResponseText.includes("display the button here") ||
+        aiResponseText.includes("connect with us") || // <--- NEW: Added this keyword
+        aiResponseText.includes("let's talk") // <--- NEW: Added this keyword
       );
 
       // Add AI response to state with typing effect
@@ -455,7 +457,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 20 }}
                       transition={{ duration: 0.3 }}
-                      className="flex justify-center mt-4 p-2 bg-purple-900/20 rounded-lg" // <--- TEMPORARY VISUAL DEBUGGING STYLE
+                      className="flex justify-center mt-4 p-2" // Removed temporary debugging style
                       style={{ position: 'relative', zIndex: 10 }} // Ensure it's above other elements
                   >
                       <button
