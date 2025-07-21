@@ -382,7 +382,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                           {msg.isTyping ? (
                             <TypingEffect
                               text={stripMarkdown(String(msg.text ?? ''))}
-                              speed={5}
+                              speed={3}
                               onComplete={() => {
                                 setMessages(messages => {
                                   const updatedMessages = messages.map(m =>
