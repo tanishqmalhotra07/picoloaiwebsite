@@ -179,7 +179,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         setThreadId(data.thread_id);
       }
       
-      // Determine if the button should be shown *after* this AI message finishes typing
+      // Ensure data.response is a string before processing
       const aiResponseText = String(data.response || '').toLowerCase(); 
       const shouldShowButtonForThisMessage = (
         aiResponseText.includes("contact us") ||
@@ -188,7 +188,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         aiResponseText.includes("book a meeting") ||
         aiResponseText.includes("speak with someone") ||
         aiResponseText.includes("help further") ||
-        aiResponseText.includes("get in touch")
+        aiResponseText.includes("get in touch") ||
+        aiResponseText.includes("display the button here") // <--- Added this for testing
       );
 
       // Add AI response to state with typing effect
@@ -270,6 +271,11 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
       window.removeEventListener('touchmove', preventScroll);
     };
   }, [isOpen]);
+
+  // Debugging log for the button state
+  useEffect(() => {
+    console.log('showLetsTalkButton state:', showLetsTalkButton);
+  }, [showLetsTalkButton]);
 
   return (
     <AnimatePresence>
@@ -383,6 +389,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                                   const completedMessage = updatedMessages.find(m => m.id === msg.id);
                                   if (completedMessage && completedMessage.shouldShowButtonAfterTyping) {
                                     setShowLetsTalkButton(true);
+                                    console.log('Typing complete for message, setting showLetsTalkButton to true.'); // <--- DEBUG LOG
                                   }
                                   return updatedMessages;
                                 });
@@ -422,6 +429,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                     )}
                   </div>
                 ))}
+                <div ref={messagesEndRef} /> {/* This ref is for scrolling */}
                 {isSendingMessage && (
                   <div className="flex justify-start mb-4">
                     <div className="max-w-[75%] p-3 rounded-lg shadow-md bg-white text-gray-800 rounded-bl-none">
@@ -438,19 +446,26 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
                     {error}
                   </div>
                 )}
-                <div ref={messagesEndRef} />
-                {/* "Let's Talk" button displayed conditionally */}
-                {showLetsTalkButton && (
-                    <div className="flex justify-center mt-4">
-                        <button
-                            onClick={openForm}
-                            className="lets-talk-button bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-colors duration-200"
-                        >
-                            Let&apos;s Talk!
-                        </button>
-                    </div>
-                )}
-              </div>
+              </div> {/* End of chatbot-body-content */}
+
+              {/* "Let's Talk" button displayed conditionally - MOVED OUTSIDE SCROLLABLE AREA */}
+              {showLetsTalkButton && (
+                  <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 20 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex justify-center mt-4 p-2 bg-purple-900/20 rounded-lg" // <--- TEMPORARY VISUAL DEBUGGING STYLE
+                      style={{ position: 'relative', zIndex: 10 }} // Ensure it's above other elements
+                  >
+                      <button
+                          onClick={openForm}
+                          className="lets-talk-button bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-colors duration-200"
+                      >
+                          Let&apos;s Talk!
+                      </button>
+                  </motion.div>
+              )}
 
               {/* Chat Input Area */}
               <div className="chatbot-input">
